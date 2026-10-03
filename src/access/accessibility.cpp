@@ -1218,6 +1218,18 @@ void Access::installCellReading ( QTreeWidget* tree, std::function<QStringList (
     tree->installEventFilter ( new CellReadingFilter ( tree ) );
 }
 
+QVariant Access::CellTreeItem::data ( int column, int role ) const
+{
+    if ( role == Qt::AccessibleTextRole )
+    {
+        if ( const QVariant text = cellReadingText ( this ); text.isValid() )
+        {
+            return text;
+        }
+    }
+    return QTreeWidgetItem::data ( column, role );
+}
+
 QVariant Access::cellReadingText ( const QTreeWidgetItem* item )
 {
     const QTreeWidget* tree = item ? item->treeWidget() : nullptr;

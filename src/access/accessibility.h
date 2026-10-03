@@ -27,6 +27,7 @@
 #include <QString>
 #include <QStringList>
 #include <QKeySequence>
+#include <QTreeWidgetItem>
 
 class QAbstractItemView;
 class QAbstractSlider;
@@ -113,6 +114,14 @@ void keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const QModelI
 // computed when the screen reader asks, so values changing every second are never spoken by themselves.
 void     installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells );
 QVariant cellReadingText ( const QTreeWidgetItem* item );
+
+// A tree row that answers the screen reader with cellReadingText()
+class CellTreeItem : public QTreeWidgetItem
+{
+public:
+    using QTreeWidgetItem::QTreeWidgetItem;
+    QVariant data ( int column, int role ) const override;
+};
 
 // The current row of `view` has a new text: make the screen reader say it, speech and braille (Qt does
 // not tell it). Qt drops its accessible objects when the rows are sorted again (pings, a musician who

@@ -87,6 +87,10 @@ public:
 
 protected:
     virtual void changeEvent ( QEvent* pEvent );
+
+    // a status label for screen readers: named "Caption: status" (not while it has the focus), the
+    // change said when the window is active
+    void SayStatus ( QLabel* label, const QString& strCaption, const QString& strStatus );
     virtual void closeEvent ( QCloseEvent* Event );
 
     void UpdateGUIDependencies();

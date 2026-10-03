@@ -45,6 +45,7 @@
 \******************************************************************************/
 
 #include "serverdlg.h"
+#include "access/accessibility.h"
 
 /* Implementation *************************************************************/
 CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool bStartMinimized, QWidget* parent ) :
@@ -58,6 +59,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     bSystemTrayIconAvailable = SystemTrayIcon.isSystemTrayAvailable();
 
     setupUi ( this );
+    setProperty ( "accessKeepOnEscape", true ); // the server's main window: Escape does not close it
 
     // always start on the main tab
     tabWidget->setCurrentIndex ( 0 );
@@ -75,11 +77,11 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
                                     "server. Some information about the clients like the IP address and name "
                                     "are given for each connected client." ) );
 
-    lvwClients->setAccessibleName ( tr ( "Connected clients list view" ) );
+    lvwClients->setAccessibleName ( tr ( "Connected musicians" ) );
 
     // Server list selection combo box
-    QString strDirectoryTypeAN = tr ( "Directory Type combo box" );
-    lblDirectoryType->setAccessibleName ( strDirectoryTypeAN );
+    QString strDirectoryTypeAN = tr ( "Directory" );
+    lblDirectoryType->setBuddy ( cbxDirectoryType );
     cbxDirectoryType->setAccessibleName ( strDirectoryTypeAN );
 
     QString strDirectoryTypeWT = tr ( "<b>Directory:</b> "
@@ -115,7 +117,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     lblServerName->setWhatsThis ( strServName );
     edtServerName->setWhatsThis ( strServName );
 
-    edtServerName->setAccessibleName ( tr ( "Server name line edit" ) );
+    edtServerName->setAccessibleName ( tr ( "Server name" ) );
 
     // location city
     QString strLocCity = "<b>" + tr ( "Location City" ) + ":</b> " +
@@ -126,7 +128,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     lblLocationCity->setWhatsThis ( strLocCity );
     edtLocationCity->setWhatsThis ( strLocCity );
 
-    edtLocationCity->setAccessibleName ( tr ( "City where the server is located line edit" ) );
+    edtLocationCity->setAccessibleName ( tr ( "City" ) );
 
     // location country
     QString strLocCountry = "<b>" + tr ( "Country/Region" ) + ":</b> " +
@@ -137,20 +139,24 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     lblLocationCountry->setWhatsThis ( strLocCountry );
     cbxLocationCountry->setWhatsThis ( strLocCountry );
 
-    cbxLocationCountry->setAccessibleName ( tr ( "Combo box for location of this server" ) );
+    cbxLocationCountry->setAccessibleName ( tr ( "Region" ) );
 
     // enable recorder
-    chbJamRecorder->setAccessibleName ( tr ( "Checkbox to turn on or off server recording" ) );
+    chbJamRecorder->setAccessibleName ( tr ( "Jam Recorder" ) );
     chbJamRecorder->setWhatsThis ( "<b>" + tr ( "Jam Recorder" ) + ":</b> " +
                                    tr ( "When checked, the recorder will run while a session is in progress (if set up correctly)." ) );
 
     // new recording
-    pbtNewRecording->setAccessibleName ( tr ( "Request new recording button" ) );
+    pbtNewRecording->setAccessibleName ( tr ( "New Recording" ) );
     pbtNewRecording->setWhatsThis ( "<b>" + tr ( "New Recording" ) + ":</b> " +
                                     tr ( "During a recording session, the button can be used to start a new recording." ) );
 
     // recorder status
-    lblRecorderStatus->setAccessibleName ( tr ( "Recorder status label" ) );
+    // the statuses are Tab stops for screen readers ("Recorder: Recording"), said when they change
+    lblRecorderStatus->setFocusPolicy ( Qt::TabFocus );
+    lblRegSvrStatus->setFocusPolicy ( Qt::TabFocus );
+    QWidget::setTabOrder ( cbxDirectoryType, lblRegSvrStatus );
+    QWidget::setTabOrder ( pbtNewRecording, lblRecorderStatus );
     lblRecorderStatus->setWhatsThis (
         "<b>" + tr ( "Recorder Status" ) + ":</b> " + tr ( "Displays the current status of the recorder.  The following values are possible:" ) +
         "<dl>" + "<dt>" + SREC_NOT_INITIALISED + "</dt>" + "<dd>" +
@@ -168,8 +174,8 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
         tr ( "If the recording directory is not useable, the problem will be displayed in place of the session directory." ) );
 
     // current session directory
-    QString strCurrentSessionDirAN = tr ( "Current session directory text box (read-only)" );
-    lblCurrentSessionDir->setAccessibleName ( strCurrentSessionDirAN );
+    QString strCurrentSessionDirAN = tr ( "Current session directory" );
+    lblCurrentSessionDir->setBuddy ( edtCurrentSessionDir );
     edtCurrentSessionDir->setAccessibleName ( strCurrentSessionDirAN );
 
     QString strCurrentSessionDirWT = "<b>" + tr ( "Current Session Directory" ) + ":</b> " +
@@ -179,7 +185,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     edtCurrentSessionDir->setWhatsThis ( strCurrentSessionDirWT );
 
     // welcome message
-    tedWelcomeMessage->setAccessibleName ( tr ( "Server welcome message edit box" ) );
+    tedWelcomeMessage->setAccessibleName ( tr ( "Chat window welcome message (HTML/CSS supported)" ) );
     tedWelcomeMessage->setWhatsThis ( "<b>" + tr ( "Server Welcome Message" ) + ":</b> " +
                                       tr ( "A server welcome message text is displayed in the chat window if a "
                                            "musician enters the server. If no message is set, the server welcome is disabled." ) );
@@ -191,17 +197,17 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     lblLanguage->setWhatsThis ( strWTLanguage );
     cbxLanguage->setWhatsThis ( strWTLanguage );
 
-    cbxLanguage->setAccessibleName ( tr ( "Language combo box" ) );
+    cbxLanguage->setAccessibleName ( tr ( "Language" ) );
 
     // recording directory
-    pbtRecordingDir->setAccessibleName ( tr ( "Display dialog to select recording directory button" ) );
+    pbtRecordingDir->setAccessibleName ( tr ( "Choose the recording directory" ) );
     pbtRecordingDir->setWhatsThis ( "<b>" + tr ( "Main Recording Directory" ) + ":</b> " +
                                     tr ( "Click the button to open the dialog that allows the main recording directory to be selected.  "
                                          "The chosen value must exist and be writeable (allow creation of sub-directories "
                                          "by the user %1 is running as)." )
                                         .arg ( APP_NAME ) );
 
-    edtRecordingDir->setAccessibleName ( tr ( "Main recording directory text box (read-only)" ) );
+    edtRecordingDir->setAccessibleName ( tr ( "Recording directory" ) );
     edtRecordingDir->setWhatsThis ( "<b>" + tr ( "Main Recording Directory" ) + ":</b> " +
                                     tr ( "The current value of the main recording directory. "
                                          "The chosen value must exist and be writeable (allow creation of sub-directories "
@@ -209,7 +215,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
                                          "Click the button to open the dialog that allows the main recording directory to be selected." )
                                         .arg ( APP_NAME ) );
 
-    tbtClearRecordingDir->setAccessibleName ( tr ( "Clear the recording directory button" ) );
+    tbtClearRecordingDir->setAccessibleName ( tr ( "Clear the recording directory" ) );
     tbtClearRecordingDir->setWhatsThis ( "<b>" + tr ( "Clear Recording Directory" ) + ":</b> " +
                                          tr ( "Click the button to clear the currently selected recording directory. "
                                               "This will prevent recording until a new value is selected." ) );
@@ -221,10 +227,10 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
 
     lblCustomDirectory->setWhatsThis ( strCustomDirectory );
     edtCustomDirectory->setWhatsThis ( strCustomDirectory );
-    edtCustomDirectory->setAccessibleName ( tr ( "Custom Directory line edit" ) );
+    edtCustomDirectory->setAccessibleName ( tr ( "Custom directory address" ) );
 
     // server list persistence file name (directory only)
-    pbtServerListPersistence->setAccessibleName ( tr ( "Server List Filename dialog push button" ) );
+    pbtServerListPersistence->setAccessibleName ( tr ( "Choose the server list file" ) );
     pbtServerListPersistence->setWhatsThis ( "<b>" + tr ( "Server List Filename" ) + ":</b> " +
                                              tr ( "Click the button to open the dialog that allows the "
                                                   "server list persistence file name to be set. The user %1 is running as "
@@ -232,7 +238,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
                                                   "although it may already exist (it will get overwritten on save)." )
                                                  .arg ( APP_NAME ) );
 
-    edtServerListPersistence->setAccessibleName ( tr ( "Server List Filename text box (read-only)" ) );
+    edtServerListPersistence->setAccessibleName ( tr ( "Server list file" ) );
     edtServerListPersistence->setWhatsThis ( "<b>" + tr ( "Server List Filename" ) + ":</b> " +
                                              tr ( "The current value of server list persistence file name. The user %1 is running as "
                                                   "needs to be able to create the file name specified "
@@ -241,7 +247,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
                                                   "server list persistence file name to be set." )
                                                  .arg ( APP_NAME ) );
 
-    tbtClearServerListPersistence->setAccessibleName ( tr ( "Clear the server list file name button" ) );
+    tbtClearServerListPersistence->setAccessibleName ( tr ( "Clear the server list file name" ) );
     tbtClearServerListPersistence->setWhatsThis ( "<b>" + tr ( "Clear Server List Filename" ) + ":</b> " +
                                                   tr ( "Click the button to clear the currently selected server list persistence file name. "
                                                        "This will prevent persisting the server list until a new value is selected." ) );
@@ -296,6 +302,18 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
     lvwClients->setColumnWidth ( 3, 50 );  //         Channels
     lvwClients->clear();
 
+    // a musician read as a whole row ("Paul, Client IP:Port 1.2.3.4:22134, Jitter Buffer Size 4,
+    // Channels 2") or one information at a time with Left/Right; First/Last at the ends
+    Access::installCellReading ( lvwClients, [this] ( const QTreeWidgetItem* item ) {
+        QStringList cells { item->text ( 1 ).simplified().isEmpty() ? tr ( "No name" ) : item->text ( 1 ).simplified() };
+        for ( const int column : { 0, 2, 3 } )
+        {
+            cells << lvwClients->headerItem()->text ( column ) + " " + item->text ( column ).simplified();
+        }
+        return cells;
+    } );
+    Access::installListEdges ( lvwClients );
+
     //### TODO: BEGIN ###//
     // workaround for resize problem of window after iconize in task bar
     lvwClients->setMinimumWidth ( 170 + 130 + 60 + 205 );
@@ -308,7 +326,7 @@ CServerDlg::CServerDlg ( CServer* pNServP, CServerSettings* pNSetP, const bool b
 
     for ( int i = MAX_NUM_CHANNELS - 1; i >= 0; i-- )
     {
-        vecpListViewItems[i] = new QTreeWidgetItem ( lvwClients );
+        vecpListViewItems[i] = new Access::CellTreeItem ( lvwClients );
         vecpListViewItems[i]->setHidden ( true );
     }
 
@@ -778,6 +796,8 @@ void CServerDlg::UpdateGUIDependencies()
         }
     }
 
+    SayStatus ( lblRegSvrStatus, tr ( "Directory registration" ), strStatus );
+
     if ( eSvrRegStatus == SRS_NOT_REGISTERED )
     {
         lblRegSvrStatus->setText ( strStatus );
@@ -909,7 +929,27 @@ void CServerDlg::UpdateRecorderStatus ( QString sessionDir )
     tbtClearRecordingDir->setEnabled ( !bIsRecording );
     edtCurrentSessionDir->setEnabled ( bIsRecording );
     lblRecorderStatus->setText ( strRecorderStatus );
+    SayStatus ( lblRecorderStatus, tr ( "Recorder" ), strRecorderStatus );
     pbtNewRecording->setEnabled ( bIsRecording );
+}
+
+void CServerDlg::SayStatus ( QLabel* label, const QString& strCaption, const QString& strStatus )
+{
+    const QString strPlain = Access::cleanLabel ( strStatus );
+    const bool    bFirst   = !label->property ( "accessStatus" ).isValid();
+    if ( !bFirst && label->property ( "accessStatus" ).toString() == strPlain )
+    {
+        return;
+    }
+    label->setProperty ( "accessStatus", strPlain );
+    if ( !label->hasFocus() )
+    {
+        label->setAccessibleName ( strCaption + ": " + strPlain );
+    }
+    if ( !bFirst && isActiveWindow() )
+    {
+        Access::announce ( this, strCaption + ": " + strPlain );
+    }
 }
 
 void CServerDlg::changeEvent ( QEvent* pEvent )
