@@ -175,15 +175,15 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
             const QColor colour = item->foreground ( LVC_PING ).color();
             if ( colour == QColor ( Qt::darkGreen ) )
             {
-                strPingQuality = " " + tr ( "good" );
+                strPingQuality = ", " + tr ( "good" );
             }
             else if ( colour == QColor ( Qt::darkYellow ) )
             {
-                strPingQuality = " " + tr ( "fair" );
+                strPingQuality = ", " + tr ( "fair" );
             }
             else if ( colour == QColor ( Qt::red ) )
             {
-                strPingQuality = " " + tr ( "too high" );
+                strPingQuality = ", " + tr ( "too high" );
             }
         }
         cells << lvwServers->headerItem()->text ( LVC_PING ) + " " + value ( item->text ( LVC_PING ), tr ( "no answer" ) ) + strPingQuality;

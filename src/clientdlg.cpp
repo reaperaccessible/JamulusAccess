@@ -512,13 +512,13 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
             switch ( ledDelay->GetLight() )
             {
             case CMultiColorLED::RL_GREEN:
-                strQuality = " " + tr ( "good" );
+                strQuality = ", " + tr ( "good" );
                 break;
             case CMultiColorLED::RL_YELLOW:
-                strQuality = " " + tr ( "fair" );
+                strQuality = ", " + tr ( "fair" );
                 break;
             case CMultiColorLED::RL_RED:
-                strQuality = " " + tr ( "too high" );
+                strQuality = ", " + tr ( "too high" );
                 break;
             default:
                 break;
@@ -1184,7 +1184,7 @@ QString CClientDlg::StatusText()
             break;
         }
         parts << tr ( "Ping %1 ms" ).arg ( iLastPingMs );
-        parts << ( tr ( "Delay %1 ms" ).arg ( iLastDelayMs ) + ( strDelay.isEmpty() ? QString() : " " + strDelay ) );
+        parts << ( tr ( "Delay %1 ms" ).arg ( iLastDelayMs ) + ( strDelay.isEmpty() ? QString() : ", " + strDelay ) );
     }
 
     if ( ledBuffers->GetLight() == CMultiColorLED::RL_RED )
