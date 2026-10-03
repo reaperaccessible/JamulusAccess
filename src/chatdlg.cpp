@@ -231,7 +231,14 @@ void CChatDlg::AddChatText ( QString strChatText )
         strWelcomeText = QTextDocumentFragment::fromHtml ( strChatText.mid ( QString ( WELCOME_MESSAGE_PREFIX ).size() ) ).toPlainText().trimmed();
         emit WelcomeTextReceived ( strWelcomeText );
     }
-    const QString strRow = strSender.isEmpty() ? strText : strSender + ": " + strText;
+    // the hour at the end, in 24 hours, without the seconds (the server writes "10:21:33 PM")
+    QString strHour = strTime;
+    if ( const QTime time = QLocale::c().toTime ( strTime, "hh:mm:ss AP" ); time.isValid() )
+    {
+        strHour = QLocale().toString ( time, "HH:mm" );
+    }
+    const QString strSaid = strSender.isEmpty() ? strText : strSender + ": " + strText; // said when it arrives
+    const QString strRow  = strHour.isEmpty() ? strSaid : strSaid + ", " + strHour;   // in the list
 
     auto* item = new QListWidgetItem ( strRow );
     item->setData ( Qt::UserRole + 1, strText );
@@ -258,7 +265,7 @@ void CChatDlg::AddChatText ( QString strChatText )
     }
     else
     {
-        Access::announce ( this, strRow );
+        Access::announce ( this, strSaid );
     }
 
     // analyze strChatText to check if hyperlink (limit ourselves to http(s)://) but do not

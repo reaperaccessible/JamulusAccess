@@ -496,6 +496,8 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     // init delay and other information controls
     lblUpstreamValue->setText ( "---" );
     lblUpstreamUnit->setText ( "" );
+    lblUpstreamValue->setFocusPolicy ( Qt::TabFocus );
+    lblUpstreamValue->setAccessibleName ( tr ( "Audio stream rate, not connected" ) );
     edtNewClientLevel->setValidator ( new QIntValidator ( 0, 100, this ) ); // % range from 0-100
 
     // init slider controls ---
@@ -1358,6 +1360,14 @@ void CClientSettingsDlg::UpdateUploadRate()
         // clear text labels with client parameters
         lblUpstreamValue->setText ( "---" );
         lblUpstreamUnit->setText ( "" );
+    }
+
+    // the value is a Tab stop for screen readers ("Audio Stream Rate 657 kbps"); not renamed while it
+    // has the focus, so a new measure does not speak by itself
+    if ( !lblUpstreamValue->hasFocus() )
+    {
+        lblUpstreamValue->setAccessibleName ( pClient->IsConnected() ? tr ( "Audio stream rate %1 kbps" ).arg ( pClient->GetUploadRateKbps() )
+                                                                     : tr ( "Audio stream rate, not connected" ) );
     }
 }
 

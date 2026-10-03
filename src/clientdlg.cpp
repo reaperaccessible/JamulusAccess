@@ -1235,6 +1235,8 @@ QString CClientDlg::StatusText()
     };
     parts << tr ( "Input %1, %2" ).arg ( levelText ( pClient->GetLevelForMeterdBLeft() ), levelText ( pClient->GetLevelForMeterdBRight() ) );
 
+    parts << tr ( "Upload %1 kbps" ).arg ( pClient->GetUploadRateKbps() );
+
     if ( chbLocalMute->isChecked() )
     {
         parts << tr ( "Muted myself" );

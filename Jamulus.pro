@@ -1225,6 +1225,10 @@ contains(CONFIG, "opus_shared_lib") {
 }
 
 # disable version check if requested (#370)
+# JamulusAccess: Jamulus compares with the official Jamulus version, which says nothing about ours
+# (our own update comes from GitHub later): always disabled
+CONFIG += disable_version_check
+
 contains(CONFIG, "disable_version_check") {
     message(The version check is disabled.)
     DEFINES += DISABLE_VERSION_CHECK
