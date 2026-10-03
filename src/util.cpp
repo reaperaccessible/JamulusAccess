@@ -711,6 +711,7 @@ CLicenceDlg::CLicenceDlg ( QWidget* parent ) : CBaseDlg ( parent )
         - Decline button
     */
     setWindowIcon ( QIcon ( QString::fromUtf8 ( ":/png/main/res/fronticon.png" ) ) );
+    setWindowTitle ( tr ( "Server conditions" ) ); // the screen reader says it when the box opens
 
     QVBoxLayout* pLayout    = new QVBoxLayout ( this );
     QHBoxLayout* pSubLayout = new QHBoxLayout;
@@ -720,12 +721,25 @@ CLicenceDlg::CLicenceDlg ( QWidget* parent ) : CBaseDlg ( parent )
     butAccept               = new QPushButton ( tr ( "Accept" ), this );
     QPushButton* butDecline = new QPushButton ( tr ( "Decline" ), this );
 
+    // the conditions themselves (the server's welcome message), readable here: the chat cannot be
+    // reached while this box is open
+    txtConditions = new QPlainTextEdit ( this );
+    txtConditions->setReadOnly ( true );
+    txtConditions->setAccessibleName ( tr ( "Conditions" ) );
+    txtConditions->setMinimumSize ( 420, 160 );
+    SetConditions ( QString() );
+
     pSubLayout->addStretch();
     pSubLayout->addWidget ( chbAgree );
     pSubLayout->addWidget ( butAccept );
     pSubLayout->addWidget ( butDecline );
     pLayout->addWidget ( lblLicence );
+    pLayout->addWidget ( txtConditions );
     pLayout->addLayout ( pSubLayout );
+    QWidget::setTabOrder ( txtConditions, chbAgree );
+    QWidget::setTabOrder ( chbAgree, butAccept );
+    QWidget::setTabOrder ( butAccept, butDecline );
+    txtConditions->setFocus();
 
     // set some properties
     butAccept->setEnabled ( false );
@@ -736,6 +750,12 @@ CLicenceDlg::CLicenceDlg ( QWidget* parent ) : CBaseDlg ( parent )
     QObject::connect ( butAccept, &QPushButton::clicked, this, &CLicenceDlg::accept );
 
     QObject::connect ( butDecline, &QPushButton::clicked, this, &CLicenceDlg::reject );
+}
+
+void CLicenceDlg::SetConditions ( const QString& strConditions )
+{
+    txtConditions->setPlainText ( strConditions.isEmpty() ? tr ( "The conditions have not arrived yet. They will appear here." ) : strConditions );
+    txtConditions->moveCursor ( QTextCursor::Start );
 }
 
 // Help menu -------------------------------------------------------------------

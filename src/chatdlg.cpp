@@ -214,9 +214,22 @@ void CChatDlg::AddChatText ( QString strChatText )
         strSender = QTextDocumentFragment::fromHtml ( match.captured ( 2 ) ).toPlainText().simplified();
         strText   = QTextDocumentFragment::fromHtml ( match.captured ( 3 ) ).toPlainText().simplified();
     }
+    else if ( strChatText.startsWith ( WELCOME_MESSAGE_PREFIX ) )
+    {
+        // the server writes this prefix in English: said in the interface language
+        strSender = tr ( "Welcome message" );
+        strText   = QTextDocumentFragment::fromHtml ( strChatText.mid ( QString ( WELCOME_MESSAGE_PREFIX ).size() ) ).toPlainText().simplified();
+    }
     else
     {
-        strText = QTextDocumentFragment::fromHtml ( strChatText ).toPlainText().simplified(); // welcome message
+        strText = QTextDocumentFragment::fromHtml ( strChatText ).toPlainText().simplified();
+    }
+
+    // the welcome message: kept for the conditions box of a server that asks to accept them
+    if ( strChatText.startsWith ( WELCOME_MESSAGE_PREFIX ) )
+    {
+        strWelcomeText = QTextDocumentFragment::fromHtml ( strChatText.mid ( QString ( WELCOME_MESSAGE_PREFIX ).size() ) ).toPlainText().trimmed();
+        emit WelcomeTextReceived ( strWelcomeText );
     }
     const QString strRow = strSender.isEmpty() ? strText : strSender + ": " + strText;
 

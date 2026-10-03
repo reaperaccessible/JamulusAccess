@@ -514,7 +514,7 @@ public:
                 bool bHasDefault = false;
                 for ( auto* pb : box->window()->findChildren<QPushButton*>() )
                 {
-                    bHasDefault = bHasDefault || ( pb->isDefault() && pb->isVisible() );
+                    bHasDefault = bHasDefault || ( pb->isDefault() && pb->isVisible() && pb->isEnabled() );
                 }
                 if ( !bHasDefault )
                 {

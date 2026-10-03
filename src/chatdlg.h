@@ -77,6 +77,10 @@ public:
     QWidget* GetInputWidget() { return edtLocalInputText; }
     QWidget* GetMessageList() { return lstMessages; }
 
+    // the server's welcome message (the conditions of a server that asks to accept them)
+    QString GetWelcomeText() const { return strWelcomeText; }
+    void    ClearWelcomeText() { strWelcomeText.clear(); }
+
 protected:
     bool eventFilter ( QObject* object, QEvent* event ) override;
     void OpenLink ( const QUrl& Url );
@@ -84,6 +88,7 @@ protected:
     QMenuBar*    pMenu;
     QListWidget* lstMessages;   // one row per message, for screen readers and braille
     QString      strLastSent;   // our own message comes back from the server: not announced
+    QString      strWelcomeText;
 
 public slots:
     void OnSendText();
@@ -96,4 +101,5 @@ public slots:
 
 signals:
     void NewLocalInputText ( QString strNewText );
+    void WelcomeTextReceived ( QString strText );
 };

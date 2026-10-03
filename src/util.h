@@ -88,6 +88,7 @@
 #    include <QMenu>
 #    include <QWhatsThis>
 #    include <QTextBrowser>
+#    include <QPlainTextEdit>
 #    include <QLabel>
 #    include <QCheckBox>
 #    include <QComboBox>
@@ -453,8 +454,12 @@ class CLicenceDlg : public CBaseDlg
 public:
     CLicenceDlg ( QWidget* parent = nullptr );
 
+    // the conditions to accept (the server's welcome message), shown in the box
+    void SetConditions ( const QString& strConditions );
+
 protected:
-    QPushButton* butAccept;
+    QPushButton*    butAccept;
+    QPlainTextEdit* txtConditions;
 
 public slots:
     void OnAgreeStateChanged ( int value ) { butAccept->setEnabled ( value == Qt::Checked ); }

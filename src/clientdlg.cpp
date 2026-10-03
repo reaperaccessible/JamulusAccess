@@ -964,6 +964,11 @@ void CClientDlg::OnLicenceRequired ( ELicenceType eLicenceType )
     {
         CLicenceDlg LicenceDlg;
 
+        // the conditions in the box itself (the chat cannot be reached while it is open), and
+        // when they arrive after it opened
+        LicenceDlg.SetConditions ( ChatDlg.GetWelcomeText() );
+        QObject::connect ( &ChatDlg, &CChatDlg::WelcomeTextReceived, &LicenceDlg, &CLicenceDlg::SetConditions );
+
         // mute the client output stream
         pClient->SetMuteOutStream ( true );
 
@@ -1432,6 +1437,9 @@ void CClientDlg::OnCLPingTimeWithNumClientsReceived ( CHostAddress InetAddr, int
 
 void CClientDlg::OnConnecting ( const QString& strMixerBoardLabel )
 {
+
+    // a new server: its own welcome message
+    ChatDlg.ClearWelcomeText();
 
     // hide label connect to server
     lblConnectToServer->hide();
