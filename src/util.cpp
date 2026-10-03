@@ -1631,7 +1631,10 @@ void CLocale::LoadTranslation ( const QString strLanguage, QCoreApplication* pAp
     }
 
     // allows the Qt messages to be translated in the application
-    if ( myqtTranslator.load ( QLocale ( strLanguage ), "qt", "_", QLibraryInfo::location ( QLibraryInfo::TranslationsPath ) ) )
+    // (Qt's own texts: Yes, No, Cancel... Next to the program first, where the installation puts them,
+    // then in the Qt the program was built with)
+    if ( myqtTranslator.load ( QLocale ( strLanguage ), "qt", "_", QCoreApplication::applicationDirPath() + "/translations" ) ||
+         myqtTranslator.load ( QLocale ( strLanguage ), "qt", "_", QLibraryInfo::location ( QLibraryInfo::TranslationsPath ) ) )
     {
         pApp->installTranslator ( &myqtTranslator );
     }
