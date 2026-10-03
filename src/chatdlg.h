@@ -57,6 +57,7 @@
 #include <QDesktopServices>
 #include <QMessageBox>
 #include <QRegularExpression>
+#include <QListWidget>
 #include "global.h"
 #include "util.h"
 #include "ui_chatdlgbase.h"
@@ -70,6 +71,19 @@ public:
     CChatDlg ( QWidget* parent = nullptr );
 
     void AddChatText ( QString strChatText );
+
+    // Shown as the "Messages" view of the main window: no menu bar of its own
+    void     SetEmbedded() { pMenu->hide(); }
+    QWidget* GetInputWidget() { return edtLocalInputText; }
+    QWidget* GetMessageList() { return lstMessages; }
+
+protected:
+    bool eventFilter ( QObject* object, QEvent* event ) override;
+    void OpenLink ( const QUrl& Url );
+
+    QMenuBar*    pMenu;
+    QListWidget* lstMessages;   // one row per message, for screen readers and braille
+    QString      strLastSent;   // our own message comes back from the server: not announced
 
 public slots:
     void OnSendText();

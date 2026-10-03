@@ -406,6 +406,21 @@ public:
 public slots:
     void keyPressEvent ( QKeyEvent* pEvent )
     {
+        // Escape closes a dialog, as everywhere in Windows (screen reader users rely on it); the main
+        // windows keep it (property "accessKeepOnEscape"), and a dialog shown inside another window
+        // passes it on
+        if ( pEvent->key() == Qt::Key_Escape && pEvent->modifiers() == Qt::NoModifier )
+        {
+            if ( isWindow() && !property ( "accessKeepOnEscape" ).toBool() )
+            {
+                close();
+            }
+            else
+            {
+                pEvent->ignore();
+            }
+            return;
+        }
         // block escape key
         if ( pEvent->key() != Qt::Key_Escape )
         {

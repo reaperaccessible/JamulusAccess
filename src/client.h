@@ -65,7 +65,9 @@
 #include "buffer.h"
 #include "signalhandler.h"
 
-#if defined( _WIN32 ) && !defined( JACK_ON_WINDOWS )
+#if defined( ACCESS_TEST_SOUND )
+#    include "sound/accesstest/sound.h"
+#elif defined( _WIN32 ) && !defined( JACK_ON_WINDOWS )
 #    include "sound/asio/sound.h"
 #else
 #    if ( defined( Q_OS_MACOS ) ) && !defined( JACK_REPLACES_COREAUDIO )

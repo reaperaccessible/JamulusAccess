@@ -148,6 +148,11 @@ win32 {
             DEFINES += _STDINT_H # supposed to solve compilation error in systemdeps.h
             INCLUDEPATH += "$${programfilesdir}/JACK2/include"
             LIBS += "$${programfilesdir}/JACK2/lib/$${libjackname}"
+        } else:contains(CONFIG, "accesstest") {
+            message(Using the access test sound interface: no audio device, test builds only.)
+
+            HEADERS += src/sound/accesstest/sound.h
+            DEFINES += ACCESS_TEST_SOUND
         } else {
             message(Using native Windows MIDI.)
 
@@ -424,10 +429,17 @@ HEADERS += src/plugins/audioreverb.h \
         src/testbench.h
 }
 
-HEADERS_GUI = src/serverdlg.h
+HEADERS_GUI = src/serverdlg.h \
+    src/access/accessibility.h
+
+contains(CONFIG, "accesstest") {
+    HEADERS_GUI += src/access/accesstest.h
+    QT += testlib
+}
 
 !contains(CONFIG, "serveronly") {
     HEADERS_GUI += src/audiomixerboard.h \
+        src/access/mixerlist.h \
         src/chatdlg.h \
         src/clientsettingsdlg.h \
         src/connectdlg.h \
@@ -530,10 +542,16 @@ SOURCES += src/plugins/audioreverb.cpp \
         src/sound/soundbase.cpp \
 }
 
-SOURCES_GUI = src/serverdlg.cpp
+SOURCES_GUI = src/serverdlg.cpp \
+    src/access/accessibility.cpp
+
+contains(CONFIG, "accesstest") {
+    SOURCES_GUI += src/access/accesstest.cpp
+}
 
 !contains(CONFIG, "serveronly") {
     SOURCES_GUI += src/audiomixerboard.cpp \
+        src/access/mixerlist.cpp \
         src/chatdlg.cpp \
         src/clientsettingsdlg.cpp \
         src/connectdlg.cpp \

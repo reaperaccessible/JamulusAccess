@@ -46,6 +46,8 @@
 
 #include "clientdlg.h"
 #include "util.h"
+#include "access/accessibility.h"
+#include "access/mixerlist.h"
 
 /* Implementation *************************************************************/
 CClientDlg::CClientDlg ( CClient*         pNCliP,
@@ -67,6 +69,18 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     AnalyzerConsole ( pNCliP, parent )
 {
     setupUi ( this );
+
+    // Views of the family, in this one window: Ctrl+1 the session (mixer), Ctrl+2 the messages
+    // (the chat, which was a window of its own)
+    setProperty ( "accessKeepOnEscape", true );
+    pViews = new QStackedWidget ( this );
+    layout()->replaceWidget ( backgroundFrame, pViews );
+    pViews->addWidget ( backgroundFrame );
+    ChatDlg.setParent ( pViews, Qt::Widget );
+    ChatDlg.SetEmbedded();
+    Access::presentAsPane ( &ChatDlg ); // a view, not a "dialog": the view's name is said when it opens
+    pViews->addWidget ( &ChatDlg );
+    pViews->setCurrentWidget ( backgroundFrame );
 
     // Add help text to controls -----------------------------------------------
     // input level meter
@@ -99,6 +113,9 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     lblInputLEDMeter->setWhatsThis ( strInpLevH );
     lblLevelMeterLeft->setWhatsThis ( strInpLevH );
     lblLevelMeterRight->setWhatsThis ( strInpLevH );
+    strInpLevHAccText = tr ( "Input level" );
+    Access::ignoreValue ( lbrInputLevelL ); // its level is in the status (Ctrl+Shift+G)
+    Access::ignoreValue ( lbrInputLevelR );
     lbrInputLevelL->setWhatsThis ( strInpLevH );
     lbrInputLevelL->setAccessibleName ( strInpLevHAccText );
     lbrInputLevelL->setAccessibleDescription ( strInpLevHAccDescr );
@@ -115,7 +132,7 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
                                tr ( "Opens a dialog where you can select a server to connect to. "
                                     "If you are connected, pressing this button will end the session." ) );
 
-    butConnect->setAccessibleName ( tr ( "Connect and disconnect toggle button" ) );
+    // the button's text ("Connect" / "Disconnect") is its name
 
     // reverberation level
     QString strAudReverb = "<b>" + tr ( "Reverb effect" ) + ":</b> " +
@@ -130,7 +147,8 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     lblAudioReverb->setWhatsThis ( strAudReverb );
     sldAudioReverb->setWhatsThis ( strAudReverb );
 
-    sldAudioReverb->setAccessibleName ( tr ( "Reverb effect level setting" ) );
+    sldAudioReverb->setAccessibleName ( tr ( "Reverb" ) );
+    Access::installSliderKeys ( sldAudioReverb, [] ( int iValue ) { return QString ( "%1 %" ).arg ( iValue ); } );
 
     // reverberation channel selection
     QString strRevChanSel = "<b>" + tr ( "Reverb Channel Selection" ) + ":</b> " +
@@ -139,9 +157,9 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
                                  "or right input channel can be selected." );
 
     rbtReverbSelL->setWhatsThis ( strRevChanSel );
-    rbtReverbSelL->setAccessibleName ( tr ( "Left channel selection for reverb" ) );
+    rbtReverbSelL->setAccessibleName ( tr ( "Reverb on left channel" ) );
     rbtReverbSelR->setWhatsThis ( strRevChanSel );
-    rbtReverbSelR->setAccessibleName ( tr ( "Right channel selection for reverb" ) );
+    rbtReverbSelR->setAccessibleName ( tr ( "Reverb on right channel" ) );
 
     // delay LED
     QString strLEDDelay = "<b>" + tr ( "Delay Status LED" ) + ":</b> " + tr ( "Shows the current audio delay status:" ) +
@@ -318,6 +336,10 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
 
     pEditMenu->addAction ( tr ( "Auto-Adjust all &Faders" ), this, SLOT ( OnAutoAdjustAllFaderLevels() ), QKeySequence ( Qt::CTRL + Qt::Key_F ) );
 
+    // the chat is a view of this window now: its menu comes here
+    pEditMenu->addSeparator();
+    pEditMenu->addAction ( tr ( "Cl&ear Chat History" ), &ChatDlg, SLOT ( OnClearChatHistory() ) );
+
     // View menu  --------------------------------------------------------------
     QMenu* pViewMenu = new QMenu ( tr ( "&View" ), this );
 
@@ -447,16 +469,29 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
         ShowGeneralSettings ( pSettings->iSettingsTab );
     }
 
-    // chat window
-    if ( !pSettings->vecWindowPosChat.isEmpty() && !pSettings->vecWindowPosChat.isNull() )
-    {
-        ChatDlg.restoreGeometry ( pSettings->vecWindowPosChat );
-    }
+    // the chat is the Messages view of this window (Ctrl+2): it has no position of its own, and the
+    // program always starts on the session view
 
-    if ( pSettings->bWindowWasShownChat )
-    {
-        ShowChatWindow();
-    }
+    // Keyboard of the family -------------------------------------------------
+    // the mixer comes right after the Connect button
+    QWidget::setTabOrder ( butConnect, MainMixerBoard->GetAccessList() );
+    QWidget::setTabOrder ( MainMixerBoard->GetAccessList(), chbLocalMute );
+
+    // Ctrl+1 session, Ctrl+2 messages (physical digit keys, any keyboard layout)
+    Access::installDigitKeys ( this, Qt::ControlModifier, [this] ( int iDigit ) {
+        if ( iDigit == 1 || iDigit == 2 )
+        {
+            ShowView ( iDigit );
+            return true;
+        }
+        return false;
+    } );
+
+    // Ctrl+Shift+G: the connection status, Ctrl+Shift+H: the keyboard shortcuts
+    QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_G ), this ), &QShortcut::activated, this, [this] {
+        Access::announce ( this, StatusText() );
+    } );
+    QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_H ), this ), &QShortcut::activated, this, &CClientDlg::ShowShortcuts );
 
     // connection setup window
     if ( !pSettings->vecWindowPosConnect.isEmpty() && !pSettings->vecWindowPosConnect.isNull() )
@@ -625,6 +660,14 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
 
 void CClientDlg::closeEvent ( QCloseEvent* Event )
 {
+    // quitting in a session would throw us out of it: ask first, No by default
+    if ( pClient->IsRunning() &&
+         QMessageBox::question ( this, APP_NAME, tr ( "Disconnect and quit?" ), QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes )
+    {
+        Event->ignore();
+        return;
+    }
+
     // store window positions
     pSettings->vecWindowPosMain     = saveGeometry();
     pSettings->vecWindowPosSettings = ClientSettingsDlg.saveGeometry();
@@ -773,6 +816,7 @@ void CClientDlg::OnConnectDisconBut()
     // the connect/disconnect button implements a toggle functionality
     if ( pClient->IsRunning() )
     {
+        bUserDisconnect = true; // the button says "Connect" again: nothing more to say
         pClient->Disconnect();
     }
     else
@@ -865,13 +909,9 @@ void CClientDlg::OnChatTextReceived ( QString strChatText )
     {
         PlayAudioAlert ( QUrl::fromLocalFile ( ":sounds/res/sounds/new_message.wav" ) );
     }
+    // the message is said by the screen reader and added to the Messages view (Ctrl+2); the view
+    // does not open by itself, which would take the user out of the mixer
     ChatDlg.AddChatText ( strChatText );
-
-    // Open chat dialog. If a server welcome message is received, we force
-    // the dialog to be upfront in case a licence text is shown. For all
-    // other new chat texts we do not want to force the dialog to be upfront
-    // always when a new message arrives since this is annoying.
-    ShowChatWindow ( ( strChatText.indexOf ( WELCOME_MESSAGE_PREFIX ) == 0 ) );
 
     UpdateDisplay();
 }
@@ -906,6 +946,14 @@ void CClientDlg::OnConClientListMesReceived ( CVector<CChannelInfo> vecChanInfo 
 {
     // update mixer board with the additional client infos
     MainMixerBoard->ApplyNewConClientList ( vecChanInfo );
+
+    // the first list of musicians: the connection works
+    if ( !bConnectionAnnounced && vecChanInfo.Size() > 0 )
+    {
+        bConnectionAnnounced = true;
+        const int iNum       = static_cast<int> ( vecChanInfo.Size() );
+        Access::announce ( this, iNum == 1 ? tr ( "Connected, 1 musician" ) : tr ( "Connected, %1 musicians" ).arg ( iNum ) );
+    }
 }
 
 void CClientDlg::OnNumClientsChanged ( int iNewNumClients )
@@ -1013,20 +1061,144 @@ void CClientDlg::ShowGeneralSettings ( int iTab )
     ClientSettingsDlg.activateWindow();
 }
 
-void CClientDlg::ShowChatWindow ( const bool bForceRaise )
+void CClientDlg::ShowChatWindow ( const bool )
 {
-    ChatDlg.show();
-    ChatDlg.setWindowTitle ( MakeClientNameTitle ( tr ( "Chat" ), pClient->strClientName ) );
+    // the chat is the Messages view of this window
+    ShowView ( 2 );
+    UpdateDisplay();
+}
 
-    if ( bForceRaise )
+void CClientDlg::ShowView ( int iView )
+{
+    QWidget* page   = ( iView == 2 ) ? static_cast<QWidget*> ( &ChatDlg ) : backgroundFrame;
+    QWidget* target = nullptr;
+    if ( iView == 2 )
     {
-        // make sure dialog is upfront and has focus
-        ChatDlg.showNormal();
-        ChatDlg.raise();
-        ChatDlg.activateWindow();
+        target = ChatDlg.GetInputWidget();
+    }
+    else
+    {
+        CMixerAccessList* list = MainMixerBoard->GetAccessList();
+        target                 = list->count() > 0 ? static_cast<QWidget*> ( list ) : butConnect;
     }
 
+    if ( pViews->currentWidget() == page )
+    {
+        // already there: the same message as on arrival (a shortcut is never silent)
+        Access::goTo ( target );
+        return;
+    }
+
+    // the view's name first, in the screen reader's queue; the screen reader then says where the
+    // focus lands (one voice for each)
+    Access::announce ( this, iView == 2 ? tr ( "Messages" ) : tr ( "Session" ) );
+    // on the hidden page, setFocus() only records the target: the page switch then gives it the
+    // focus in one step (no stop on another control on the way)
+    target->setFocus ( Qt::ShortcutFocusReason );
+    pViews->setCurrentWidget ( page );
+    if ( !target->hasFocus() )
+    {
+        target->setFocus ( Qt::ShortcutFocusReason );
+    }
     UpdateDisplay();
+}
+
+void CClientDlg::keyPressEvent ( QKeyEvent* pEvent )
+{
+    // Escape in the Messages view goes back to the session
+    if ( pEvent->key() == Qt::Key_Escape && pEvent->modifiers() == Qt::NoModifier && pViews->currentWidget() == &ChatDlg )
+    {
+        ShowView ( 1 );
+        return;
+    }
+    CBaseDlg::keyPressEvent ( pEvent );
+}
+
+QString CClientDlg::StatusText()
+{
+    if ( !pClient->IsRunning() )
+    {
+        return tr ( "Not connected" );
+    }
+
+    QStringList parts;
+    parts << MainMixerBoard->GetServerName();
+    parts << ( iClients == 1 ? tr ( "1 musician" ) : tr ( "%1 musicians" ).arg ( iClients ) );
+
+    if ( iLastPingMs >= 0 )
+    {
+        QString strDelay;
+        switch ( ledDelay->GetLight() )
+        {
+        case CMultiColorLED::RL_GREEN:
+            strDelay = tr ( "good" );
+            break;
+        case CMultiColorLED::RL_YELLOW:
+            strDelay = tr ( "fair" );
+            break;
+        case CMultiColorLED::RL_RED:
+            strDelay = tr ( "too high" );
+            break;
+        default:
+            break;
+        }
+        parts << tr ( "Ping %1 ms" ).arg ( iLastPingMs );
+        parts << ( tr ( "Delay %1 ms" ).arg ( iLastDelayMs ) + ( strDelay.isEmpty() ? QString() : " " + strDelay ) );
+    }
+
+    if ( ledBuffers->GetLight() == CMultiColorLED::RL_RED )
+    {
+        parts << tr ( "Audio dropouts" );
+    }
+    else if ( ledBuffers->GetLight() == CMultiColorLED::RL_GREEN )
+    {
+        parts << tr ( "Audio stream OK" );
+    }
+
+    // input level as the meter shows it (steps of the LED bar between the bounds)
+    const auto levelText = [] ( double dLevel ) {
+        if ( dLevel <= 0 )
+        {
+            return tr ( "silent" );
+        }
+        return QString ( "%1 dB" ).arg ( std::lround ( dLevel * ( UPPER_BOUND_SIG_METER - LOW_BOUND_SIG_METER ) / NUM_STEPS_LED_BAR + LOW_BOUND_SIG_METER ) );
+    };
+    parts << tr ( "Input %1, %2" ).arg ( levelText ( pClient->GetLevelForMeterdBLeft() ), levelText ( pClient->GetLevelForMeterdBRight() ) );
+
+    if ( chbLocalMute->isChecked() )
+    {
+        parts << tr ( "Muted myself" );
+    }
+    if ( MainMixerBoard->GetRecorderState() == RS_RECORDING )
+    {
+        parts << tr ( "Recording" );
+    }
+    return parts.join ( ", " );
+}
+
+void CClientDlg::ShowShortcuts()
+{
+    QStringList rows { tr ( "Ctrl+1: session (mixer)" ),
+                       tr ( "Ctrl+2: messages" ),
+                       tr ( "Escape in the messages: back to the session" ),
+                       tr ( "Ctrl+Shift+G: connection status" ),
+                       tr ( "Ctrl+Shift+H: keyboard shortcuts" ),
+                       tr ( "Ctrl+C: connection setup" ),
+                       tr ( "Alt+M: mute myself" ),
+                       tr ( "Ctrl+P: my profile" ),
+                       tr ( "Ctrl+S: audio and network settings" ),
+                       tr ( "Ctrl+D: advanced settings" ),
+                       tr ( "Ctrl+M: MIDI control settings" ),
+                       tr ( "Ctrl+L: set all faders to the new client level" ),
+                       tr ( "Ctrl+F: auto-adjust all faders" ),
+                       tr ( "Ctrl+W: own fader first" ),
+                       tr ( "Ctrl+N, Ctrl+I, Ctrl+G, Ctrl+T, Ctrl+E, Ctrl+O: sort by name, instrument, group, city, channel, no sorting" ),
+                       tr ( "Ctrl+Q: quit" ) };
+    rows << tr ( "In the mixer:" );
+    rows << CMixerAccessList::ShortcutRows();
+    rows << tr ( "In the messages: Up and Down read the messages, Enter opens a link, Ctrl+C copies, Tab goes to the line to write" );
+    rows << tr ( "Sliders: Alt+Up and Alt+Down change the value, Alt+Shift for a small step" );
+    Access::showShortcutHelp ( this, tr ( "Keyboard shortcuts" ), rows );
 }
 
 void CClientDlg::ShowAnalyzerConsole()
@@ -1053,14 +1225,8 @@ void CClientDlg::OnSettingsStateChanged ( int value )
 
 void CClientDlg::OnChatStateChanged ( int value )
 {
-    if ( value == Qt::Checked )
-    {
-        ShowChatWindow();
-    }
-    else
-    {
-        ChatDlg.hide();
-    }
+    // the Chat check box switches between the views
+    ShowView ( value == Qt::Checked ? 2 : 1 );
 }
 
 void CClientDlg::OnLocalMuteStateChanged ( int value )
@@ -1252,6 +1418,17 @@ void CClientDlg::OnConnectingFailed ( const QString& strError ) { QMessageBox::c
 
 void CClientDlg::OnDisconnect()
 {
+    // a disconnection we did not ask for (server gone, network): say it
+    if ( !bUserDisconnect && bConnectionAnnounced )
+    {
+        Access::announce ( this, tr ( "Disconnected" ), true );
+    }
+    bUserDisconnect      = false;
+    bConnectionAnnounced = false;
+    eAnnouncedRecorder   = RS_UNDEFINED;
+    iLastPingMs          = -1;
+    iLastDelayMs         = -1;
+
     // change connect button text to "connect"
     butConnect->setText ( tr ( "C&onnect" ) );
 
@@ -1427,6 +1604,20 @@ void CClientDlg::OnRecorderStateReceived ( const ERecorderState newRecorderState
 {
     MainMixerBoard->SetRecorderState ( newRecorderState );
     SetMixerBoardDeco ( newRecorderState, pClient->GetGUIDesign() );
+
+    // the red title says it on screen: say it too, once per change
+    if ( newRecorderState != eAnnouncedRecorder )
+    {
+        if ( newRecorderState == RS_RECORDING )
+        {
+            Access::announce ( this, eAnnouncedRecorder == RS_UNDEFINED ? tr ( "This server is recording" ) : tr ( "Recording started" ) );
+        }
+        else if ( eAnnouncedRecorder == RS_RECORDING )
+        {
+            Access::announce ( this, tr ( "Recording stopped" ) );
+        }
+        eAnnouncedRecorder = newRecorderState;
+    }
 }
 
 void CClientDlg::OnGUIDesignChanged()
@@ -1504,6 +1695,8 @@ void CClientDlg::SetPingTime ( const int iPingTime, const int iOverallDelayMs, c
     }
     lblPingUnit->setText ( "ms" );
     lblDelayUnit->setText ( "ms" );
+    iLastPingMs  = iPingTime;
+    iLastDelayMs = iOverallDelayMs;
 
     // set current LED status
     ledDelay->SetLight ( eOverallDelayLEDColor );

@@ -45,6 +45,8 @@
 \******************************************************************************/
 
 #include "audiomixerboard.h"
+#include "access/accessibility.h"
+#include "access/mixerlist.h"
 #include <chrono>
 #include <deque>
 
@@ -305,6 +307,15 @@ CChannelFader::CChannelFader ( QWidget* pNW ) :
     QObject::connect ( pcbSolo, &QCheckBox::stateChanged, this, &CChannelFader::soloStateChanged );
 
     QObject::connect ( pcbGroup, &QCheckBox::stateChanged, this, &CChannelFader::OnGroupStateChanged );
+
+    // screen reader users work in the mixer list (CMixerAccessList): the strip controls of every
+    // musician stay out of the Tab order, and the meter is no value to speak
+    pFader->setFocusPolicy ( Qt::NoFocus );
+    pPan->setFocusPolicy ( Qt::NoFocus );
+    pcbMute->setFocusPolicy ( Qt::NoFocus );
+    pcbSolo->setFocusPolicy ( Qt::NoFocus );
+    pcbGroup->setFocusPolicy ( Qt::NoFocus );
+    Access::ignoreValue ( plbrChannelLevel );
 }
 
 void CChannelFader::SetGUIDesign ( const EGUIDesign eNewDesign )
@@ -620,6 +631,12 @@ void CChannelFader::SetRemoteFaderIsMute ( const bool bIsMute )
     {
         pInfoLabel->setPixmap ( QPixmap() );
     }
+
+    if ( bIsRemoteMuted != bIsMute )
+    {
+        bIsRemoteMuted = bIsMute;
+        emit accessStateChanged();
+    }
 }
 
 void CChannelFader::SendFaderLevelToServer ( const double dLevel, const bool bIsGroupUpdate )
@@ -719,6 +736,8 @@ void CChannelFader::UpdateGroupIDDependencies()
 
     // the fader tag border color is set according to the selected group
     SetupFaderTag ( cReceivedChanInfo.eSkillLevel );
+
+    emit accessStateChanged();
 }
 
 void CChannelFader::OnGroupStateChanged ( int )
@@ -772,7 +791,11 @@ void CChannelFader::UpdateSoloState ( const bool bNewOtherSoloState )
     }
 }
 
-void CChannelFader::SetChannelLevel ( const uint16_t iLevel ) { plbrChannelLevel->SetValue ( iLevel ); }
+void CChannelFader::SetChannelLevel ( const uint16_t iLevel )
+{
+    dChannelLevel = iLevel;
+    plbrChannelLevel->SetValue ( iLevel );
+}
 
 void CChannelFader::SetChannelInfos ( const CChannelInfo& cChanInfo )
 {
@@ -983,6 +1006,8 @@ void CChannelFader::SetChannelInfos ( const CChannelInfo& cChanInfo )
     pcbGroup->setAccessibleName ( "Group " + strAliasAccessible + ", " + strInstrumentAccessible );
     dynamic_cast<QWidget*> ( plblLabel->parent() )
         ->setAccessibleName ( strAliasAccessible + ", " + strInstrumentAccessible + ", " + strLocationAccessible );
+
+    emit accessStateChanged();
 }
 
 /******************************************************************************\
@@ -1027,6 +1052,11 @@ CAudioMixerBoard::CAudioMixerBoard ( QWidget* parent ) :
         vecpChanFader[i]->Hide();
     }
 
+    // the mixer for screen readers: one row per musician, left of the faders
+    pAccessList = new CMixerAccessList ( vecpChanFader, this );
+    pAccessList->setFixedWidth ( 260 );
+    pAccessList->hide(); // shown with the first musician
+
     // insert horizontal spacer (at position MAX_NUM_CHANNELS+1 which is index MAX_NUM_CHANNELS)
     pMainLayout->addItem ( new QSpacerItem ( 0, 0, QSizePolicy::Expanding ), 0, MAX_NUM_CHANNELS );
 
@@ -1038,6 +1068,7 @@ CAudioMixerBoard::CAudioMixerBoard ( QWidget* parent ) :
     pScrollArea->setWidget ( pMixerWidget );
     pScrollArea->setWidgetResizable ( true ); // make sure it fills the entire scroll area
     pScrollArea->setFrameShape ( QFrame::NoFrame );
+    pGroupBoxLayout->addWidget ( pAccessList );
     pGroupBoxLayout->addWidget ( pScrollArea );
 
     // Connections -------------------------------------------------------------
@@ -1083,6 +1114,7 @@ void CAudioMixerBoard::SetServerName ( const QString& strNewServerName )
     {
         // no connection or connection was reset: show default title
         setTitle ( tr ( "Server" ) );
+        setAccessibleName ( tr ( "Server" ) );
     }
     else
     {
@@ -1092,6 +1124,7 @@ void CAudioMixerBoard::SetServerName ( const QString& strNewServerName )
         // with the correct server name. Make sure to choose a "try to connect" title
         // which is most striking (we use filled blocks and upper case letters).
         setTitle ( u8"\u2588\u2588\u2588\u2588\u2588  " + tr ( "T R Y I N G   T O   C O N N E C T" ) + u8"  \u2588\u2588\u2588\u2588\u2588" );
+        setAccessibleName ( tr ( "Trying to connect" ) );
     }
 }
 
@@ -1273,7 +1306,8 @@ void CAudioMixerBoard::ChangeFaderOrder ( const EChSortType eChSortType )
 
     // add channels to the layout in the new order, note that it is not required to remove
     // the widget from the layout first but it is moved to the new position automatically
-    int iVisibleFaderCnt = 0;
+    int        iVisibleFaderCnt = 0;
+    QList<int> visibleChannels; // read before addWidget(): a fader moved into the layout is hidden until shown again
 
     for ( int i = 0; i < MAX_NUM_CHANNELS; i++ )
     {
@@ -1281,6 +1315,8 @@ void CAudioMixerBoard::ChangeFaderOrder ( const EChSortType eChSortType )
 
         if ( vecpChanFader[iCurFaderID]->IsVisible() )
         {
+            visibleChannels << static_cast<int> ( iCurFaderID );
+
             // channels are added row-first, up to iNumFadersFirstRow, then onto
             // the next row.
             pMainLayout->addWidget ( vecpChanFader[iCurFaderID]->GetMainWidget(),
@@ -1290,6 +1326,10 @@ void CAudioMixerBoard::ChangeFaderOrder ( const EChSortType eChSortType )
             iVisibleFaderCnt++;
         }
     }
+
+    // the screen reader list follows the order on screen
+    pAccessList->Sync ( visibleChannels );
+    pAccessList->setVisible ( !visibleChannels.isEmpty() );
 }
 
 void CAudioMixerBoard::UpdateTitle()

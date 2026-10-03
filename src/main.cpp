@@ -52,6 +52,10 @@
 #    include <QApplication>
 #    include <QMessageBox>
 #    include "serverdlg.h"
+#    include "access/accessibility.h"
+#    ifdef ACCESS_TEST_SOUND
+#        include "access/accesstest.h"
+#    endif
 #    ifndef SERVER_ONLY
 #        include "clientdlg.h"
 #    endif
@@ -925,6 +929,17 @@ int main ( int argc, char** argv )
 
     // init resources
     Q_INIT_RESOURCE ( resources );
+
+#ifndef HEADLESS
+    if ( bUseGUI )
+    {
+        // screen reader fixes for every window (menus, dialog labels, tooltips, sliders, meters)
+        Access::installApplicationFixes ( pApp );
+#    ifdef ACCESS_TEST_SOUND
+        AccessTest::start();
+#    endif
+    }
+#endif
 
 #ifndef SERVER_ONLY
     //### TEST: BEGIN ###//

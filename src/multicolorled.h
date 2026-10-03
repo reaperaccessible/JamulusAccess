@@ -81,8 +81,9 @@ public:
 
     CMultiColorLED ( QWidget* parent = nullptr );
 
-    void Reset();
-    void SetLight ( const ELightColor eNewStatus );
+    void        Reset();
+    void        SetLight ( const ELightColor eNewStatus );
+    ELightColor GetLight() const { return eColorFlag; }
     void SetType ( const EType eNType );
 
 protected:

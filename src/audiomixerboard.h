@@ -66,6 +66,8 @@
 #include "levelmeter.h"
 #include "settings.h"
 
+class CMixerAccessList;
+
 /* Classes ********************************************************************/
 class CChannelFader : public QObject
 {
@@ -112,6 +114,16 @@ public:
 
     void SetMIDICtrlUsed ( const bool isMIDICtrlUsed ) { bMIDICtrlUsed = isMIDICtrlUsed; }
 
+    // for the screen reader mixer list (CMixerAccessList)
+    QSlider*            GetFaderWidget() { return pFader; }
+    QDial*              GetPanWidget() { return pPan; }
+    QCheckBox*          GetMuteBox() { return pcbMute; }
+    QCheckBox*          GetSoloBox() { return pcbSolo; }
+    bool                IsPanShown() { return !pPan->isHidden(); }
+    bool                IsRemoteMuted() { return bIsRemoteMuted; }
+    double              GetChannelLevel() { return dChannelLevel; }
+    const CChannelInfo& GetChannelInfo() { return cReceivedChanInfo; }
+
 protected:
     void UpdateGroupIDDependencies();
     void SetMute ( const bool bState );
@@ -155,6 +167,8 @@ protected:
     EMeterStyle eMeterStyle;
     QPixmap     BitmapMutedIcon;
     bool        bMIDICtrlUsed;
+    bool        bIsRemoteMuted = false;
+    double      dChannelLevel  = 0;
 
 public slots:
     void OnLevelValueChanged ( int value )
@@ -175,6 +189,9 @@ signals:
 
     void panValueChanged ( float value );
     void soloStateChanged ( int value );
+
+    // group, name, profile or remote mute changed (the screen reader list follows)
+    void accessStateChanged();
 };
 
 template<unsigned int slotId>
@@ -253,6 +270,9 @@ public:
 
     void SetMIDICtrlUsed ( const bool bMIDICtrlUsed );
 
+    // the screen reader mixer (one row per musician)
+    CMixerAccessList* GetAccessList() { return pAccessList; }
+
 protected:
     class CMixerBoardScrollArea : public QScrollArea
     {
@@ -284,6 +304,7 @@ protected:
 
     CClientSettings*        pSettings;
     CVector<CChannelFader*> vecpChanFader;
+    CMixerAccessList*       pAccessList;
     CMixerBoardScrollArea*  pScrollArea;
     QGridLayout*            pMainLayout;
     bool                    bDisplayPans;

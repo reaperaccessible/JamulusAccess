@@ -53,6 +53,8 @@
 #include <QProgressBar>
 #include <QWhatsThis>
 #include <QTimer>
+#include <QStackedWidget>
+#include <QShortcut>
 #include <QSlider>
 #include <QRadioButton>
 #include <QMenuBar>
@@ -117,6 +119,19 @@ protected:
     void UpdateRevSelection();
     void ManageDragNDrop ( QDropEvent* Event, const bool bCheckAccept );
     void SetPingTime ( const int iPingTime, const int iOverallDelayMs, const CMultiColorLED::ELightColor eOverallDelayLEDColor );
+
+    // Screen reader views of the family: Ctrl+1 the session (mixer), Ctrl+2 the messages
+    void    ShowView ( int iView );
+    QString StatusText();
+    void    ShowShortcuts();
+    void    keyPressEvent ( QKeyEvent* pEvent ) override;
+
+    QStackedWidget* pViews;
+    bool            bUserDisconnect      = false; // our Disconnect button: the button says it
+    bool            bConnectionAnnounced = false;
+    ERecorderState  eAnnouncedRecorder   = RS_UNDEFINED;
+    int             iLastPingMs          = -1;
+    int             iLastDelayMs         = -1;
 
     CClient*         pClient;
     CClientSettings* pSettings;
