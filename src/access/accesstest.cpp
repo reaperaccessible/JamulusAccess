@@ -222,8 +222,8 @@ void sendKeys ( const QString& sequence, int count )
     }
     for ( int i = 0; i < count; i++ )
     {
-        QWidget* target = QApplication::focusWidget();
-        if ( QApplication::activeModalWidget() && ( !target || target->window() != QApplication::activeModalWidget() ) )
+        QWidget* target = QApplication::activePopupWidget() ? QApplication::activePopupWidget() : QApplication::focusWidget();
+        if ( !QApplication::activePopupWidget() && QApplication::activeModalWidget() && ( !target || target->window() != QApplication::activeModalWidget() ) )
         {
             target = QApplication::activeModalWidget();
         }

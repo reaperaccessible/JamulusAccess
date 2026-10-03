@@ -45,6 +45,7 @@
 \******************************************************************************/
 
 #include "connectdlg.h"
+#include "access/accessibility.h"
 
 #if QT_VERSION >= QT_VERSION_CHECK( 6, 8, 0 )
 #    include <QAccessible>
@@ -97,10 +98,10 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
     QString strDirectoryWT = "<b>" + tr ( "Directory" ) + ":</b> " +
                              tr ( "Shows the servers listed by the selected directory. "
                                   "You can add custom directories in Advanced Settings." );
-    QString strDirectoryAN = tr ( "Directory combo box" );
+    QString strDirectoryAN = tr ( "Directory" );
 
     lblList->setWhatsThis ( strDirectoryWT );
-    lblList->setAccessibleName ( strDirectoryAN );
+    lblList->setBuddy ( cbxDirectory );
     cbxDirectory->setWhatsThis ( strDirectoryWT );
     cbxDirectory->setAccessibleName ( strDirectoryAN );
 
@@ -108,11 +109,11 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
     QString strFilterWT = "<b>" + tr ( "Filter" ) + ":</b> " +
                           tr ( "Filters the server list by the given text. Note that the filter is case insensitive. "
                                "A single # character will filter for those servers with at least one person connected." );
-    QString strFilterAN = tr ( "Filter edit box" );
+    QString strFilterAN = tr ( "Filter" );
     lblFilter->setWhatsThis ( strFilterWT );
     edtFilter->setWhatsThis ( strFilterWT );
 
-    lblFilter->setAccessibleName ( strFilterAN );
+    lblFilter->setBuddy ( edtFilter );
     edtFilter->setAccessibleName ( strFilterAN );
 
     // show all mucisians
@@ -120,7 +121,7 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
                                  tr ( "Uncheck to collapse the server list to show just the server details. "
                                       "Check to show everyone on the servers." ) );
 
-    chbExpandAll->setAccessibleName ( tr ( "Show all musicians check box" ) );
+    // its text is its name
 
     // server list view
     lvwServers->setWhatsThis ( "<b>" + tr ( "Server List" ) + ":</b> " +
@@ -132,7 +133,44 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
                                "<br>" + tr ( "Permanent servers (those that have been listed for longer than 48 hours) are shown in bold." ) +
                                "<br>" + tr ( "You can add custom directories in Advanced Settings." ) );
 
-    lvwServers->setAccessibleName ( tr ( "Server list view" ) );
+    lvwServers->setAccessibleName ( tr ( "Servers" ) );
+
+    // what the screen reader says for a row: the whole row ("Name, Ping Time 25 ms, Musicians 3/10,
+    // Location, Version"), or the musician and the country; First/Last at the ends
+    Access::keepTreeRowTexts ( lvwServers, [this] ( const QModelIndex& row ) {
+        if ( row.parent().isValid() )
+        {
+            QString text = row.data().toString();
+            const QString country = row.data ( Qt::UserRole ).toString();
+            return country.isEmpty() ? text : text + ", " + country;
+        }
+        QStringList parts { row.data().toString().simplified() };
+        for ( int column = LVC_PING; column <= LVC_VERSION; column++ )
+        {
+            const QString value = row.siblingAtColumn ( column ).data().toString().simplified();
+            if ( !value.isEmpty() )
+            {
+                parts << lvwServers->headerItem()->text ( column ) + " " + value;
+            }
+        }
+        return parts.join ( ", " );
+    } );
+    Access::installListEdges ( lvwServers );
+
+    // the list arrives while the focus waits in it: its first server is said
+    // (once the rows have their text: they are inserted empty, then filled)
+    QObject::connect ( lvwServers->model(), &QAbstractItemModel::rowsInserted, this, [this] ( const QModelIndex& parent ) {
+        if ( parent.isValid() )
+        {
+            return;
+        }
+        QTimer::singleShot ( 0, this, [this] {
+            if ( lvwServers->hasFocus() && !lvwServers->currentItem() && lvwServers->topLevelItemCount() > 0 )
+            {
+                lvwServers->setCurrentItem ( lvwServers->topLevelItem ( 0 ) );
+            }
+        } );
+    } );
 
     // server address
     QString strServAddrH = "<b>" + tr ( "Server Address" ) + ":</b> " +
@@ -145,10 +183,10 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
     lblServerAddr->setWhatsThis ( strServAddrH );
     cbxServerAddr->setWhatsThis ( strServAddrH );
 
-    cbxServerAddr->setAccessibleName ( tr ( "Server address edit box" ) );
+    cbxServerAddr->setAccessibleName ( tr ( "Server address" ) );
     cbxServerAddr->setAccessibleDescription ( tr ( "Holds the current server address. It also stores old addresses in the combo box list." ) );
 
-    tbtDeleteServerAddr->setAccessibleName ( tr ( "Delete server address button" ) );
+    tbtDeleteServerAddr->setAccessibleName ( tr ( "Delete server address" ) );
     tbtDeleteServerAddr->setWhatsThis ( "<b>" + tr ( "Delete Server Address" ) + ":</b> " +
                                         tr ( "Click the button to clear the currently selected server address "
                                              "and delete it from the list of stored servers." ) );
@@ -274,6 +312,9 @@ void CConnectDlg::showEvent ( QShowEvent* )
     // on opening the connect dialg, we always want to request a
     // new updated server list per definition
     RequestServerList();
+
+    // the focus waits in the server list: its first server is said when the list arrives
+    lvwServers->setFocus ( Qt::OtherFocusReason );
 }
 
 void CConnectDlg::RequestServerList()
@@ -1116,39 +1157,10 @@ void CConnectDlg::UpdateDirectoryComboBox()
     }
 }
 
-void CConnectDlg::OnCurrentServerItemChanged ( QTreeWidgetItem* current, QTreeWidgetItem* )
+void CConnectDlg::OnCurrentServerItemChanged ( QTreeWidgetItem*, QTreeWidgetItem* )
 {
-    Q_UNUSED ( current );
-
-    // Announce the currently selected server or client to screen readers.
-#if QT_VERSION >= QT_VERSION_CHECK( 6, 8, 0 )
-    if ( !current )
-        return;
-
-    if ( !current->parent() && current->text ( LVC_PING ).isEmpty() )
-    {
-        return;
-    }
-
-    QString announcement;
-    if ( current->parent() )
-    {
-        // It's a client
-        announcement         = current->text ( LVC_NAME );
-        QVariant countryData = current->data ( LVC_NAME, Qt::UserRole );
-        if ( countryData.isValid() )
-        {
-            announcement += ", " + countryData.toString();
-        }
-    }
-    else
-    {
-        // It's a server
-        announcement = current->text ( LVC_NAME ) + ", " + tr ( "Ping" ) + " " + current->text ( LVC_PING ) + ", " + current->text ( LVC_CLIENTS ) +
-                       ", " + current->text ( LVC_LOCATION ) + ", " + current->text ( LVC_VERSION );
-    }
-    QAccessible::updateAccessibility ( new QAccessibleAnnouncementEvent ( lvwServers, announcement ) );
-#endif
+    // the screen reader reads the row itself (Access::keepTreeRowTexts): announcing it here too
+    // would say it twice
 }
 
 bool CConnectDlg::eventFilter ( QObject* obj, QEvent* event )

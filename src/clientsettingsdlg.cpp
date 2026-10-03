@@ -45,6 +45,7 @@
 \******************************************************************************/
 
 #include "clientsettingsdlg.h"
+#include "access/accessibility.h"
 
 /* Implementation *************************************************************/
 CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSetP, QWidget* parent ) :
@@ -92,7 +93,15 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     lblAudioPanValue->setWhatsThis ( strAudFader );
     sldAudioPan->setWhatsThis ( strAudFader );
 
-    sldAudioPan->setAccessibleName ( tr ( "Local audio input fader (left/right)" ) );
+    sldAudioPan->setAccessibleName ( tr ( "Input balance" ) );
+    Access::installSliderKeys ( sldAudioPan, [] ( int iValue ) {
+        // as the label on screen: the channel turned down, and by how much
+        if ( iValue == AUD_FADER_IN_MIDDLE )
+        {
+            return tr ( "Center" );
+        }
+        return iValue > AUD_FADER_IN_MIDDLE ? tr ( "Left -%1" ).arg ( iValue - AUD_FADER_IN_MIDDLE ) : tr ( "Right -%1" ).arg ( AUD_FADER_IN_MIDDLE - iValue );
+    } );
 
     // jitter buffer
     QString strJitterBufferSize = "<b>" + tr ( "Jitter Buffer Size" ) + ":</b> " +
@@ -132,12 +141,14 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     grbJitterBuffer->setWhatsThis ( strJitterBufferSize );
     grbJitterBuffer->setToolTip ( strJitterBufferSizeTT );
     sldNetBuf->setWhatsThis ( strJitterBufferSize );
-    sldNetBuf->setAccessibleName ( tr ( "Local jitter buffer slider control" ) );
+    sldNetBuf->setAccessibleName ( tr ( "Local jitter buffer" ) );
     sldNetBuf->setToolTip ( strJitterBufferSizeTT );
     sldNetBufServer->setWhatsThis ( strJitterBufferSize );
-    sldNetBufServer->setAccessibleName ( tr ( "Server jitter buffer slider control" ) );
+    sldNetBufServer->setAccessibleName ( tr ( "Server jitter buffer" ) );
+    Access::installSliderKeys ( sldNetBuf );
+    Access::installSliderKeys ( sldNetBufServer );
     sldNetBufServer->setToolTip ( strJitterBufferSizeTT );
-    chbAutoJitBuf->setAccessibleName ( tr ( "Auto jitter buffer check box" ) );
+    chbAutoJitBuf->setAccessibleName ( tr ( "Auto jitter buffer" ) );
     chbAutoJitBuf->setToolTip ( strJitterBufferSizeTT );
 
 #if !defined( WITH_JACK )
@@ -153,7 +164,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
                                             "is stopped, the driver is changed and the connection is started again "
                                             "automatically." ) );
 
-    cbxSoundcard->setAccessibleName ( tr ( "Sound card device selector combo box" ) );
+    cbxSoundcard->setAccessibleName ( tr ( "Audio device" ) );
 
 #    if defined( _WIN32 )
     // set Windows specific tool tip
@@ -182,13 +193,13 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     lblInChannelMapping->setWhatsThis ( strSndCrdChanMapp );
     lblOutChannelMapping->setWhatsThis ( strSndCrdChanMapp );
     cbxLInChan->setWhatsThis ( strSndCrdChanMapp );
-    cbxLInChan->setAccessibleName ( tr ( "Left input channel selection combo box" ) );
+    cbxLInChan->setAccessibleName ( tr ( "Left input channel" ) );
     cbxRInChan->setWhatsThis ( strSndCrdChanMapp );
-    cbxRInChan->setAccessibleName ( tr ( "Right input channel selection combo box" ) );
+    cbxRInChan->setAccessibleName ( tr ( "Right input channel" ) );
     cbxLOutChan->setWhatsThis ( strSndCrdChanMapp );
-    cbxLOutChan->setAccessibleName ( tr ( "Left output channel selection combo box" ) );
+    cbxLOutChan->setAccessibleName ( tr ( "Left output channel" ) );
     cbxROutChan->setWhatsThis ( strSndCrdChanMapp );
-    cbxROutChan->setAccessibleName ( tr ( "Right output channel selection combo box" ) );
+    cbxROutChan->setAccessibleName ( tr ( "Right output channel" ) );
 #endif
 
     // enable OPUS64
@@ -200,7 +211,6 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
              "the network load and the probability of audio dropouts or sound artifacts increases." )
             .arg ( DOUBLE_SYSTEM_FRAME_SIZE_SAMPLES ) );
 
-    chbSmallNetworkBuffers->setAccessibleName ( tr ( "Small network buffers check box" ) );
 
     // sound card buffer delay
     QString strSndCrdBufDelay =
@@ -270,25 +280,21 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 #endif
 
     rbtBufferDelayPreferred->setWhatsThis ( strSndCrdBufDelay );
-    rbtBufferDelayPreferred->setAccessibleName ( tr ( "64 samples setting radio button" ) );
     rbtBufferDelayPreferred->setToolTip ( strSndCrdBufDelayTT );
     rbtBufferDelayDefault->setWhatsThis ( strSndCrdBufDelay );
-    rbtBufferDelayDefault->setAccessibleName ( tr ( "128 samples setting radio button" ) );
     rbtBufferDelayDefault->setToolTip ( strSndCrdBufDelayTT );
     rbtBufferDelaySafe->setWhatsThis ( strSndCrdBufDelay );
-    rbtBufferDelaySafe->setAccessibleName ( tr ( "256 samples setting radio button" ) );
     rbtBufferDelaySafe->setToolTip ( strSndCrdBufDelayTT );
 
 #if defined( _WIN32 ) && !defined( WITH_JACK )
     butDriverSetup->setWhatsThis ( strSndCardDriverSetup );
-    butDriverSetup->setAccessibleName ( tr ( "ASIO Device Settings push button" ) );
     butDriverSetup->setToolTip ( strSndCardDriverSetupTT );
 #endif
 
     // fancy skin
     lblSkin->setWhatsThis ( "<b>" + tr ( "Skin" ) + ":</b> " + tr ( "Select the skin to be used for the main window." ) );
 
-    cbxSkin->setAccessibleName ( tr ( "Skin combo box" ) );
+    cbxSkin->setAccessibleName ( tr ( "Skin" ) );
 
     // MeterStyle
     lblMeterStyle->setWhatsThis ( "<b>" + tr ( "Meter Style" ) + ":</b> " +
@@ -298,12 +304,12 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
                                        "LEDs (round, small) is selected, the input meters are set to LEDs (round, big). "
                                        "The remaining options apply to the mixerboard and input meters." ) );
 
-    cbxMeterStyle->setAccessibleName ( tr ( "Meter Style combo box" ) );
+    cbxMeterStyle->setAccessibleName ( tr ( "Meter style" ) );
 
     // Interface Language
     lblLanguage->setWhatsThis ( "<b>" + tr ( "Language" ) + ":</b> " + tr ( "Select the language to be used for the user interface." ) );
 
-    cbxLanguage->setAccessibleName ( tr ( "Language combo box" ) );
+    cbxLanguage->setAccessibleName ( tr ( "Language" ) );
 
     // audio channels
     QString strAudioChannels = "<b>" + tr ( "Audio Channels" ) + ":</b> " +
@@ -339,7 +345,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 
     lblAudioChannels->setWhatsThis ( strAudioChannels );
     cbxAudioChannels->setWhatsThis ( strAudioChannels );
-    cbxAudioChannels->setAccessibleName ( tr ( "Audio channels combo box" ) );
+    cbxAudioChannels->setAccessibleName ( tr ( "Audio channels" ) );
 
     // audio quality
     QString strAudioQuality = "<b>" + tr ( "Audio Quality" ) + ":</b> " +
@@ -349,7 +355,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 
     lblAudioQuality->setWhatsThis ( strAudioQuality );
     cbxAudioQuality->setWhatsThis ( strAudioQuality );
-    cbxAudioQuality->setAccessibleName ( tr ( "Audio quality combo box" ) );
+    cbxAudioQuality->setAccessibleName ( tr ( "Audio quality" ) );
 
     // new client fader level
     QString strNewClientLevel = "<b>" + tr ( "New Client Level" ) + ":</b> " +
@@ -361,7 +367,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 
     lblNewClientLevel->setWhatsThis ( strNewClientLevel );
     edtNewClientLevel->setWhatsThis ( strNewClientLevel );
-    edtNewClientLevel->setAccessibleName ( tr ( "New client level edit box" ) );
+    edtNewClientLevel->setAccessibleName ( tr ( "New client level in %" ) );
 
     // input boost
     QString strInputBoost = "<b>" + tr ( "Input Boost" ) + ":</b> " +
@@ -378,7 +384,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
                                  "or by decreasing your operating system's input settings." );
     lblInputBoost->setWhatsThis ( strInputBoost );
     cbxInputBoost->setWhatsThis ( strInputBoost );
-    cbxInputBoost->setAccessibleName ( tr ( "Input Boost combo box" ) );
+    cbxInputBoost->setAccessibleName ( tr ( "Input boost" ) );
 
     // custom directories
     QString strCustomDirectories = "<b>" + tr ( "Custom Directories" ) + ":</b> " +
@@ -387,9 +393,9 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 
     lblCustomDirectories->setWhatsThis ( strCustomDirectories );
     cbxCustomDirectories->setWhatsThis ( strCustomDirectories );
-    cbxCustomDirectories->setAccessibleName ( tr ( "Custom Directories combo box" ) );
+    cbxCustomDirectories->setAccessibleName ( tr ( "Custom directories" ) );
 
-    tbtDeleteCustomDirectory->setAccessibleName ( tr ( "Delete custom directory button" ) );
+    tbtDeleteCustomDirectory->setAccessibleName ( tr ( "Delete custom directory" ) );
     tbtDeleteCustomDirectory->setWhatsThis ( "<b>" + tr ( "Delete Custom Directory" ) + ":</b> " +
                                              tr ( "Click the button to delete the currently selected custom directory." ) );
     tbtDeleteCustomDirectory->setText ( u8"\u232B" );
@@ -408,27 +414,24 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
         "<b>" + tr ( "Number of Mixer Panel Rows" ) + ":</b> " + tr ( "Adjust the number of rows used to arrange the mixer panel." );
     lblMixerRows->setWhatsThis ( strNumMixerPanelRows );
     spnMixerRows->setWhatsThis ( strNumMixerPanelRows );
-    spnMixerRows->setAccessibleName ( tr ( "Number of Mixer Panel Rows spin box" ) );
+    spnMixerRows->setAccessibleName ( tr ( "Mixer rows" ) );
 
     chbDetectFeedback->setWhatsThis ( "<b>" + tr ( "Feedback Protection" ) + ":</b> " +
                                       tr ( "Prevents acoustic feedback between microphone and speakers." ) );
-    chbDetectFeedback->setAccessibleName ( tr ( "Feedback Protection check box" ) );
 
     // audio alerts
     chbAudioAlerts->setWhatsThis ( "<b>" + tr ( "Audio Alerts" ) + ":</b> " +
                                    tr ( "Trigger an audio alert when receiving a chat message and when a new client joins the session. "
                                         "A second sound device may be required to hear the alerts." ) );
-    chbAudioAlerts->setAccessibleName ( tr ( "Audio Alerts check box" ) );
 
     // MIDI settings
     grbMidiControls->setWhatsThis ( tr ( "Enable/disable MIDI-in port" ) );
-    grbMidiControls->setAccessibleName ( tr ( "MIDI-in port check box" ) );
+    grbMidiControls->setAccessibleName ( tr ( "MIDI in" ) );
 
     chbMIDIPickupMode->setWhatsThis ( "<b>" + tr ( "Pick-up Mode" ) + ":</b> " +
                                       tr ( "When enabled, MIDI fader and pan controls will wait until the physical controller "
                                            "position matches the current software value before responding. This prevents sudden "
                                            "jumps when your physical controller is out of sync with the software." ) );
-    chbMIDIPickupMode->setAccessibleName ( tr ( "Pick-up Mode check box" ) );
 
 #if defined( WITH_JACK )
     lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI output port to connect to. "
@@ -442,7 +445,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI input device(s) Jamulus should listen to. "
                                        "Select 'All Devices' to receive MIDI from all connected devices, or choose a specific device." ) );
 #endif
-    cbxMidiDevice->setAccessibleName ( tr ( "MIDI input device combo box" ) );
+    cbxMidiDevice->setAccessibleName ( tr ( "MIDI device" ) );
 
     QString strMidiSettings = "<b>" + tr ( "MIDI controller settings" ) + ":</b> " +
                               tr ( "There is one global MIDI channel parameter (0-16) and two parameters you can set "
@@ -465,17 +468,17 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     grbMidiSolo->setWhatsThis ( strMidiSettings );
     grbMidiMute->setWhatsThis ( strMidiSettings );
 
-    cbxChannel->setAccessibleName ( tr ( "MIDI channel combo box" ) );
-    spnMuteMyself->setAccessibleName ( tr ( "Mute Myself MIDI CC number spin box" ) );
-    spnFaderOffset->setAccessibleName ( tr ( "Fader offset spin box" ) );
-    spnPanOffset->setAccessibleName ( tr ( "Pan offset spin box" ) );
-    spnSoloOffset->setAccessibleName ( tr ( "Solo offset spin box" ) );
-    spnMuteOffset->setAccessibleName ( tr ( "Mute offset spin box" ) );
-    butLearnMuteMyself->setAccessibleName ( tr ( "Mute Myself MIDI learn button" ) );
-    butLearnFaderOffset->setAccessibleName ( tr ( "Fader offset MIDI learn button" ) );
-    butLearnPanOffset->setAccessibleName ( tr ( "Pan offset MIDI learn button" ) );
-    butLearnSoloOffset->setAccessibleName ( tr ( "Solo offset MIDI learn button" ) );
-    butLearnMuteOffset->setAccessibleName ( tr ( "Mute offset MIDI learn button" ) );
+    cbxChannel->setAccessibleName ( tr ( "MIDI channel" ) );
+    spnMuteMyself->setAccessibleName ( tr ( "Mute Myself MIDI CC" ) );
+    spnFaderOffset->setAccessibleName ( tr ( "Fader first MIDI CC" ) );
+    spnPanOffset->setAccessibleName ( tr ( "Pan first MIDI CC" ) );
+    spnSoloOffset->setAccessibleName ( tr ( "Solo first MIDI CC" ) );
+    spnMuteOffset->setAccessibleName ( tr ( "Mute first MIDI CC" ) );
+    butLearnMuteMyself->setAccessibleName ( tr ( "Learn Mute Myself" ) );
+    butLearnFaderOffset->setAccessibleName ( tr ( "Learn fader" ) );
+    butLearnPanOffset->setAccessibleName ( tr ( "Learn pan" ) );
+    butLearnSoloOffset->setAccessibleName ( tr ( "Learn solo" ) );
+    butLearnMuteOffset->setAccessibleName ( tr ( "Learn mute" ) );
 
     // init driver button
 #if defined( _WIN32 ) && !defined( WITH_JACK )
@@ -596,15 +599,15 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
                               .arg ( APP_NAME );
 
     plblAlias->setWhatsThis ( strFaderTag );
-    pedtAlias->setAccessibleName ( tr ( "Alias or name edit box" ) );
+    pedtAlias->setAccessibleName ( tr ( "Alias/Name" ) );
     plblInstrument->setWhatsThis ( strFaderTag );
-    pcbxInstrument->setAccessibleName ( tr ( "Instrument picture button" ) );
+    pcbxInstrument->setAccessibleName ( tr ( "Instrument" ) );
     plblCountry->setWhatsThis ( strFaderTag );
-    pcbxCountry->setAccessibleName ( tr ( "Country/region flag button" ) );
+    pcbxCountry->setAccessibleName ( tr ( "Country/Region" ) );
     plblCity->setWhatsThis ( strFaderTag );
-    pedtCity->setAccessibleName ( tr ( "City edit box" ) );
+    pedtCity->setAccessibleName ( tr ( "City" ) );
     plblSkill->setWhatsThis ( strFaderTag );
-    pcbxSkill->setAccessibleName ( tr ( "Skill level combo box" ) );
+    pcbxSkill->setAccessibleName ( tr ( "Skill" ) );
 
     // Instrument pictures combo box -------------------------------------------
     // add an entry for all known instruments

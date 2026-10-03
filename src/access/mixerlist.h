@@ -76,6 +76,7 @@ protected:
     };
 
     void keyPressEvent ( QKeyEvent* event ) override;
+    void focusOutEvent ( QFocusEvent* event ) override;
     bool event ( QEvent* event ) override;
 
     QListWidgetItem* ItemFor ( int iChannel ) const;

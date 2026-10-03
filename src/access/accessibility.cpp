@@ -49,6 +49,10 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QScrollArea>
+#include <QStackedWidget>
+#include <QTabBar>
+#include <QTabWidget>
+#include <QToolButton>
 #include <QTextDocumentFragment>
 #include <QTextEdit>
 #include <QTimer>
@@ -57,7 +61,7 @@
 
 namespace
 {
-QString tr ( const char* text ) { return QCoreApplication::translate ( "Access", text ); }
+
 
 /* Registered widgets: their accessible interface comes from our factory ******/
 struct SliderEntry
@@ -439,6 +443,8 @@ void plainTooltipDescription ( QWidget* widget )
     }
     QString text = QTextDocumentFragment::fromHtml ( tip ).toPlainText();
     text.replace ( QChar::LineSeparator, ' ' ).replace ( QChar::ParagraphSeparator, ' ' ).replace ( '\n', ' ' );
+    // the end of Jamulus tooltips sends to the mouse "What's This" help: nothing for the keyboard
+    text.remove ( QCoreApplication::translate ( "global", "For more information use the \"What's This\" help (help menu, right mouse button or Shift+F1)" ) );
     widget->setAccessibleDescription ( text.simplified() );
     widget->setProperty ( AUTO_DESCRIPTION, true );
 }
@@ -518,7 +524,7 @@ private:
             }
             if ( QAction* item = parentMenu->activeAction(); item && ( item == menu->menuAction() ) )
             {
-                Access::announce ( parentMenu, tr ( "%1, submenu" ).arg ( Access::cleanLabel ( item->text() ) ) );
+                Access::announce ( parentMenu, QCoreApplication::translate ( "Access", "%1, submenu" ).arg ( Access::cleanLabel ( item->text() ) ) );
             }
             break;
         }
@@ -646,7 +652,7 @@ public:
         const int  value = std::clamp ( slider->value() + ( up ? step : -step ), slider->minimum(), slider->maximum() );
         if ( value == slider->value() )
         {
-            Access::announce ( slider, up ? tr ( "Maximum" ) : tr ( "Minimum" ) );
+            Access::announce ( slider, up ? QCoreApplication::translate ( "Access", "Maximum" ) : QCoreApplication::translate ( "Access", "Minimum" ) );
             return true;
         }
         slider->setValue ( value ); // the screen reader says the new value (value change event)
@@ -735,6 +741,14 @@ void Access::labelControls ( QWidget* root )
     {
         scroll->setFocusPolicy ( Qt::NoFocus );
     }
+    // the scroll arrows of a tab bar are for the mouse (Ctrl+Tab changes the tab)
+    for ( auto* tabBar : root->findChildren<QTabBar*>() )
+    {
+        for ( auto* arrow : tabBar->findChildren<QToolButton*>() )
+        {
+            arrow->setFocusPolicy ( Qt::NoFocus );
+        }
+    }
 
     // A group box is named after its own title (Qt names a nested one after its parent's title);
     // this matters for checkable group boxes, which are Tab stops
@@ -779,6 +793,25 @@ void Access::labelControls ( QWidget* root )
         if ( auto* qlabel = qobject_cast<QLabel*> ( label ); qlabel && !qlabel->buddy() )
         {
             qlabel->setBuddy ( control );
+        }
+    }
+
+    // Still nameless, a text alone on a tab page ("About", "Translation"...): the tab's name
+    for ( auto* text : root->findChildren<QTextEdit*>() )
+    {
+        if ( !text->accessibleName().isEmpty() )
+        {
+            continue;
+        }
+        for ( QWidget* page = text->parentWidget(); page && page != root; page = page->parentWidget() )
+        {
+            auto* stack = qobject_cast<QStackedWidget*> ( page->parentWidget() );
+            auto* tabs  = stack ? qobject_cast<QTabWidget*> ( stack->parentWidget() ) : nullptr;
+            if ( tabs && tabs->indexOf ( page ) >= 0 )
+            {
+                text->setAccessibleName ( cleanLabel ( tabs->tabText ( tabs->indexOf ( page ) ) ) );
+                break;
+            }
         }
     }
 }
@@ -830,13 +863,13 @@ bool Access::announceListEdge ( QAbstractItemView* view, const QKeyEvent* event 
         {
             text = current.data ( Qt::DisplayRole ).toString();
         }
-        announce ( view, ( up ? tr ( "First" ) : tr ( "Last" ) ) + ", " + text );
+        announce ( view, ( up ? QCoreApplication::translate ( "Access", "First" ) : QCoreApplication::translate ( "Access", "Last" ) ) + ", " + text );
         return true;
     }
     return false;
 }
 
-QString Access::sliderHelp() { return tr ( "Alt+Up or Down to change the value, Alt+Shift for a small step" ); }
+QString Access::sliderHelp() { return QCoreApplication::translate ( "Access", "Alt+Up or Down to change the value, Alt+Shift for a small step" ); }
 
 void Access::installSliderKeys ( QAbstractSlider* slider, std::function<QString ( int value )> valueText )
 {
@@ -872,7 +905,9 @@ void Access::keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const
     // the screen reader text of one row, on every column; never the current row (see header)
     const auto updateRow = [tree, model, rowText, updating] ( const QModelIndex& index, const bool evenCurrent ) {
         const QModelIndex row = index.siblingAtColumn ( 0 );
-        if ( !row.isValid() || ( !evenCurrent && tree->currentIndex().isValid() && tree->currentIndex().siblingAtColumn ( 0 ) == row ) )
+        // the current row keeps its text, unless it has none yet (a row is inserted empty, then filled)
+        const bool bIsCurrent = tree->currentIndex().isValid() && tree->currentIndex().siblingAtColumn ( 0 ) == row;
+        if ( !row.isValid() || ( !evenCurrent && bIsCurrent && !row.data ( Qt::AccessibleTextRole ).toString().isEmpty() ) )
         {
             return;
         }
@@ -990,7 +1025,7 @@ void Access::goTo ( QWidget* target )
     // an empty list must not be silent
     if ( view && view->model() && ( view->model()->rowCount ( view->rootIndex() ) == 0 ) )
     {
-        announce ( view, tr ( "Empty" ) );
+        announce ( view, QCoreApplication::translate ( "Access", "Empty" ) );
     }
 }
 
@@ -998,6 +1033,6 @@ void Access::showShortcutHelp ( QWidget* parent, const QString& title, const QSt
 {
     ShortcutHelpDialog dialog ( parent, title, rows );
     // said once, before the list takes the focus (the list keeps a short, fixed name)
-    announce ( parent, tr ( "%1 items, Escape to close" ).arg ( rows.size() ) );
+    announce ( parent, QCoreApplication::translate ( "Access", "%1 items, Escape to close" ).arg ( rows.size() ) );
     dialog.exec();
 }

@@ -346,7 +346,7 @@ QString CMixerAccessList::ValueText ( CChannelFader* fader, EParam param ) const
         {
             parts << QLocale::countryToString ( info.eCountry );
         }
-        if ( fader->IsRemoteMuted() )
+        if ( fader->IsRemoteMuted() && !fader->GetIsMyOwnFader() )
         {
             parts << tr ( "Muted you" );
         }
@@ -432,6 +432,23 @@ void CMixerAccessList::SpeakCurrent ( EMode mode, const QString& prefix, bool bS
             }
         }
     }
+}
+
+void CMixerAccessList::focusOutEvent ( QFocusEvent* event )
+{
+    // coming back, the current row says everything again (no "First, " or value left over)
+    eMode = M_FULL;
+    strPrefix.clear();
+    strBase.clear();
+    if ( currentItem() )
+    {
+        UpdateItem ( currentItem() );
+        if ( CChannelFader* fader = FaderOf ( currentItem() ) )
+        {
+            strBase = RowText ( fader, M_FULL );
+        }
+    }
+    QListWidget::focusOutEvent ( event );
 }
 
 bool CMixerAccessList::event ( QEvent* event )
