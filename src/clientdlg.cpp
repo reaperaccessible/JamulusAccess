@@ -49,6 +49,8 @@
 #include "access/accessibility.h"
 #include "access/mixerlist.h"
 #include <QDialogButtonBox>
+#include <QElapsedTimer>
+#include <memory>
 #include <QLineEdit>
 #include <QVBoxLayout>
 
@@ -537,15 +539,22 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     } );
     QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_H ), this ), &QShortcut::activated, this, &CClientDlg::ShowShortcuts );
 
-    // Peak Watcher: every 30 ms, the highest input peak since the last look, said when it reaches the
-    // threshold; each value cuts the previous one
+    // Peak Watcher: measured every 30 ms (the highest input peak since the last look); at most one value
+    // every 250 ms is said, the highest of that time, when it reaches the threshold; each value cuts the
+    // previous one. Thirty announcements a second interrupted the screen reader all the time.
     QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::Key_W ), this ), &QShortcut::activated, this, &CClientDlg::ShowPeakWatcherDialog );
     QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_W ), this ), &QShortcut::activated, this, [this] {
         SetPeakWatcher ( !pSettings->bPeakWatcherEnabled, true );
     } );
     TimerPeakWatcher.setInterval ( 30 );
-    QObject::connect ( &TimerPeakWatcher, &QTimer::timeout, this, [this] {
-        const int iPeak = pClient->GetAndResetInputPeak();
+    QObject::connect ( &TimerPeakWatcher, &QTimer::timeout, this, [this, held = std::make_shared<int> ( 0 ), spoken = std::make_shared<QElapsedTimer>()] {
+        *held = std::max ( *held, pClient->GetAndResetInputPeak() );
+        if ( spoken->isValid() && spoken->elapsed() < 250 )
+        {
+            return;
+        }
+        const int iPeak = *held;
+        *held           = 0;
         if ( iPeak <= 0 || !pClient->IsRunning() )
         {
             return;
@@ -554,10 +563,11 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
         if ( dPeakDb >= pSettings->iPeakWatcherThresholdTenthDb / 10.0 )
         {
             Access::announceLatest ( this, QLocale().toString ( dPeakDb, 'f', 1 ) );
+            spoken->start();
         }
     } );
-    SetPeakWatcher ( pSettings->bPeakWatcherEnabled, false ); // as it was left
-
+    // it always starts off (only the threshold is kept): on by surprise, it talks all the time
+    pSettings->bPeakWatcherEnabled = false;
     // connection setup window
     if ( !pSettings->vecWindowPosConnect.isEmpty() && !pSettings->vecWindowPosConnect.isNull() )
     {
