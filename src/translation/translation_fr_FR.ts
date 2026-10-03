@@ -4,55 +4,60 @@
 <context>
     <name>Access</name>
     <message>
-        <location filename="../access/accessibility.cpp" line="573"/>
+        <location filename="../access/accessibility.cpp" line="605"/>
         <source>%1, submenu</source>
         <translation>%1, sous-menu</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="703"/>
+        <location filename="../access/accessibility.cpp" line="735"/>
         <source>Maximum</source>
         <translation>Maximum</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="703"/>
+        <location filename="../access/accessibility.cpp" line="735"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="939"/>
-        <location filename="../access/accessibility.cpp" line="1109"/>
+        <location filename="../access/accessibility.cpp" line="971"/>
+        <location filename="../access/accessibility.cpp" line="1143"/>
         <source>First</source>
         <translation>Premier</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="939"/>
-        <location filename="../access/accessibility.cpp" line="1117"/>
+        <location filename="../access/accessibility.cpp" line="971"/>
+        <location filename="../access/accessibility.cpp" line="1151"/>
         <source>Last</source>
         <translation>Dernier</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="945"/>
+        <location filename="../access/accessibility.cpp" line="977"/>
+        <source>Alt+Down to open the list</source>
+        <translation>Alt+Flèche bas pour ouvrir la liste</translation>
+    </message>
+    <message>
+        <location filename="../access/accessibility.cpp" line="979"/>
         <source>Alt+Up or Down to change the value, Alt+Shift for a small step</source>
         <translation>Alt+Flèche haut ou bas pour changer la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1310"/>
+        <location filename="../access/accessibility.cpp" line="1344"/>
         <source>Empty</source>
         <translation>Vide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1345"/>
+        <location filename="../access/accessibility.cpp" line="1379"/>
         <source>No help for this control</source>
         <translation>Pas d&apos;aide pour ce contrôle</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1353"/>
-        <location filename="../access/accessibility.cpp" line="1358"/>
+        <location filename="../access/accessibility.cpp" line="1387"/>
+        <location filename="../access/accessibility.cpp" line="1392"/>
         <source>Help</source>
         <translation>Aide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1373"/>
+        <location filename="../access/accessibility.cpp" line="1407"/>
         <source>%1 items, Escape to close</source>
         <translation>%1 éléments, Échap pour fermer</translation>
     </message>

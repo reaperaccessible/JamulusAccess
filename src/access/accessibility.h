@@ -94,6 +94,9 @@ void installSliderKeys ( QAbstractSlider* slider, std::function<QString ( int va
 // The slider help, as spoken
 QString sliderHelp();
 
+// How to open a drop-down list, as spoken (its plain keys are blocked application-wide)
+QString comboHelp();
+
 // A plain container for the screen reader (no name, no "dialog"): a dialog shown as a view inside
 // another window. Call before the widget is shown.
 void presentAsPane ( QWidget* widget );

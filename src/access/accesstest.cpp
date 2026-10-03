@@ -222,7 +222,12 @@ void sendKeys ( const QString& sequence, int count )
     }
     for ( int i = 0; i < count; i++ )
     {
-        QWidget* target = QApplication::activePopupWidget() ? QApplication::activePopupWidget() : QApplication::focusWidget();
+        // an open popup gets the key, through its focused child (the list of a combo box) if it has one
+        QWidget* target = QApplication::focusWidget();
+        if ( QWidget* popup = QApplication::activePopupWidget(); popup && !( target && popup->isAncestorOf ( target ) ) )
+        {
+            target = popup;
+        }
         if ( !QApplication::activePopupWidget() && QApplication::activeModalWidget() && ( !target || target->window() != QApplication::activeModalWidget() ) )
         {
             target = QApplication::activeModalWidget();

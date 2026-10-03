@@ -450,6 +450,11 @@ void plainTooltipDescription ( QWidget* widget )
     text.replace ( QChar::LineSeparator, ' ' ).replace ( QChar::ParagraphSeparator, ' ' ).replace ( '\n', ' ' );
     // the end of Jamulus tooltips sends to the mouse "What's This" help: nothing for the keyboard
     text.remove ( QCoreApplication::translate ( "global", "For more information use the \"What's This\" help (help menu, right mouse button or Shift+F1)" ) );
+    // a drop-down list says first how to open it
+    if ( auto* combo = qobject_cast<QComboBox*> ( widget ); combo && !combo->isEditable() )
+    {
+        text = Access::comboHelp() + ". " + text;
+    }
     widget->setAccessibleDescription ( text.simplified() );
     widget->setProperty ( AUTO_DESCRIPTION, true );
 }
@@ -469,9 +474,30 @@ public:
             {
                 plainTooltipDescription ( static_cast<QWidget*> ( watched ) );
             }
+            // a drop-down list says how to open it when the focus arrives (its description), unless it
+            // has one of its own
+            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && event->type() == QEvent::Polish && !combo->isEditable() &&
+                                                                     combo->accessibleDescription().isEmpty() && combo->toolTip().isEmpty() )
+            {
+                combo->setAccessibleDescription ( Access::comboHelp() );
+            }
             break;
 
         case QEvent::Show:
+            // the open list of a drop-down list bears its name ("Audio channels, list, Stereo")
+            if ( auto* view = qobject_cast<QAbstractItemView*> ( watched ) )
+            {
+                for ( QWidget* p = view->parentWidget(); p; p = p->parentWidget() )
+                {
+                    if ( auto* combo = qobject_cast<QComboBox*> ( p ) )
+                    {
+                        view->setAccessibleName ( combo->accessibleName().isEmpty() ? Access::cleanLabel ( combo->toolTip() ) : combo->accessibleName() );
+                        // it opens on the current choice, not on the one browsed before a cancel
+                        view->setCurrentIndex ( combo->model()->index ( combo->currentIndex(), combo->modelColumn(), combo->rootModelIndex() ) );
+                        break;
+                    }
+                }
+            }
             if ( auto* dialog = qobject_cast<QDialog*> ( watched ) )
             {
                 Access::labelControls ( dialog );
@@ -489,8 +515,35 @@ public:
             }
             break;
 
+        case QEvent::ShortcutOverride:
+            // Qt's drop-down list takes Enter at this stage already
+            commitComboChoice ( watched, static_cast<QKeyEvent*> ( event ) );
+            break;
+
         case QEvent::KeyPress:
         {
+            // A closed drop-down list does not change with the plain keys (Up/Down, Page, Home, End, a
+            // letter): Qt applied each one at once, a new audio device at every arrow. Alt+Down opens
+            // the list, where the arrows browse without applying, Enter confirms, Escape cancels.
+            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && combo->hasFocus() && !combo->isEditable() && !combo->view()->isVisible() )
+            {
+                const auto*                 key       = static_cast<QKeyEvent*> ( event );
+                const Qt::KeyboardModifiers modifiers = key->modifiers() & ~Qt::KeypadModifier;
+                const int                   code      = key->key();
+                const bool navigation = modifiers == Qt::NoModifier && ( code == Qt::Key_Up || code == Qt::Key_Down || code == Qt::Key_Left ||
+                                                                         code == Qt::Key_Right || code == Qt::Key_PageUp || code == Qt::Key_PageDown ||
+                                                                         code == Qt::Key_Home || code == Qt::Key_End );
+                const bool letter     = ( modifiers & ~Qt::ShiftModifier ) == Qt::NoModifier && !key->text().isEmpty() && key->text().at ( 0 ).isPrint() &&
+                                    code != Qt::Key_Space;
+                if ( navigation || letter )
+                {
+                    Access::announce ( combo, Access::comboHelp() );
+                    return true;
+                }
+            }
+
+            commitComboChoice ( watched, static_cast<QKeyEvent*> ( event ) );
+
             // Shift+F1 in a window without the Help menu (settings, connection setup...)
             if ( static_cast<QKeyEvent*> ( event )->key() == Qt::Key_F1 &&
                  ( static_cast<QKeyEvent*> ( event )->modifiers() & ~Qt::KeypadModifier ) == Qt::ShiftModifier && watched->isWidgetType() &&
@@ -537,6 +590,29 @@ public:
     }
 
 private:
+    // Enter in the open list of a drop-down list: the choice is made before the list closes, so the
+    // screen reader finds the new value when the focus comes back (Qt changed it after: "Mono", then
+    // "Stereo")
+    static void commitComboChoice ( QObject* watched, const QKeyEvent* key )
+    {
+        auto* view = qobject_cast<QAbstractItemView*> ( watched );
+        if ( !view || !( key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter ) || !view->currentIndex().isValid() )
+        {
+            return;
+        }
+        for ( QWidget* p = view->parentWidget(); p; p = p->parentWidget() )
+        {
+            if ( auto* combo = qobject_cast<QComboBox*> ( p ) )
+            {
+                if ( combo->view() == view && view->currentIndex().row() != combo->currentIndex() )
+                {
+                    combo->setCurrentIndex ( view->currentIndex().row() );
+                }
+                return;
+            }
+        }
+    }
+
     // Qt opens a popup menu with nothing selected: the screen reader says nothing. Select the first
     // item, as in Windows, after popup() has finished positioning and possibly selecting one itself.
     static void menuShown ( QMenu* menu )
@@ -941,6 +1017,8 @@ bool Access::announceListEdge ( QAbstractItemView* view, const QKeyEvent* event 
     }
     return false;
 }
+
+QString Access::comboHelp() { return QCoreApplication::translate ( "Access", "Alt+Down to open the list" ); }
 
 QString Access::sliderHelp() { return QCoreApplication::translate ( "Access", "Alt+Up or Down to change the value, Alt+Shift for a small step" ); }
 
