@@ -333,6 +333,15 @@ int CSound::GetActualBufferSize ( const int iDesiredBufferSizeMono )
     // query the usable buffer sizes
     ASIOGetBufferSize ( &HWBufferInfo.lMinSize, &HWBufferInfo.lMaxSize, &HWBufferInfo.lPreferredSize, &HWBufferInfo.lGranularity );
 
+    // JamulusAccess: use the buffer size the audio interface is set to (its "preferred" size, the one of
+    // its control panel). Asking for another one makes the driver change the whole interface, which
+    // the other programs on it go through too: the screen reader's voice breaks up, a DAW is
+    // disturbed. Jamulus adapts on its side (its conversion buffer) when its own setting differs.
+    if ( HWBufferInfo.lPreferredSize > 0 )
+    {
+        return HWBufferInfo.lPreferredSize;
+    }
+
     //### TEST: BEGIN ###//
     /*
     #include <QMessageBox>
@@ -457,8 +466,13 @@ int CSound::Init ( const int iNewPrefMonoBufferSize )
         // set internal buffer size value and calculate stereo buffer size
         iASIOBufferSizeStereo = 2 * iASIOBufferSizeMono;
 
-        // set the sample rate
-        ASIOSetSampleRate ( SYSTEM_SAMPLE_RATE_HZ );
+        // set the sample rate, only when the interface is not at it already (setting it anyway makes
+        // some drivers reinitialise the interface for every program on it)
+        ASIOSampleRate dCurrentRate = 0;
+        if ( ( ASIOGetSampleRate ( &dCurrentRate ) != ASE_OK ) || ( dCurrentRate != SYSTEM_SAMPLE_RATE_HZ ) )
+        {
+            ASIOSetSampleRate ( SYSTEM_SAMPLE_RATE_HZ );
+        }
 
         // create memory for intermediate audio buffer
         vecsMultChanAudioSndCrd.Init ( iASIOBufferSizeStereo );
