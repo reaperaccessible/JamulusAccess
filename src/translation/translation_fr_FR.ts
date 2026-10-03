@@ -4,44 +4,44 @@
 <context>
     <name>Access</name>
     <message>
-        <location filename="../access/accessibility.cpp" line="527"/>
+        <location filename="../access/accessibility.cpp" line="560"/>
         <source>%1, submenu</source>
         <translation>%1, sous-menu</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="655"/>
+        <location filename="../access/accessibility.cpp" line="690"/>
         <source>Maximum</source>
         <translation>Maximum</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="655"/>
+        <location filename="../access/accessibility.cpp" line="690"/>
         <source>Minimum</source>
         <translation>Minimum</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1036"/>
+        <location filename="../access/accessibility.cpp" line="901"/>
+        <location filename="../access/accessibility.cpp" line="1071"/>
         <source>First</source>
         <translation>Premier</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1044"/>
+        <location filename="../access/accessibility.cpp" line="901"/>
+        <location filename="../access/accessibility.cpp" line="1079"/>
         <source>Last</source>
         <translation>Dernier</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="872"/>
+        <location filename="../access/accessibility.cpp" line="907"/>
         <source>Alt+Up or Down to change the value, Alt+Shift for a small step</source>
         <translation>Alt+Flèche haut ou bas pour changer la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1225"/>
+        <location filename="../access/accessibility.cpp" line="1260"/>
         <source>Empty</source>
         <translation>Vide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1233"/>
+        <location filename="../access/accessibility.cpp" line="1268"/>
         <source>%1 items, Escape to close</source>
         <translation>%1 éléments, Échap pour fermer</translation>
     </message>
@@ -289,7 +289,7 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="255"/>
         <source>Mixer Fader</source>
-        <translation>Chariot du mixeur</translation>
+        <translation>Tranche du mixeur</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="258"/>
@@ -339,12 +339,12 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="288"/>
         <source>Fader Tag</source>
-        <translation>Étiquette de chariot</translation>
+        <translation>Étiquette de tranche</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="289"/>
         <source>The fader tag identifies the connected client. The tag name, a picture of your instrument and the flag of your location can be set in the main window.</source>
-        <translation>L&apos;étiquette de chariot identifie le client connecté. Votre nom, une image de votre instrument et le drapeau de votre emplacement peuvent être définis dans la fenêtre principale.</translation>
+        <translation>L&apos;étiquette de tranche identifie le client connecté. Votre nom, une image de votre instrument et le drapeau de votre emplacement peuvent être définis dans la fenêtre principale.</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="298"/>
@@ -359,7 +359,7 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="250"/>
         <source>Displays the pre-fader audio level of this channel.  All clients connected to the server will be assigned an audio level, the same value for every client.</source>
-        <translation>Affiche le niveau audio pré-chariot de ce canal.  Tous les clients connectés au serveur se verront attribuer un niveau audio, la même valeur pour chaque client.</translation>
+        <translation>Affiche le niveau audio avant le volume de ce canal.  Tous les clients connectés au serveur se verront attribuer un niveau audio, la même valeur pour chaque client.</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="177"/>
@@ -374,7 +374,7 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="256"/>
         <source>Adjusts the audio level of this channel. All clients connected to the server will be assigned an audio fader, displayed at each client, to adjust the local mix.</source>
-        <translation>Ajuste le niveau audio de ce canal. Tous les clients connectés au serveur se verront attribuer un chariot audio, affiché sur chaque client, pour ajuster le mixage local.</translation>
+        <translation>Ajuste le niveau audio de ce canal. Tous les clients connectés au serveur se verront attribuer une tranche audio, affiché sur chaque client, pour ajuster le mixage local.</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="264"/>
@@ -399,7 +399,7 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="283"/>
         <source>With the Grp checkbox, a group of audio channels can be defined. All channel faders in a group are moved in proportional synchronization if any one of the group faders are moved.</source>
-        <translation>Avec la case à cocher Grp, un groupe de canaux audio peut être défini. Tous les chariots de canaux d&apos;un groupe sont déplacés en synchronisation proportionnelle si l&apos;un des chariots du groupe est déplacé.</translation>
+        <translation>Avec la case à cocher Grp, un groupe de canaux audio peut être défini. Toutes les tranches d&apos;un groupe sont déplacées en synchronisation proportionnelle si l&apos;une des tranches du groupe est déplacée.</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="286"/>
@@ -414,7 +414,7 @@
     <message>
         <location filename="../audiomixerboard.cpp" line="296"/>
         <source>Mixer channel label (fader tag)</source>
-        <translation>Label de canal de mixeur (étiquette de chariot)</translation>
+        <translation>Label de canal de mixeur (étiquette de tranche)</translation>
     </message>
     <message>
         <location filename="../audiomixerboard.cpp" line="343"/>
@@ -678,7 +678,7 @@
     <message>
         <location filename="../clientdlg.cpp" line="139"/>
         <source>Reverb can be applied to one local mono audio channel or to both channels in stereo mode. The mono channel selection and the reverb level can be modified. For example, if a microphone signal is fed in to the right audio channel of the sound card and a reverb effect needs to be applied, set the channel selector to right and move the fader upwards until the desired reverb level is reached.</source>
-        <translation>La réverbération peut être appliquée à un canal audio mono local ou aux deux canaux en mode stéréo. La sélection du canal mono et le niveau de réverbération peuvent être modifiés. Par exemple, si un signal de microphone est envoyé sur le canal audio droit de la carte son et qu&apos;un effet de réverbération doit être appliqué, réglez le sélecteur de canal à droite et déplacez le chariot vers le haut jusqu&apos;à ce que le niveau de réverbération souhaité soit atteint.</translation>
+        <translation>La réverbération peut être appliquée à un canal audio mono local ou aux deux canaux en mode stéréo. La sélection du canal mono et le niveau de réverbération peuvent être modifiés. Par exemple, si un signal de microphone est envoyé sur le canal audio droit de la carte son et qu&apos;un effet de réverbération doit être appliqué, réglez le sélecteur de canal à droite et déplacez le curseur vers le haut jusqu&apos;à ce que le niveau de réverbération souhaité soit atteint.</translation>
     </message>
     <message>
         <source>Reverb effect level setting</source>
@@ -962,17 +962,17 @@
     <message>
         <location filename="../clientdlg.cpp" line="1234"/>
         <source>Ctrl+L: set all faders to the new client level</source>
-        <translation>Ctrl+L : régler tous les chariots au niveau des nouveaux clients</translation>
+        <translation>Ctrl+L : régler toutes les tranches au niveau des nouveaux clients</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1235"/>
         <source>Ctrl+F: auto-adjust all faders</source>
-        <translation>Ctrl+F : ajuster automatiquement tous les chariots</translation>
+        <translation>Ctrl+F : ajuster automatiquement toutes les tranches</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1236"/>
         <source>Ctrl+W: own fader first</source>
-        <translation>Ctrl+W : mon chariot en premier</translation>
+        <translation>Ctrl+W : ma tranche en premier</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1237"/>
@@ -1116,7 +1116,7 @@
     <message>
         <location filename="../clientdlg.cpp" line="348"/>
         <source>O&amp;wn Fader First</source>
-        <translation>&amp;Chariot personnel en premier</translation>
+        <translation>Ma &amp;tranche en premier</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="356"/>
@@ -1141,7 +1141,7 @@
     <message>
         <location filename="../clientdlg.cpp" line="332"/>
         <source>Set All Faders to New Client &amp;Level</source>
-        <translation>Régler tous &amp;les chariots sur le niveau d&apos;un nouveau client</translation>
+        <translation>Régler toutes &amp;les tranches sur le niveau d&apos;un nouveau client</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="116"/>
@@ -1191,7 +1191,7 @@
     <message>
         <location filename="../clientdlg.cpp" line="337"/>
         <source>Auto-Adjust all &amp;Faders</source>
-        <translation>Auto-ajuster tous les &amp;chariots</translation>
+        <translation>Auto-ajuster toutes les &amp;tranches</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="341"/>
@@ -1376,11 +1376,11 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     </message>
     <message>
         <source>Local jitter buffer slider control</source>
-        <translation type="vanished">Chariot de contrôle du tampon de la gigue locale</translation>
+        <translation type="vanished">Curseur du tampon de gigue locale</translation>
     </message>
     <message>
         <source>Server jitter buffer slider control</source>
-        <translation type="vanished">Chariot de contrôle du tampon de la gigue du serveur</translation>
+        <translation type="vanished">Curseur du tampon de gigue du serveur</translation>
     </message>
     <message>
         <source>Auto jitter buffer check box</source>
@@ -1541,7 +1541,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="82"/>
         <source>Local Audio Input Fader</source>
-        <translation>Chariot d&apos;entrée audio locale</translation>
+        <translation>Curseur d&apos;entrée audio locale</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="90"/>
@@ -1551,7 +1551,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     </message>
     <message>
         <source>Local audio input fader (left/right)</source>
-        <translation type="vanished">Chariot d&apos;entrée audio locale (gauche/droite)</translation>
+        <translation type="vanished">Curseur d&apos;entrée audio locale (gauche/droite)</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="108"/>
@@ -1561,12 +1561,12 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="113"/>
         <source>You can set the jitter buffer size manually for the local client and the remote server. For the local jitter buffer, dropouts in the audio stream are indicated by the light below the jitter buffer size faders. If the light turns to red, a buffer overrun/underrun has taken place and the audio stream is interrupted.</source>
-        <translation>Vous pouvez définir manuellement la taille du tampon de gigue pour le client local et le serveur distant. Pour le tampon de gigue locale, les désynchronisations dans le flux audio sont indiquées par le voyant situé sous les chariots de taille du tampon de gigue. Si le voyant devient rouge, un dépassement ou une sous-utilisation du tampon a eu lieu et le flux audio a été interrompu.</translation>
+        <translation>Vous pouvez définir manuellement la taille du tampon de gigue pour le client local et le serveur distant. Pour le tampon de gigue locale, les désynchronisations dans le flux audio sont indiquées par le voyant situé sous les curseurs de taille du tampon de gigue. Si le voyant devient rouge, un dépassement ou une sous-utilisation du tampon a eu lieu et le flux audio a été interrompu.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="122"/>
         <source>If the Auto setting is enabled, the jitter buffers of the local client and the remote server are set automatically based on measurements of the network and sound card timing jitter. If Auto is enabled, the jitter buffer size faders are disabled (they cannot be moved with the mouse).</source>
-        <translation>Si le paramètre Auto est activé, les tampons de gigue du client local et du serveur distant sont automatiquement réglés en fonction des mesures de la gigue de synchronisation du réseau et de la carte son. Si Auto est activé, les chariots de la taille de tampon de gigue sont désactivés (ils ne peuvent pas être déplacés avec la souris).</translation>
+        <translation>Si le paramètre Auto est activé, les tampons de gigue du client local et du serveur distant sont automatiquement réglés en fonction des mesures de la gigue de synchronisation du réseau et de la carte son. Si Auto est activé, les curseurs de la taille de tampon de gigue sont désactivés (ils ne peuvent pas être déplacés avec la souris).</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="128"/>
@@ -1651,7 +1651,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="362"/>
         <source>This setting defines the fader level of a newly connected client in percent. If a new client connects to the current server, they will get the specified initial fader level if no other fader level from a previous connection of that client was already stored.</source>
-        <translation>Ce paramètre définit le niveau du chariot d&apos;un client nouvellement connecté en pourcentage. Si un nouveau client se connecte au serveur actuel, il obtiendra le niveau de chariot initial spécifié si aucun autre niveau de chariot provenant d&apos;une connexion précédente de ce client n&apos;a déjà été enregistré.</translation>
+        <translation>Ce paramètre définit le niveau de la tranche d&apos;un client nouvellement connecté en pourcentage. Si un nouveau client se connecte au serveur actuel, il obtiendra le niveau de tranche initial spécifié si aucun autre niveau de tranche provenant d&apos;une connexion précédente de ce client n&apos;a déjà été enregistré.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="373"/>
@@ -1680,7 +1680,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="83"/>
         <source>Controls the relative levels of the left and right local audio channels. For a mono signal it acts as a pan between the two channels. For example, if a microphone is connected to the right input channel and an instrument is connected to the left input channel which is much louder than the microphone, move the audio fader in a direction where the label above the fader shows %1, where %2 is the current attenuation indicator.</source>
-        <translation>Contrôle les niveaux relatifs des canaux audio locaux gauche et droit. Pour un signal mono, il agit comme un panoramique entre les deux canaux. Par exemple, si un microphone est connecté au canal d&apos;entrée droit et qu&apos;un instrument est connecté au canal d&apos;entrée gauche et est beaucoup plus fort que le microphone, déplacez le chariot audio dans une direction où l&apos;étiquette au-dessus du chariot indique %1, où %2 est l&apos;indicateur d&apos;atténuation actuel.</translation>
+        <translation>Contrôle les niveaux relatifs des canaux audio locaux gauche et droit. Pour un signal mono, il agit comme un panoramique entre les deux canaux. Par exemple, si un microphone est connecté au canal d&apos;entrée droit et qu&apos;un instrument est connecté au canal d&apos;entrée gauche et est beaucoup plus fort que le microphone, déplacez le curseur audio dans une direction où l&apos;étiquette au-dessus du curseur indique %1, où %2 est l&apos;indicateur d&apos;atténuation actuel.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="96"/>
@@ -1894,7 +1894,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="432"/>
         <source>When enabled, MIDI fader and pan controls will wait until the physical controller position matches the current software value before responding. This prevents sudden jumps when your physical controller is out of sync with the software.</source>
-        <translation>Quand cette option est activée, les contrôles MIDI de chariot et de panoramique attendront pour réagir que la position du contrôleur physique rejoigne celle du logiciel. Ceci empêche les changements brusques qui se produiraient quand les contrôleurs physiques ne sont pas synchronisés avec le logiciel.</translation>
+        <translation>Quand cette option est activée, les contrôles MIDI de volume et de panoramique attendront pour réagir que la position du contrôleur physique rejoigne celle du logiciel. Ceci empêche les changements brusques qui se produiraient quand les contrôleurs physiques ne sont pas synchronisés avec le logiciel.</translation>
     </message>
     <message>
         <source>Pick-up Mode check box</source>
@@ -1927,12 +1927,12 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="451"/>
         <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>Il y a un paramètre canal MIDI global (0-16) et deux paramètres pour chaque élément contrôlé&#xa0;: le premier MIDI CC et les CC consécutifs (décompte). Réglez d&apos;abord le canal que vous voulez que Jamulus écoute (0 pour tous les canaux). Puis, pour chaque élément que vous désirez contrôler (chariot de volume, panoramique, solo, sourdine), indiquez le premier CC MIDI (numéro CC de début) et le nombre de CC consécutifs (décompte). Il y a une exception qui ne nécessite pas de définir des numéros CC consécutifs&#xa0;: il s&apos;agit du paramètre &quot;Me mettre en sourdine&quot; qui ne nécessite qu&apos;un seul numéro CC, car il s&apos;applique uniquement à son propre flux audio.</translation>
+        <translation>Il y a un paramètre canal MIDI global (0-16) et deux paramètres pour chaque élément contrôlé&#xa0;: le premier MIDI CC et les CC consécutifs (décompte). Réglez d&apos;abord le canal que vous voulez que Jamulus écoute (0 pour tous les canaux). Puis, pour chaque élément que vous désirez contrôler (volume des tranches, panoramique, solo, sourdine), indiquez le premier CC MIDI (numéro CC de début) et le nombre de CC consécutifs (décompte). Il y a une exception qui ne nécessite pas de définir des numéros CC consécutifs&#xa0;: il s&apos;agit du paramètre &quot;Me mettre en sourdine&quot; qui ne nécessite qu&apos;un seul numéro CC, car il s&apos;applique uniquement à son propre flux audio.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="460"/>
         <source>You can either type in the MIDI CC values or use the &quot;Learn&quot; button: click on &quot;Learn&quot;, actuate the fader/knob/button on your MIDI controller, and the MIDI CC number will be detected and saved.</source>
-        <translation>Vous pouvez au choix saisir les valeurs CC MIDI ou utiliser le bouton &quot;Apprendre&quot;&#xa0;: cliquer sur &quot;Apprendre&quot;, actionnez le chariot/potard/bouton sur le contrôleur MIDI, et le numéro de CC MIDI sera détecté et sauvegardé.</translation>
+        <translation>Vous pouvez au choix saisir les valeurs CC MIDI ou utiliser le bouton &quot;Apprendre&quot;&#xa0;: cliquer sur &quot;Apprendre&quot;, actionnez le curseur/potard/bouton sur le contrôleur MIDI, et le numéro de CC MIDI sera détecté et sauvegardé.</translation>
     </message>
     <message>
         <source>MIDI channel combo box</source>
@@ -1944,7 +1944,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     </message>
     <message>
         <source>Fader offset spin box</source>
-        <translation type="vanished">Boîte de sélection du décalage du chariot</translation>
+        <translation type="vanished">Boîte de sélection du décalage des tranches</translation>
     </message>
     <message>
         <source>Pan offset spin box</source>
@@ -1964,7 +1964,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     </message>
     <message>
         <source>Fader offset MIDI learn button</source>
-        <translation type="vanished">Bouton d&apos;apprentissage MIDI de décalage du chariot</translation>
+        <translation type="vanished">Bouton d&apos;apprentissage MIDI de décalage des tranches</translation>
     </message>
     <message>
         <source>Pan offset MIDI learn button</source>
@@ -2055,7 +2055,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="595"/>
         <source>What you set here will appear at your fader on the mixer board when you are connected to a %1 server. This tag will also be shown at each client which is connected to the same server as you.</source>
-        <translation>Ce que vous définissez ici apparaîtra sur votre chariot sur la table de mixage lorsque vous serez connecté à un serveur %1. Cette information sera également affichée sur chaque client connecté au même serveur que vous.</translation>
+        <translation>Ce que vous définissez ici apparaîtra sur votre tranche sur la table de mixage lorsque vous serez connecté à un serveur %1. Cette information sera également affichée sur chaque client connecté au même serveur que vous.</translation>
     </message>
     <message>
         <source>Country/region flag button</source>
@@ -2146,7 +2146,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="473"/>
         <source>Fader first MIDI CC</source>
-        <translation>Premier CC MIDI des chariots</translation>
+        <translation>Premier CC MIDI des tranches</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="474"/>
@@ -2171,7 +2171,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlg.cpp" line="478"/>
         <source>Learn fader</source>
-        <translation>Apprendre les chariots</translation>
+        <translation>Apprendre les tranches</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="479"/>
@@ -2917,7 +2917,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
     <message>
         <location filename="../clientsettingsdlgbase.ui" line="1679"/>
         <source>Fader</source>
-        <translation>Chariot</translation>
+        <translation>Tranches</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlgbase.ui" line="1702"/>
@@ -3130,22 +3130,22 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation>Adresse %1</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="228"/>
+        <location filename="../connectdlg.cpp" line="245"/>
         <source>Delete server address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="650"/>
+        <location filename="../connectdlg.cpp" line="667"/>
         <source>Beginner</source>
         <translation>Débutant</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="653"/>
+        <location filename="../connectdlg.cpp" line="670"/>
         <source>Intermediate</source>
         <translation>Intermédiaire</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="656"/>
+        <location filename="../connectdlg.cpp" line="673"/>
         <source>Expert</source>
         <translation>Expert</translation>
     </message>
@@ -3154,22 +3154,22 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Vue de la liste de serveurs</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="215"/>
+        <location filename="../connectdlg.cpp" line="232"/>
         <source>Server Address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="216"/>
+        <location filename="../connectdlg.cpp" line="233"/>
         <source>If you know the server address, you can connect to it using the Server name/Address field. An optional port number can be added after the server address using a colon as a separator, e.g. %1. The field will also show a list of the most recently used server addresses.</source>
         <translation>Si vous connaissez l&apos;adresse du serveur, vous pouvez vous y connecter à l&apos;aide du champ nom/adresse du serveur. Un numéro de port facultatif peut être ajouté après l&apos;adresse du serveur en utilisant les deux points comme séparateur, par exemple %1. Le champ affichera également une liste des adresses de serveurs les plus récemment utilisées.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="225"/>
+        <location filename="../connectdlg.cpp" line="242"/>
         <source>Server address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="226"/>
+        <location filename="../connectdlg.cpp" line="243"/>
         <source>Holds the current server address. It also stores old addresses in the combo box list.</source>
         <translation>Contient l&apos;adresse du serveur actuel. Il stocke également les anciennes adresses dans la liste déroulante.</translation>
     </message>
@@ -3178,12 +3178,12 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Bouton de suppression de l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="229"/>
+        <location filename="../connectdlg.cpp" line="246"/>
         <source>Delete Server Address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="230"/>
+        <location filename="../connectdlg.cpp" line="247"/>
         <source>Click the button to clear the currently selected server address and delete it from the list of stored servers.</source>
         <translation>Cliquez sur le bouton pour effacer l&apos;adresse du serveur actuellement sélectionné et la supprimer de la liste des serveurs enregistrés.</translation>
     </message>
@@ -3215,7 +3215,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Case-à-cocher pour afficher tous les musiciens</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="293"/>
+        <location filename="../connectdlg.cpp" line="310"/>
         <source>Filter text, or # for occupied servers</source>
         <translation>Texte du filtre, ou # pour les serveurs occupés</translation>
     </message>
