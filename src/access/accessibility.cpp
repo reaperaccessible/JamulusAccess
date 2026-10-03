@@ -490,11 +490,29 @@ public:
             // buttons, "Connect" among them, so that Enter elsewhere would not press them)
             auto*       button = qobject_cast<QPushButton*> ( watched );
             const auto* key    = static_cast<QKeyEvent*> ( event );
-            if ( button && button->hasFocus() && !button->autoDefault() && !button->isDefault() &&
-                 ( key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter ) && ( key->modifiers() & ~Qt::KeypadModifier ) == Qt::NoModifier )
+            const bool  enter  = ( key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter ) &&
+                               ( key->modifiers() & ~Qt::KeypadModifier ) == Qt::NoModifier;
+            if ( enter && button && button->hasFocus() && !button->autoDefault() && !button->isDefault() )
             {
                 button->animateClick();
                 return true;
+            }
+
+            // Enter switches a check box too, as Space does (Jamulus's Chat and Settings boxes open
+            // things like buttons), unless the window has a default button that Enter presses
+            auto* box = qobject_cast<QCheckBox*> ( watched );
+            if ( enter && box && box->hasFocus() && box->isEnabled() )
+            {
+                bool bHasDefault = false;
+                for ( auto* pb : box->window()->findChildren<QPushButton*>() )
+                {
+                    bHasDefault = bHasDefault || ( pb->isDefault() && pb->isVisible() );
+                }
+                if ( !bHasDefault )
+                {
+                    box->click();
+                    return true;
+                }
             }
             break;
         }
@@ -584,10 +602,12 @@ public:
             return QObject::eventFilter ( watched, event );
         }
 
-        // AltGr+digit typing a character ("@", "#"...) in a text field: leave the character alone
+        // a digit or AltGr+digit typing a character ("&", "@"...) in a text field: leave the character
+        // alone (Ctrl+digit types nothing: it stays a shortcut there too)
         const bool textField = qobject_cast<QLineEdit*> ( focus ) || qobject_cast<QTextEdit*> ( focus ) ||
                                qobject_cast<QPlainTextEdit*> ( focus ) || qobject_cast<QAbstractSpinBox*> ( focus );
-        if ( textField && !key->text().isEmpty() && key->text().at ( 0 ).isPrint() )
+        const bool typesText = ( modifiers == Qt::NoModifier ) || ( modifiers & Qt::AltModifier );
+        if ( textField && typesText && !key->text().isEmpty() && key->text().at ( 0 ).isPrint() )
         {
             return QObject::eventFilter ( watched, event );
         }
