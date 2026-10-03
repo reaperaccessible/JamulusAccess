@@ -34,6 +34,8 @@ class QKeyEvent;
 class QModelIndex;
 class QObject;
 class QTreeWidget;
+class QTreeWidgetItem;
+class QVariant;
 class QWidget;
 
 // Screen reader helpers shared by the accessibility work (JamulusAccess)
@@ -98,6 +100,14 @@ void ignoreValue ( QWidget* widget );
 // Musicians 3/10..."), built by `rowText`. The text of the current row is only refreshed when the
 // focus leaves it, so values changing every second (ping) are not spoken again and again.
 void keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const QModelIndex& row )> rowText );
+
+// Reading a tree row cell by cell. `cells` gives the informations of a row, each as "Header value"
+// ("Ping Time 25 ms"). Left/Right go from one to the next ("First," / "Last," at the ends), Home is the
+// whole row again, End the last information; Up/Down keep the information chosen, so the next row says
+// the same column. The row items must answer Qt::AccessibleTextRole with cellReadingText(): the text is
+// computed when the screen reader asks, so values changing every second are never spoken by themselves.
+void     installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells );
+QVariant cellReadingText ( const QTreeWidgetItem* item );
 
 // Help list of the family (Ctrl+Shift+H): a dialog with a list of "Shortcut: action" rows
 void showShortcutHelp ( QWidget* parent, const QString& title, const QStringList& rows );

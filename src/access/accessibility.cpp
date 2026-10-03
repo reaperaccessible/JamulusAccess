@@ -968,6 +968,146 @@ void Access::keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const
     updateAll();
 }
 
+namespace
+{
+struct CellReading
+{
+    std::function<QStringList ( const QTreeWidgetItem* )> cells;
+    int                                                   column = -1; // -1: the whole row
+    int                                                   depth  = 0;  // kind of row the column belongs to (server 0, musician 1...)
+};
+
+int depthOf ( const QTreeWidgetItem* item )
+{
+    int depth = 0;
+    for ( const QTreeWidgetItem* p = item->parent(); p; p = p->parent() )
+    {
+        ++depth;
+    }
+    return depth;
+}
+
+QHash<const QTreeWidget*, CellReading>& cellReadings()
+{
+    static QHash<const QTreeWidget*, CellReading> registry;
+    return registry;
+}
+
+// the current row took another text: say it (Qt does not), for speech and braille alike
+void notifyCurrentRowName ( QTreeWidget* tree )
+{
+    const QModelIndex current = tree->currentIndex();
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface ( tree );
+    if ( !current.isValid() || !iface || !iface->tableInterface() || !QAccessible::isActive() )
+    {
+        return;
+    }
+    // the accessible table counts the rows shown on screen: a musician under a server is not at its model row
+    int visualRow = 0;
+    for ( QModelIndex above = tree->indexAbove ( current ); above.isValid(); above = tree->indexAbove ( above ) )
+    {
+        ++visualRow;
+    }
+    if ( QAccessibleInterface* cell = iface->tableInterface()->cellAt ( visualRow, 0 ) )
+    {
+        QAccessibleEvent event ( tree, QAccessible::NameChanged );
+        event.setChild ( iface->indexOfChild ( cell ) );
+        QAccessible::updateAccessibility ( &event );
+    }
+}
+
+class CellReadingFilter final : public QObject
+{
+public:
+    using QObject::QObject;
+
+    bool eventFilter ( QObject* watched, QEvent* event ) override
+    {
+        if ( event->type() != QEvent::KeyPress )
+        {
+            return QObject::eventFilter ( watched, event );
+        }
+        auto*      tree = static_cast<QTreeWidget*> ( watched );
+        const auto* key = static_cast<QKeyEvent*> ( event );
+        const int  code = key->key();
+        auto       it   = cellReadings().find ( tree );
+        if ( it == cellReadings().end() || ( key->modifiers() & ~Qt::KeypadModifier ) != Qt::NoModifier ||
+             !( code == Qt::Key_Left || code == Qt::Key_Right || code == Qt::Key_Home || code == Qt::Key_End ) )
+        {
+            return QObject::eventFilter ( watched, event );
+        }
+
+        QTreeWidgetItem* item = tree->currentItem();
+        if ( !item )
+        {
+            return true;
+        }
+        const QStringList cells  = it->cells ( item );
+        const int         count  = static_cast<int> ( cells.size() );
+        // another kind of row (a musician under a server) has other columns: start from its whole row
+        int column = ( depthOf ( item ) == it->depth ) ? std::min ( it->column, count - 1 ) : -1;
+        it->depth  = depthOf ( item );
+
+        switch ( code )
+        {
+        case Qt::Key_Home:
+            column = -1;
+            break;
+        case Qt::Key_End:
+            column = count - 1;
+            break;
+        case Qt::Key_Left:
+            if ( column < 0 )
+            {
+                // never a silent edge
+                Access::announce ( tree, QCoreApplication::translate ( "Access", "First" ) + ", " + cells.join ( ", " ) );
+                return true;
+            }
+            --column;
+            break;
+        default: // Right
+            if ( column + 1 >= count )
+            {
+                Access::announce ( tree, QCoreApplication::translate ( "Access", "Last" ) + ", " + ( count > 0 ? cells.last() : QString() ) );
+                return true;
+            }
+            ++column;
+            break;
+        }
+        it->column = column;
+        notifyCurrentRowName ( tree );
+        return true;
+    }
+};
+} // namespace
+
+void Access::installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells )
+{
+    cellReadings().insert ( tree, { std::move ( cells ), -1 } );
+    QObject::connect ( tree, &QObject::destroyed, qApp, [tree] { cellReadings().remove ( tree ); } );
+    tree->installEventFilter ( new CellReadingFilter ( tree ) );
+}
+
+QVariant Access::cellReadingText ( const QTreeWidgetItem* item )
+{
+    const QTreeWidget* tree = item ? item->treeWidget() : nullptr;
+    const auto         it   = cellReadings().constFind ( tree );
+    if ( it == cellReadings().cend() )
+    {
+        return {};
+    }
+    const QStringList cells = it->cells ( item );
+    if ( cells.isEmpty() )
+    {
+        return {};
+    }
+    if ( it->column >= 0 && item == tree->currentItem() && depthOf ( item ) == it->depth )
+    {
+        return cells[std::min ( it->column, static_cast<int> ( cells.size() ) - 1 )];
+    }
+    return cells.join ( ", " );
+}
+
 void Access::focusAndSpeak ( QWidget* widget )
 {
     if ( !widget )

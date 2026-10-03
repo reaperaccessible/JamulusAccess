@@ -57,6 +57,20 @@
 // Subclass of QTreeWidgetItem that allows LVC_VERSION to sort by the UserRole data value
 CMappedTreeWidgetItem::CMappedTreeWidgetItem ( QTreeWidget* owner ) : QTreeWidgetItem ( owner ), owner ( owner ) {}
 
+CMappedTreeWidgetItem::CMappedTreeWidgetItem ( QTreeWidgetItem* parent ) : QTreeWidgetItem ( parent ), owner ( nullptr ) {}
+
+QVariant CMappedTreeWidgetItem::data ( int column, int role ) const
+{
+    if ( role == Qt::AccessibleTextRole )
+    {
+        if ( const QVariant text = Access::cellReadingText ( this ); text.isValid() )
+        {
+            return text;
+        }
+    }
+    return QTreeWidgetItem::data ( column, role );
+}
+
 bool CMappedTreeWidgetItem::operator<( const QTreeWidgetItem& other ) const
 {
     if ( !owner )
@@ -135,25 +149,32 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
 
     lvwServers->setAccessibleName ( tr ( "Servers" ) );
 
-    // what the screen reader says for a row: the whole row ("Name, Ping Time 25 ms, Musicians 3/10,
-    // Location, Version"), or the musician and the country; First/Last at the ends
-    Access::keepTreeRowTexts ( lvwServers, [this] ( const QModelIndex& row ) {
-        if ( row.parent().isValid() )
+    // What the screen reader says for a row: every information, from the whole row to one at a time.
+    // Left/Right go from one information to the next, Up/Down keep it from row to row (the same
+    // column), Home is the whole row again; First/Last at the ends. Every row of a kind has the same
+    // informations in the same order, so a column means the same thing on every row.
+    Access::installCellReading ( lvwServers, [this] ( const QTreeWidgetItem* item ) {
+        const auto value = [] ( const QString& text, const QString& missing ) { return text.simplified().isEmpty() ? missing : text.simplified(); };
+        QStringList cells;
+        if ( item->parent() )
         {
-            QString text = row.data().toString();
-            const QString country = row.data ( Qt::UserRole ).toString();
-            return country.isEmpty() ? text : text + ", " + country;
+            // a musician on the server
+            cells << value ( item->data ( LVC_NAME, Qt::UserRole + 1 ).toString(), tr ( "No name" ) );
+            cells << tr ( "Instrument" ) + " " + value ( item->data ( LVC_NAME, Qt::UserRole + 2 ).toString(), tr ( "not set" ) );
+            cells << tr ( "City" ) + " " + value ( item->data ( LVC_NAME, Qt::UserRole + 3 ).toString(), tr ( "not set" ) );
+            cells << tr ( "Country" ) + " " + value ( item->data ( LVC_NAME, Qt::UserRole ).toString(), tr ( "not set" ) );
+            cells << tr ( "Skill" ) + " " + value ( item->data ( LVC_NAME, Qt::UserRole + 4 ).toString(), tr ( "not set" ) );
+            return cells;
         }
-        QStringList parts { row.data().toString().simplified() };
-        for ( int column = LVC_PING; column <= LVC_VERSION; column++ )
-        {
-            const QString value = row.siblingAtColumn ( column ).data().toString().simplified();
-            if ( !value.isEmpty() )
-            {
-                parts << lvwServers->headerItem()->text ( column ) + " " + value;
-            }
-        }
-        return parts.join ( ", " );
+        // a server
+        cells << value ( item->text ( LVC_NAME ), tr ( "No name" ) );
+        cells << lvwServers->headerItem()->text ( LVC_PING ) + " " + value ( item->text ( LVC_PING ), tr ( "no answer" ) );
+        cells << lvwServers->headerItem()->text ( LVC_CLIENTS ) + " " + value ( item->text ( LVC_CLIENTS ), tr ( "unknown" ) );
+        cells << lvwServers->headerItem()->text ( LVC_LOCATION ) + " " + value ( item->text ( LVC_LOCATION ), tr ( "unknown" ) );
+        cells << lvwServers->headerItem()->text ( LVC_VERSION ) + " " + value ( item->text ( LVC_VERSION ), tr ( "unknown" ) );
+        cells << ( item->data ( LVC_NAME, Qt::UserRole + 5 ).toBool() ? tr ( "Permanent server" ) : tr ( "Not a permanent server" ) );
+        cells << tr ( "Address %1" ).arg ( item->data ( LVC_NAME, Qt::UserRole ).toString() );
+        return cells;
     } );
     Access::installListEdges ( lvwServers );
 
@@ -509,6 +530,7 @@ void CConnectDlg::SetServerList ( const CHostAddress& InetAddr, const CVector<CS
         // show server name in bold font if it is a permanent server
         QFont CurServerNameFont = pNewListViewItem->font ( LVC_NAME );
         CurServerNameFont.setBold ( vecServerInfo[iIdx].bPermanentOnline );
+        pNewListViewItem->setData ( LVC_NAME, Qt::UserRole + 5, vecServerInfo[iIdx].bPermanentOnline ); // the bold, for screen readers
         pNewListViewItem->setFont ( LVC_NAME, CurServerNameFont );
 
         // the ping time shall be shown in bold font
@@ -592,10 +614,32 @@ void CConnectDlg::SetConnClientsList ( const CHostAddress& InetAddr, const CVect
         for ( int i = 0; i < iNumConnectedClients; i++ )
         {
             // create new list view item
-            QTreeWidgetItem* pNewChildListViewItem = new QTreeWidgetItem ( static_cast<QTreeWidgetItem*> ( pCurListViewItem ) );
+            QTreeWidgetItem* pNewChildListViewItem = new CMappedTreeWidgetItem ( static_cast<QTreeWidgetItem*> ( pCurListViewItem ) );
 
             // child items shall use only one column
             pNewChildListViewItem->setFirstColumnSpanned ( true );
+
+            // every information of the musician, for screen readers (Left/Right in the list)
+            pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 1, vecChanInfo[i].strName );
+            if ( !CInstPictures::IsNotUsedInstrument ( vecChanInfo[i].iInstrument ) )
+            {
+                pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 2, CInstPictures::GetName ( vecChanInfo[i].iInstrument ) );
+            }
+            pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 3, vecChanInfo[i].strCity );
+            switch ( vecChanInfo[i].eSkillLevel )
+            {
+            case SL_BEGINNER:
+                pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 4, tr ( "Beginner" ) );
+                break;
+            case SL_INTERMEDIATE:
+                pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 4, tr ( "Intermediate" ) );
+                break;
+            case SL_PROFESSIONAL:
+                pNewChildListViewItem->setData ( LVC_NAME, Qt::UserRole + 4, tr ( "Expert" ) );
+                break;
+            default:
+                break;
+            }
 
             // set the clients name
             QString sClientText = vecChanInfo[i].strName;

@@ -72,8 +72,12 @@ class CMappedTreeWidgetItem : public QTreeWidgetItem
 {
 public:
     explicit CMappedTreeWidgetItem ( QTreeWidget* owner = nullptr );
+    explicit CMappedTreeWidgetItem ( QTreeWidgetItem* parent ); // a musician under its server
 
     bool operator<( const QTreeWidgetItem& other ) const override;
+
+    // what the screen reader says: the whole row, or the information chosen with Left/Right
+    QVariant data ( int column, int role ) const override;
 
 private:
     QTreeWidget* owner = nullptr;

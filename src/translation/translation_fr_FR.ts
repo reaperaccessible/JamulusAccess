@@ -20,11 +20,13 @@
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
+        <location filename="../access/accessibility.cpp" line="1063"/>
         <source>First</source>
         <translation>Premier</translation>
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
+        <location filename="../access/accessibility.cpp" line="1071"/>
         <source>Last</source>
         <translation>Dernier</translation>
     </message>
@@ -34,12 +36,12 @@
         <translation>Alt+Flèche haut ou bas pour changer la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1028"/>
+        <location filename="../access/accessibility.cpp" line="1168"/>
         <source>Empty</source>
         <translation>Vide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1036"/>
+        <location filename="../access/accessibility.cpp" line="1176"/>
         <source>%1 items, Escape to close</source>
         <translation>%1 éléments, Échap pour fermer</translation>
     </message>
@@ -762,7 +764,7 @@
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="268"/>
-        <location filename="../clientdlg.cpp" line="1433"/>
+        <location filename="../clientdlg.cpp" line="1434"/>
         <source>C&amp;onnect</source>
         <translation>Se c&amp;onnecter</translation>
     </message>
@@ -978,41 +980,46 @@
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1200"/>
+        <source>In the server list (Ctrl+C): Left and Right read the informations one by one, Up and Down keep the same one, Home the whole row, End the last one, Enter connects</source>
+        <translation>Dans la liste des serveurs (Ctrl+C) : Flèche gauche et droite lisent les informations une à une, Flèche haut et bas gardent la même, Début la ligne entière, Fin la dernière, Entrée se connecte</translation>
+    </message>
+    <message>
+        <location filename="../clientdlg.cpp" line="1201"/>
         <source>Sliders: Alt+Up and Alt+Down change the value, Alt+Shift for a small step</source>
         <translation>Curseurs : Alt+Flèche haut et bas changent la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1201"/>
+        <location filename="../clientdlg.cpp" line="1202"/>
         <source>Keyboard shortcuts</source>
         <translation>Raccourcis clavier</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1364"/>
+        <location filename="../clientdlg.cpp" line="1365"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1417"/>
+        <location filename="../clientdlg.cpp" line="1418"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1424"/>
+        <location filename="../clientdlg.cpp" line="1425"/>
         <source>Disconnected</source>
         <translation>Déconnecté</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1613"/>
+        <location filename="../clientdlg.cpp" line="1614"/>
         <source>This server is recording</source>
         <translation>Ce serveur enregistre</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1613"/>
+        <location filename="../clientdlg.cpp" line="1614"/>
         <source>Recording started</source>
         <translation>Enregistrement démarré</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1617"/>
+        <location filename="../clientdlg.cpp" line="1618"/>
         <source>Recording stopped</source>
         <translation>Enregistrement arrêté</translation>
     </message>
@@ -1222,12 +1229,12 @@
         <translation type="vanished">Tchate</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1261"/>
+        <location filename="../clientdlg.cpp" line="1262"/>
         <source>Enable feedback detection</source>
         <translation>Activer la détection de larsen</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1264"/>
+        <location filename="../clientdlg.cpp" line="1265"/>
         <source>Audio feedback or loud signal detected.
 
 We muted your channel and activated &apos;Mute Myself&apos;. Please solve the feedback issue first and unmute yourself afterwards.</source>
@@ -1236,12 +1243,12 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
 Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apos;abord résoudre le problème de larsen et rétablir votre son après.</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1349"/>
+        <location filename="../clientdlg.cpp" line="1350"/>
         <source>Your sound card is not working correctly. Please open the settings dialog and check the device selection and the driver settings.</source>
         <translation>Votre carte son ne fonctionne pas correctement. Veuillez ouvrir la fenêtre paramètres et vérifier la sélection du périphérique et les paramètres du pilote.</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1398"/>
+        <location filename="../clientdlg.cpp" line="1399"/>
         <source>&amp;Disconnect</source>
         <translation>&amp;Déconnecter</translation>
     </message>
@@ -2977,13 +2984,13 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
 <context>
     <name>CConnectDlg</name>
     <message>
-        <location filename="../connectdlg.cpp" line="98"/>
-        <location filename="../connectdlg.cpp" line="101"/>
+        <location filename="../connectdlg.cpp" line="112"/>
+        <location filename="../connectdlg.cpp" line="115"/>
         <source>Directory</source>
         <translation>Annuaire</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="99"/>
+        <location filename="../connectdlg.cpp" line="113"/>
         <source>Shows the servers listed by the selected directory. You can add custom directories in Advanced Settings.</source>
         <translation>Affiche les serveurs répertoriés par l&apos;annuaire sélectionné. Vous pouvez ajouter des annuaires personnalisés dans les paramètres avancés.</translation>
     </message>
@@ -2992,66 +2999,142 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Choix déroulant de l&apos;annuaire</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="110"/>
+        <location filename="../connectdlg.cpp" line="124"/>
         <source>Filters the server list by the given text. Note that the filter is case insensitive. A single # character will filter for those servers with at least one person connected.</source>
         <translation>Filtre la liste des serveurs en fonction du texte donné. Notez que le filtre n&apos;est pas sensible à la casse. Un simple caractère # filtrera les serveurs avec au moins une personne connectée.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="121"/>
+        <location filename="../connectdlg.cpp" line="135"/>
         <source>Uncheck to collapse the server list to show just the server details. Check to show everyone on the servers.</source>
         <translation>Décochez cette case pour réduire la liste des serveurs et n&apos;afficher que les détails du serveur. Cochez cette case pour afficher chaque personne sur les serveurs.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="127"/>
+        <location filename="../connectdlg.cpp" line="141"/>
         <source>Server List</source>
         <translation>Liste de serveurs</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="128"/>
+        <location filename="../connectdlg.cpp" line="142"/>
         <source>The Connection Setup window lists the available servers registered with the selected directory. Use the Directory dropdown to change the directory, find the server you want to join in the server list, click on it, and then click the Connect button to connect. Alternatively, double click on the server name to connect.</source>
         <translation>La fenêtre de configuration de la connexion répertorie les serveurs disponibles enregistrés dans l&apos;annuaire sélectionné. Utilisez la liste déroulante Annuaires pour changer d&apos;annuaire, trouvez le serveur que vous voulez rejoindre dans la liste, cliquez dessus, puis cliquez sur le bouton &quot;se connecter&quot; pour vous connecter. Vous pouvez également double-cliquer sur le nom du serveur pour vous connecter.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="133"/>
+        <location filename="../connectdlg.cpp" line="147"/>
         <source>Permanent servers (those that have been listed for longer than 48 hours) are shown in bold.</source>
         <translation>Les serveurs permanents (ceux qui sont répertoriés depuis plus de 48 heures) sont indiqués en gras.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="134"/>
+        <location filename="../connectdlg.cpp" line="148"/>
         <source>You can add custom directories in Advanced Settings.</source>
         <translation>Vous pouvez ajouter des annuaires personnalisés dans paramètres avancés.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="136"/>
+        <location filename="../connectdlg.cpp" line="150"/>
         <source>Servers</source>
         <translation>Serveurs</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="189"/>
+        <location filename="../connectdlg.cpp" line="162"/>
+        <location filename="../connectdlg.cpp" line="170"/>
+        <source>No name</source>
+        <translation>Sans nom</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="163"/>
+        <source>Instrument</source>
+        <translation>Instrument</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="163"/>
+        <location filename="../connectdlg.cpp" line="164"/>
+        <location filename="../connectdlg.cpp" line="165"/>
+        <location filename="../connectdlg.cpp" line="166"/>
+        <source>not set</source>
+        <translation>non indiqué</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="164"/>
+        <source>City</source>
+        <translation>Ville</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="165"/>
+        <source>Country</source>
+        <translation>Pays</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="166"/>
+        <source>Skill</source>
+        <translation>Niveau</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="171"/>
+        <source>no answer</source>
+        <translation>pas de réponse</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="172"/>
+        <location filename="../connectdlg.cpp" line="173"/>
+        <location filename="../connectdlg.cpp" line="174"/>
+        <source>unknown</source>
+        <translation>inconnu</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="175"/>
+        <source>Permanent server</source>
+        <translation>Serveur permanent</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="175"/>
+        <source>Not a permanent server</source>
+        <translation>Serveur non permanent</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="176"/>
+        <source>Address %1</source>
+        <translation>Adresse %1</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="210"/>
         <source>Delete server address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="632"/>
+        <source>Beginner</source>
+        <translation>Débutant</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="635"/>
+        <source>Intermediate</source>
+        <translation>Intermédiaire</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="638"/>
+        <source>Expert</source>
+        <translation>Expert</translation>
     </message>
     <message>
         <source>Server list view</source>
         <translation type="vanished">Vue de la liste de serveurs</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="176"/>
+        <location filename="../connectdlg.cpp" line="197"/>
         <source>Server Address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="177"/>
+        <location filename="../connectdlg.cpp" line="198"/>
         <source>If you know the server address, you can connect to it using the Server name/Address field. An optional port number can be added after the server address using a colon as a separator, e.g. %1. The field will also show a list of the most recently used server addresses.</source>
         <translation>Si vous connaissez l&apos;adresse du serveur, vous pouvez vous y connecter à l&apos;aide du champ nom/adresse du serveur. Un numéro de port facultatif peut être ajouté après l&apos;adresse du serveur en utilisant les deux points comme séparateur, par exemple %1. Le champ affichera également une liste des adresses de serveurs les plus récemment utilisées.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="186"/>
+        <location filename="../connectdlg.cpp" line="207"/>
         <source>Server address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="187"/>
+        <location filename="../connectdlg.cpp" line="208"/>
         <source>Holds the current server address. It also stores old addresses in the combo box list.</source>
         <translation>Contient l&apos;adresse du serveur actuel. Il stocke également les anciennes adresses dans la liste déroulante.</translation>
     </message>
@@ -3060,12 +3143,12 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Bouton de suppression de l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="190"/>
+        <location filename="../connectdlg.cpp" line="211"/>
         <source>Delete Server Address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="191"/>
+        <location filename="../connectdlg.cpp" line="212"/>
         <source>Click the button to clear the currently selected server address and delete it from the list of stored servers.</source>
         <translation>Cliquez sur le bouton pour effacer l&apos;adresse du serveur actuellement sélectionné et la supprimer de la liste des serveurs enregistrés.</translation>
     </message>
@@ -3078,8 +3161,8 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Boîte d&apos;édition d&apos;adresse de serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="109"/>
-        <location filename="../connectdlg.cpp" line="112"/>
+        <location filename="../connectdlg.cpp" line="123"/>
+        <location filename="../connectdlg.cpp" line="126"/>
         <source>Filter</source>
         <translation>Filtre</translation>
     </message>
@@ -3088,7 +3171,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Boite d&apos;édition de filtre</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="120"/>
+        <location filename="../connectdlg.cpp" line="134"/>
         <source>Show All Musicians</source>
         <translation>Afficher tous les musiciens</translation>
     </message>
@@ -3097,7 +3180,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Case-à-cocher pour afficher tous les musiciens</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="254"/>
+        <location filename="../connectdlg.cpp" line="275"/>
         <source>Filter text, or # for occupied servers</source>
         <translation>Texte du filtre, ou # pour les serveurs occupés</translation>
     </message>
@@ -3415,37 +3498,37 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation>Aucun profil</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="478"/>
+        <location filename="../access/mixerlist.cpp" line="495"/>
         <source>First, </source>
         <translation>Premier, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="478"/>
+        <location filename="../access/mixerlist.cpp" line="495"/>
         <source>Last, </source>
         <translation>Dernier, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="538"/>
+        <location filename="../access/mixerlist.cpp" line="555"/>
         <source>Maximum, </source>
         <translation>Maximum, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="538"/>
+        <location filename="../access/mixerlist.cpp" line="555"/>
         <source>Minimum, </source>
         <translation>Minimum, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="622"/>
+        <location filename="../access/mixerlist.cpp" line="639"/>
         <source>Alt Up and Down adjust</source>
         <translation>Alt Flèche haut et bas pour régler</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="643"/>
+        <location filename="../access/mixerlist.cpp" line="660"/>
         <source>on</source>
         <translation>activé</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="643"/>
+        <location filename="../access/mixerlist.cpp" line="660"/>
         <source>off</source>
         <translation>désactivé</translation>
     </message>
@@ -4238,7 +4321,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
 <context>
     <name>QCoreApplication</name>
     <message>
-        <location filename="../util.cpp" line="1661"/>
+        <location filename="../util.cpp" line="1664"/>
         <source>%1, Version %2</source>
         <comment>%1 is app name, %2 is version number</comment>
         <translation>%1, version %2</translation>
@@ -4248,47 +4331,47 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Publié sous la licence publique générale GNU (GPL) version 2 ou ultérieure (GPLv2)</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1722"/>
+        <location filename="../util.cpp" line="1725"/>
         <source>This app uses the following libraries, resources or code snippets:</source>
         <translation>Cette application utilise les bibliothèques, ressources ou extraits de code suivants&#x202f;:</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1724"/>
+        <location filename="../util.cpp" line="1727"/>
         <source>Qt cross-platform application framework</source>
         <translation>Cadriciel d&apos;application multiplateforme Qt</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1725"/>
+        <location filename="../util.cpp" line="1728"/>
         <source>(build)</source>
         <translation>(construction)</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1725"/>
+        <location filename="../util.cpp" line="1728"/>
         <source>(runtime)</source>
         <translation>(exécution)</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1743"/>
+        <location filename="../util.cpp" line="1746"/>
         <source>Some pixmaps are from the %1</source>
         <translation>Certaines images proviennent de %1</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1749"/>
+        <location filename="../util.cpp" line="1752"/>
         <source>Some sound samples are from %1</source>
         <translation>Certains échantillons sonores proviennent de %1</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1739"/>
+        <location filename="../util.cpp" line="1742"/>
         <source>Audio reverberation code by Perry R. Cook and Gary P. Scavone</source>
         <translation>Code de réverbération audio par Perry R. Cook et Gary P. Scavone</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1678"/>
+        <location filename="../util.cpp" line="1681"/>
         <source>Released under the GNU Affero General Public License 3.0 (or any later version)</source>
         <translation>Publié sous la licence GNU Affero General Public License 3.0 (ou toute version ultérieure)</translation>
     </message>
     <message>
-        <location filename="../util.cpp" line="1746"/>
+        <location filename="../util.cpp" line="1749"/>
         <source>Flag icons by Mark James</source>
         <translation>Icônes de drapeaux par Mark James</translation>
     </message>
