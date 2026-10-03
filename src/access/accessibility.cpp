@@ -451,7 +451,7 @@ void plainTooltipDescription ( QWidget* widget )
     // the end of Jamulus tooltips sends to the mouse "What's This" help: nothing for the keyboard
     text.remove ( QCoreApplication::translate ( "global", "For more information use the \"What's This\" help (help menu, right mouse button or Shift+F1)" ) );
     // a drop-down list says first how to open it
-    if ( auto* combo = qobject_cast<QComboBox*> ( widget ); combo && !combo->isEditable() )
+    if ( auto* combo = qobject_cast<QComboBox*> ( widget ); combo && combo->property ( "accessOpenToChange" ).toBool() && !combo->isEditable() )
     {
         text = Access::comboHelp() + ". " + text;
     }
@@ -476,7 +476,7 @@ public:
             }
             // a drop-down list says how to open it when the focus arrives (its description), unless it
             // has one of its own
-            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && event->type() == QEvent::Polish && !combo->isEditable() &&
+            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && event->type() == QEvent::Polish && combo->property ( "accessOpenToChange" ).toBool() && !combo->isEditable() &&
                                                                      combo->accessibleDescription().isEmpty() && combo->toolTip().isEmpty() )
             {
                 combo->setAccessibleDescription ( Access::comboHelp() );
@@ -525,7 +525,7 @@ public:
             // A closed drop-down list does not change with the plain keys (Up/Down, Page, Home, End, a
             // letter): Qt applied each one at once, a new audio device at every arrow. Alt+Down opens
             // the list, where the arrows browse without applying, Enter confirms, Escape cancels.
-            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && combo->hasFocus() && !combo->isEditable() && !combo->view()->isVisible() )
+            if ( auto* combo = qobject_cast<QComboBox*> ( watched ); combo && combo->property ( "accessOpenToChange" ).toBool() && combo->hasFocus() && !combo->isEditable() && !combo->view()->isVisible() )
             {
                 const auto*                 key       = static_cast<QKeyEvent*> ( event );
                 const Qt::KeyboardModifiers modifiers = key->modifiers() & ~Qt::KeypadModifier;
@@ -819,24 +819,134 @@ void Access::announce ( QObject* source, const QString& text, const bool asserti
     QAccessible::updateAccessibility ( &event );
 }
 
+#if defined( _WIN32 ) && !defined( ACCESS_TEST_SOUND )
+namespace
+{
+// NVDA ignores a UI Automation notification raised on a window that is not a real UI Automation
+// server (a mere host provider): it is dropped without a word. Qt's own provider of the window is out
+// of reach, so the notifications come from a tiny child window of ours that answers WM_GETOBJECT
+// with this minimal provider (the WingetAccess way, see the family's memory).
+class AnnounceProvider : public IRawElementProviderSimple
+{
+public:
+    explicit AnnounceProvider ( HWND hwnd ) : hwnd ( hwnd ) {}
+
+    ULONG STDMETHODCALLTYPE AddRef() override { return InterlockedIncrement ( &refs ); }
+    ULONG STDMETHODCALLTYPE Release() override
+    {
+        const LONG left = InterlockedDecrement ( &refs );
+        if ( left == 0 )
+        {
+            delete this;
+        }
+        return left;
+    }
+    HRESULT STDMETHODCALLTYPE QueryInterface ( REFIID riid, void** object ) override
+    {
+        if ( riid == __uuidof ( IUnknown ) || riid == __uuidof ( IRawElementProviderSimple ) )
+        {
+            *object = static_cast<IRawElementProviderSimple*> ( this );
+            AddRef();
+            return S_OK;
+        }
+        *object = nullptr;
+        return E_NOINTERFACE;
+    }
+
+    HRESULT STDMETHODCALLTYPE get_ProviderOptions ( ProviderOptions* options ) override
+    {
+        *options = static_cast<ProviderOptions> ( ProviderOptions_ServerSideProvider | ProviderOptions_UseComThreading );
+        return S_OK;
+    }
+    HRESULT STDMETHODCALLTYPE GetPatternProvider ( PATTERNID, IUnknown** provider ) override
+    {
+        *provider = nullptr;
+        return S_OK;
+    }
+    HRESULT STDMETHODCALLTYPE GetPropertyValue ( PROPERTYID id, VARIANT* value ) override
+    {
+        VariantInit ( value );
+        if ( id == UIA_ControlTypePropertyId )
+        {
+            value->vt   = VT_I4;
+            value->lVal = UIA_PaneControlTypeId;
+        }
+        return S_OK;
+    }
+    HRESULT STDMETHODCALLTYPE get_HostRawElementProvider ( IRawElementProviderSimple** host ) override
+    {
+        return UiaHostProviderFromHwnd ( hwnd, host );
+    }
+
+private:
+    HWND hwnd;
+    LONG refs = 1;
+};
+
+AnnounceProvider* announceProvider = nullptr;
+HWND              announceHwnd     = nullptr;
+
+LRESULT CALLBACK announceWindowProc ( HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam )
+{
+    if ( message == WM_GETOBJECT && static_cast<long> ( lParam ) == UiaRootObjectId && announceProvider && hwnd == announceHwnd )
+    {
+        return UiaReturnRawElementProvider ( hwnd, wParam, lParam, announceProvider );
+    }
+    if ( message == WM_DESTROY )
+    {
+        UiaReturnRawElementProvider ( hwnd, 0, 0, nullptr );
+    }
+    return DefWindowProcW ( hwnd, message, wParam, lParam );
+}
+
+// the announcing child of `window`'s top-level window, made on first use
+AnnounceProvider* announceProviderFor ( QWidget* window )
+{
+    const HWND parent = reinterpret_cast<HWND> ( window->window()->winId() );
+    if ( announceHwnd && GetParent ( announceHwnd ) == parent )
+    {
+        return announceProvider;
+    }
+    static bool registered = false;
+    if ( !registered )
+    {
+        WNDCLASSW windowClass     = {};
+        windowClass.lpfnWndProc   = announceWindowProc;
+        windowClass.hInstance     = GetModuleHandleW ( nullptr );
+        windowClass.lpszClassName = L"JamulusAccessAnnounce";
+        RegisterClassW ( &windowClass );
+        registered = true;
+    }
+    if ( announceHwnd )
+    {
+        DestroyWindow ( announceHwnd );
+    }
+    if ( announceProvider )
+    {
+        announceProvider->Release();
+    }
+    // visible but of no size: nothing on screen, no focus, a real UI Automation server
+    announceHwnd     = CreateWindowExW ( 0, L"JamulusAccessAnnounce", L"", WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, parent, nullptr, GetModuleHandleW ( nullptr ), nullptr );
+    announceProvider = announceHwnd ? new AnnounceProvider ( announceHwnd ) : nullptr;
+    return announceProvider;
+}
+} // namespace
+#endif
+
 void Access::announceLatest ( QWidget* window, const QString& text )
 {
 #if defined( _WIN32 ) && !defined( ACCESS_TEST_SOUND )
-    if ( !window || text.isEmpty() )
+    if ( !window || text.isEmpty() || !UiaClientsAreListening() )
     {
         return;
     }
-    // the window's own UI Automation element: the screen reader accepts a notification only from the
-    // application that has the focus
-    IRawElementProviderSimple* provider = nullptr;
-    if ( SUCCEEDED ( UiaHostProviderFromHwnd ( reinterpret_cast<HWND> ( window->window()->winId() ), &provider ) ) && provider )
+    if ( AnnounceProvider* provider = announceProviderFor ( window ) )
     {
         BSTR message  = SysAllocString ( reinterpret_cast<const wchar_t*> ( text.utf16() ) );
         BSTR activity = SysAllocString ( L"JamulusAccessLatest" );
         UiaRaiseNotificationEvent ( provider, NotificationKind_Other, NotificationProcessing_MostRecent, message, activity );
         SysFreeString ( message );
         SysFreeString ( activity );
-        provider->Release();
     }
 #else
     // test builds: logged as an announcement by the off-screen driver

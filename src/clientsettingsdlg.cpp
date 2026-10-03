@@ -165,6 +165,9 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
                                             "automatically." ) );
 
     cbxSoundcard->setAccessibleName ( tr ( "Audio device" ) );
+    // a device opens at each change: the arrows do not change it, Alt+Down opens the list (Enter
+    // applies), as in the family's audio settings
+    cbxSoundcard->setProperty ( "accessOpenToChange", true );
 
 #    if defined( _WIN32 )
     // set Windows specific tool tip

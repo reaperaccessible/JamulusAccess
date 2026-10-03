@@ -94,7 +94,8 @@ void installSliderKeys ( QAbstractSlider* slider, std::function<QString ( int va
 // The slider help, as spoken
 QString sliderHelp();
 
-// How to open a drop-down list, as spoken (its plain keys are blocked application-wide)
+// How to open a drop-down list, as spoken. A drop-down list whose every change is costly (the audio
+// device) gets the property "accessOpenToChange": its plain keys change nothing and say this.
 QString comboHelp();
 
 // A plain container for the screen reader (no name, no "dialog"): a dialog shown as a view inside
