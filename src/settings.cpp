@@ -460,6 +460,16 @@ void CClientSettings::ReadSettingsFromXML ( const QDomDocument& IniXMLDocument, 
         bEnableAudioAlerts = bValue;
     }
 
+    // Peak Watcher (JamulusAccess)
+    if ( GetFlagIniSet ( IniXMLDocument, "client", "peakwatcher", bValue ) )
+    {
+        bPeakWatcherEnabled = bValue;
+    }
+    if ( GetNumericIniSet ( IniXMLDocument, "client", "peakwatcherthreshold", -1000, 0, iValue ) )
+    {
+        iPeakWatcherThresholdTenthDb = iValue;
+    }
+
     // name
     pClient->ChannelInfo.strName = FromBase64ToString (
         GetIniSetting ( IniXMLDocument, "client", "name_base64", ToBase64 ( QCoreApplication::translate ( "CMusProfDlg", "No Name" ) ) ) );
@@ -926,6 +936,10 @@ void CClientSettings::WriteSettingsToXML ( QDomDocument& IniXMLDocument, bool is
 
     // audio alerts
     SetFlagIniSet ( IniXMLDocument, "client", "enableaudioalerts", bEnableAudioAlerts );
+
+    // Peak Watcher (JamulusAccess)
+    SetFlagIniSet ( IniXMLDocument, "client", "peakwatcher", bPeakWatcherEnabled );
+    SetNumericIniSet ( IniXMLDocument, "client", "peakwatcherthreshold", iPeakWatcherThresholdTenthDb );
 
     // name
     PutIniSetting ( IniXMLDocument, "client", "name_base64", ToBase64 ( pClient->ChannelInfo.strName ) );

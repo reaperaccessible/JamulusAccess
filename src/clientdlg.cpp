@@ -48,6 +48,9 @@
 #include "util.h"
 #include "access/accessibility.h"
 #include "access/mixerlist.h"
+#include <QDialogButtonBox>
+#include <QLineEdit>
+#include <QVBoxLayout>
 
 /* Implementation *************************************************************/
 CClientDlg::CClientDlg ( CClient*         pNCliP,
@@ -345,7 +348,7 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
 
     // own fader first option: works from server version 3.5.5 which supports sending client ID back to client
     QAction* OwnFaderFirstAction =
-        pViewMenu->addAction ( tr ( "O&wn Fader First" ), this, SLOT ( OnOwnFaderFirst() ), QKeySequence ( Qt::CTRL + Qt::Key_W ) );
+        pViewMenu->addAction ( tr ( "O&wn Fader First" ), this, SLOT ( OnOwnFaderFirst() ) ); // Ctrl+W: the Peak Watcher
 
     pViewMenu->addSeparator();
 
@@ -533,6 +536,27 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
         Access::announce ( this, StatusText() );
     } );
     QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_H ), this ), &QShortcut::activated, this, &CClientDlg::ShowShortcuts );
+
+    // Peak Watcher: every 30 ms, the highest input peak since the last look, said when it reaches the
+    // threshold; each value cuts the previous one
+    QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::Key_W ), this ), &QShortcut::activated, this, &CClientDlg::ShowPeakWatcherDialog );
+    QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_W ), this ), &QShortcut::activated, this, [this] {
+        SetPeakWatcher ( !pSettings->bPeakWatcherEnabled, true );
+    } );
+    TimerPeakWatcher.setInterval ( 30 );
+    QObject::connect ( &TimerPeakWatcher, &QTimer::timeout, this, [this] {
+        const int iPeak = pClient->GetAndResetInputPeak();
+        if ( iPeak <= 0 || !pClient->IsRunning() )
+        {
+            return;
+        }
+        const double dPeakDb = 20.0 * std::log10 ( iPeak / 32768.0 );
+        if ( dPeakDb >= pSettings->iPeakWatcherThresholdTenthDb / 10.0 )
+        {
+            Access::announceLatest ( this, QLocale().toString ( dPeakDb, 'f', 1 ) );
+        }
+    } );
+    SetPeakWatcher ( pSettings->bPeakWatcherEnabled, false ); // as it was left
 
     // connection setup window
     if ( !pSettings->vecWindowPosConnect.isEmpty() && !pSettings->vecWindowPosConnect.isNull() )
@@ -1222,6 +1246,68 @@ QString CClientDlg::StatusText()
     return parts.join ( ", " );
 }
 
+void CClientDlg::SetPeakWatcher ( bool bOn, bool bSay )
+{
+    pSettings->bPeakWatcherEnabled = bOn;
+    pClient->GetAndResetInputPeak(); // start from now
+    if ( bOn )
+    {
+        TimerPeakWatcher.start();
+    }
+    else
+    {
+        TimerPeakWatcher.stop();
+    }
+    if ( bSay )
+    {
+        Access::announce ( this,
+                           bOn ? tr ( "Peak Watcher on, threshold %1 dB" ).arg ( QLocale().toString ( pSettings->iPeakWatcherThresholdTenthDb / 10.0, 'f', 1 ) )
+                               : tr ( "Peak Watcher off" ) );
+    }
+}
+
+void CClientDlg::ShowPeakWatcherDialog()
+{
+    // the threshold, in a box of its own: a field with OK and Cancel (family rule)
+    QDialog dialog ( this );
+    dialog.setWindowTitle ( tr ( "Peak Watcher" ) );
+    auto* layout = new QVBoxLayout ( &dialog );
+    auto* label  = new QLabel ( tr ( "Threshold in dB (0 or below)" ), &dialog );
+    auto* edit   = new QLineEdit ( QLocale().toString ( pSettings->iPeakWatcherThresholdTenthDb / 10.0, 'f', 1 ), &dialog );
+    label->setBuddy ( edit );
+    edit->selectAll();
+    auto* buttons = new QDialogButtonBox ( QDialogButtonBox::Ok | QDialogButtonBox::Cancel, &dialog );
+    layout->addWidget ( label );
+    layout->addWidget ( edit );
+    layout->addWidget ( buttons );
+
+    double dThreshold = 0;
+    QObject::connect ( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
+    QObject::connect ( buttons, &QDialogButtonBox::accepted, &dialog, [&] {
+        // a comma or a point as decimal separator
+        bool bOk   = false;
+        dThreshold = QString ( edit->text() ).replace ( ',', '.' ).remove ( ' ' ).toDouble ( &bOk );
+        if ( !bOk || dThreshold > 0 || dThreshold < -100 )
+        {
+            Access::announce ( edit, tr ( "Invalid value: the threshold is 0 or below, -100 at the lowest" ), true );
+            edit->selectAll();
+            return;
+        }
+        dialog.accept();
+    } );
+
+    edit->setFocus();
+    if ( dialog.exec() == QDialog::Accepted )
+    {
+        pSettings->iPeakWatcherThresholdTenthDb = static_cast<int> ( std::lround ( dThreshold * 10 ) );
+        SetPeakWatcher ( true, true );
+    }
+    else
+    {
+        Access::announce ( this, tr ( "Peak Watcher cancelled" ) );
+    }
+}
+
 void CClientDlg::ShowShortcuts()
 {
     QStringList rows { tr ( "Ctrl+1: session (mixer)" ),
@@ -1239,7 +1325,8 @@ void CClientDlg::ShowShortcuts()
                        tr ( "Ctrl+M: MIDI control settings" ),
                        tr ( "Ctrl+L: set all faders to the new client level" ),
                        tr ( "Ctrl+F: auto-adjust all faders" ),
-                       tr ( "Ctrl+W: own fader first" ),
+                       tr ( "Ctrl+W: Peak Watcher threshold (the input peaks above it are said)" ),
+                       tr ( "Ctrl+Shift+W: Peak Watcher on or off" ),
                        tr ( "Ctrl+N, Ctrl+I, Ctrl+G, Ctrl+T, Ctrl+E, Ctrl+O: sort by name, instrument, group, city, channel, no sorting" ),
                        tr ( "Ctrl+Q: quit" ) };
     rows << tr ( "In the mixer:" );

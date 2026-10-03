@@ -1554,6 +1554,19 @@ void CClient::ProcessAudioDataIntern ( CVector<int16_t>& vecsStereoSndCrd )
     // update stereo signal level meter (not needed in headless mode)
 #ifndef HEADLESS
     SignalLevelMeter.Update ( vecsStereoSndCrd, iMonoBlockSizeSam, true );
+
+    // Peak Watcher: the highest sample of the block (no lock, no allocation: real-time safe)
+    {
+        int iPeak = 0;
+        for ( i = 0; i < 2 * iMonoBlockSizeSam; i++ )
+        {
+            iPeak = std::max ( iPeak, std::abs ( static_cast<int> ( vecsStereoSndCrd[i] ) ) );
+        }
+        if ( iPeak > iInputPeak.load ( std::memory_order_relaxed ) )
+        {
+            iInputPeak.store ( iPeak, std::memory_order_relaxed );
+        }
+    }
 #endif
 
     // add reverberation effect if activated

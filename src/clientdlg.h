@@ -124,6 +124,11 @@ protected:
     void    ShowView ( int iView );
     QString StatusText();
     void    ShowShortcuts();
+
+    // Peak Watcher of the family (GuitarAccess): Ctrl+W threshold, Ctrl+Shift+W on/off
+    void   ShowPeakWatcherDialog();
+    void   SetPeakWatcher ( bool bOn, bool bSay );
+    QTimer TimerPeakWatcher;
     void    keyPressEvent ( QKeyEvent* pEvent ) override;
 
     QStackedWidget* pViews;

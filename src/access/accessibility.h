@@ -45,6 +45,11 @@ namespace Access
 // what the screen reader is saying (it never cuts it). Assertive is for alerts.
 void announce ( QObject* source, const QString& text, bool assertive = false );
 
+// A value that follows another (a meter, the Peak Watcher): it cuts what the screen reader is
+// saying, so only the latest one is heard. UI Automation notification "most recent" (NVDA, JAWS);
+// Qt only offers the queued kind.
+void announceLatest ( QWidget* window, const QString& text );
+
 // Application-wide filters, installed once at start-up (`owner` keeps them alive):
 // - popup menus open with their first item selected, as in Windows (Qt opens them silent);
 // - every dialog names its fields after their labels when it is shown;

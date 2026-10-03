@@ -179,6 +179,8 @@ public:
         eDirectoryType ( AT_DEFAULT ),
         bEnableFeedbackDetection ( true ),
         bEnableAudioAlerts ( false ),
+    bPeakWatcherEnabled ( false ),
+    iPeakWatcherThresholdTenthDb ( -60 ),
         vecWindowPosSettings(), // empty array
         vecWindowPosChat(),     // empty array
         vecWindowPosConnect(),  // empty array
@@ -252,6 +254,8 @@ public:
     int              iCustomDirectoryIndex; // index of selected custom directory
     bool             bEnableFeedbackDetection;
     bool             bEnableAudioAlerts;
+    bool             bPeakWatcherEnabled;          // JamulusAccess: say the input peaks above the threshold
+    int              iPeakWatcherThresholdTenthDb; // the threshold, in tenths of dB (-60 = -6 dB)
 
     // window position/state settings
     QByteArray vecWindowPosSettings;

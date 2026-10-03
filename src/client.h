@@ -188,6 +188,9 @@ public:
     bool IsIPv6Available() { return bIPv6Available; }
 
     double GetLevelForMeterdBLeft() { return SignalLevelMeter.GetLevelForMeterdBLeftOrMono(); }
+
+    // Peak Watcher (JamulusAccess): the highest input sample since the last call, 0..32768
+    int GetAndResetInputPeak() { return iInputPeak.exchange ( 0, std::memory_order_relaxed ); }
     double GetLevelForMeterdBRight() { return SignalLevelMeter.GetLevelForMeterdBRight(); }
 
     bool GetAndResetbJitterBufferOKFlag();
@@ -438,6 +441,7 @@ protected:
     std::atomic<int>  iReverbLevel;
     CAudioReverb      AudioReverb;
     std::atomic<int>  iInputBoost;
+    std::atomic<int>  iInputPeak { 0 }; // written by the audio thread only, read and reset by the GUI
 
     int iSndCrdPrefFrameSizeFactor;
     int iSndCrdFrameSizeFactor;

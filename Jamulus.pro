@@ -106,7 +106,9 @@ win32 {
             user32.lib \
             advapi32.lib \
             winmm.lib \
-            ws2_32.lib
+            ws2_32.lib \
+            oleaut32.lib \
+            uiautomationcore.lib # JamulusAccess: "most recent" screen reader notifications
         greaterThan(QT_MAJOR_VERSION, 5) {
             # Qt5 had a special qtmain library which took care of forwarding the MSVC default WinMain() entrypoint to
             # the platform-agnostic main().

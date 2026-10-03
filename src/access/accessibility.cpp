@@ -23,6 +23,11 @@
 
 #include "accessibility.h"
 
+#if defined( _WIN32 ) && !defined( ACCESS_TEST_SOUND )
+#    include <windows.h>
+#    include <UIAutomation.h>
+#endif
+
 #include <QAbstractItemView>
 #include <QAbstractSlider>
 #include <QAbstractSpinBox>
@@ -736,6 +741,31 @@ void Access::announce ( QObject* source, const QString& text, const bool asserti
     QAccessibleAnnouncementEvent event ( source, text );
     event.setPoliteness ( assertive ? QAccessible::AnnouncementPoliteness::Assertive : QAccessible::AnnouncementPoliteness::Polite );
     QAccessible::updateAccessibility ( &event );
+}
+
+void Access::announceLatest ( QWidget* window, const QString& text )
+{
+#if defined( _WIN32 ) && !defined( ACCESS_TEST_SOUND )
+    if ( !window || text.isEmpty() )
+    {
+        return;
+    }
+    // the window's own UI Automation element: the screen reader accepts a notification only from the
+    // application that has the focus
+    IRawElementProviderSimple* provider = nullptr;
+    if ( SUCCEEDED ( UiaHostProviderFromHwnd ( reinterpret_cast<HWND> ( window->window()->winId() ), &provider ) ) && provider )
+    {
+        BSTR message  = SysAllocString ( reinterpret_cast<const wchar_t*> ( text.utf16() ) );
+        BSTR activity = SysAllocString ( L"JamulusAccessLatest" );
+        UiaRaiseNotificationEvent ( provider, NotificationKind_Other, NotificationProcessing_MostRecent, message, activity );
+        SysFreeString ( message );
+        SysFreeString ( activity );
+        provider->Release();
+    }
+#else
+    // test builds: logged as an announcement by the off-screen driver
+    announce ( window, text, true );
+#endif
 }
 
 void Access::installApplicationFixes ( QObject* owner )
