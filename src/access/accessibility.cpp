@@ -484,6 +484,21 @@ public:
             }
             break;
 
+        case QEvent::KeyPress:
+        {
+            // Enter presses the focused button, as everywhere in Windows (Jamulus turned it off on some
+            // buttons, "Connect" among them, so that Enter elsewhere would not press them)
+            auto*       button = qobject_cast<QPushButton*> ( watched );
+            const auto* key    = static_cast<QKeyEvent*> ( event );
+            if ( button && button->hasFocus() && !button->autoDefault() && !button->isDefault() &&
+                 ( key->key() == Qt::Key_Return || key->key() == Qt::Key_Enter ) && ( key->modifiers() & ~Qt::KeypadModifier ) == Qt::NoModifier )
+            {
+                button->animateClick();
+                return true;
+            }
+            break;
+        }
+
         default:
             break;
         }

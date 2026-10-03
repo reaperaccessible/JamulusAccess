@@ -197,13 +197,30 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
     Access::installListEdges ( lvwServers );
 
     // the list arrives while the focus waits in it: its first server is said
-    // (once the rows have their text: they are inserted empty, then filled)
-    QObject::connect ( lvwServers->model(), &QAbstractItemModel::rowsInserted, this, [this] ( const QModelIndex& parent ) {
-        if ( parent.isValid() )
+    // once the first pings have sorted it (about 2 s), the server at the top: always the first one
+    QObject::connect ( &TimerInitialSort, &QTimer::timeout, this, [this] {
+        if ( !lvwServers->hasFocus() )
         {
             return;
         }
-        QTimer::singleShot ( 0, this, [this] {
+        for ( int i = 0; i < lvwServers->topLevelItemCount(); i++ )
+        {
+            if ( !lvwServers->topLevelItem ( i )->isHidden() )
+            {
+                lvwServers->setCurrentItem ( lvwServers->topLevelItem ( i ) );
+                lvwServers->scrollToTop();
+                break;
+            }
+        }
+    } );
+
+    // a directory slower than that: its first server when the list arrives
+    QObject::connect ( lvwServers->model(), &QAbstractItemModel::rowsInserted, this, [this] ( const QModelIndex& parent ) {
+        if ( parent.isValid() || TimerInitialSort.isActive() )
+        {
+            return;
+        }
+        QTimer::singleShot ( 0, this, [this] { // once the rows have their text (inserted empty, then filled)
             if ( lvwServers->hasFocus() && !lvwServers->currentItem() && lvwServers->topLevelItemCount() > 0 )
             {
                 lvwServers->setCurrentItem ( lvwServers->topLevelItem ( 0 ) );
@@ -1096,8 +1113,9 @@ void CConnectDlg::SetPingTimeAndNumClientsResult ( const CHostAddress& InetAddr,
         // could lead to connecting an incorrect server) the sorting is disabled
         // as long as the mouse is over the list (but it is not disabled for the
         // initial timer of about 2s, see TimerInitialSort) (#293).
+        // The keyboard focus counts like the mouse: rows must not move under the user who reads them.
         if ( bDoSorting && !bShowCompleteRegList &&
-             ( TimerInitialSort.isActive() || !lvwServers->underMouse() ) ) // do not sort if "show all servers"
+             ( TimerInitialSort.isActive() || ( !lvwServers->underMouse() && !lvwServers->hasFocus() ) ) ) // do not sort if "show all servers"
         {
             lvwServers->sortByColumn ( LVC_PING_MIN_HIDDEN, Qt::AscendingOrder );
         }
