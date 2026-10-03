@@ -62,6 +62,9 @@ CSound* pSound;
 \******************************************************************************/
 QString CSound::LoadAndInitializeDriver ( QString strDriverName, bool bOpenDriverSetup )
 {
+    // a device (again): its own buffer size first
+    bFollowInterfaceBufferSize = true;
+
     // find and load driver
     int iDriverIdx = INVALID_INDEX; // initialize with an invalid index
 
@@ -326,18 +329,18 @@ void CSound::SetRightOutputChannel ( const int iNewChan )
     }
 }
 
-int CSound::GetActualBufferSize ( const int iDesiredBufferSizeMono )
+int CSound::GetActualBufferSize ( const int iDesiredBufferSizeMono, const bool bProbe )
 {
     int iActualBufferSizeMono;
 
     // query the usable buffer sizes
     ASIOGetBufferSize ( &HWBufferInfo.lMinSize, &HWBufferInfo.lMaxSize, &HWBufferInfo.lPreferredSize, &HWBufferInfo.lGranularity );
 
-    // JamulusAccess: use the buffer size the audio interface is set to (its "preferred" size, the one of
-    // its control panel). Asking for another one makes the driver change the whole interface, which
-    // the other programs on it go through too: the screen reader's voice breaks up, a DAW is
-    // disturbed. Jamulus adapts on its side (its conversion buffer) when its own setting differs.
-    if ( HWBufferInfo.lPreferredSize > 0 )
+    // JamulusAccess: unless the user chose a size in Jamulus, use the buffer size the audio interface is
+    // set to (its "preferred" size, the one of its control panel). Asking for another one makes the
+    // driver change the whole interface, which the other programs on it go through too: the screen
+    // reader's voice breaks up, a DAW is disturbed. A probe only computes, it never takes this path.
+    if ( bFollowInterfaceBufferSize && !bProbe && HWBufferInfo.lPreferredSize > 0 )
     {
         return HWBufferInfo.lPreferredSize;
     }
@@ -1243,11 +1246,14 @@ long CSound::asioMessages ( long selector, long, void*, double* )
 
     // both messages might be send if the buffer size changes
     case kAsioBufferSizeChange:
+        // changed in the interface's own panel: Jamulus follows it
+        pSound->SetFollowInterfaceBufferSize ( true );
         pSound->EmitReinitRequestSignal ( RS_ONLY_RESTART_AND_INIT );
         ret = 1L; // 1L if request is accepted or 0 otherwise
         break;
 
     case kAsioResetRequest:
+        pSound->SetFollowInterfaceBufferSize ( true );
         pSound->EmitReinitRequestSignal ( RS_RELOAD_RESTART_AND_INIT );
         ret = 1L; // 1L if request is accepted or 0 otherwise
         break;

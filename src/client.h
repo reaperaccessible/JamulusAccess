@@ -264,7 +264,9 @@ public:
     int     GetSndCrdLeftOutputChannel() { return Sound.GetLeftOutputChannel(); }
     int     GetSndCrdRightOutputChannel() { return Sound.GetRightOutputChannel(); }
 
-    void SetSndCrdPrefFrameSizeFactor ( const int iNewFactor );
+    // bAskInterface: the user chose the size in Jamulus, the interface is asked for it (as a DAW does);
+    // otherwise Jamulus keeps the size the interface is set to
+    void SetSndCrdPrefFrameSizeFactor ( const int iNewFactor, const bool bAskInterface = false );
     int  GetSndCrdPrefFrameSizeFactor() { return iSndCrdPrefFrameSizeFactor; }
 
     void SetEnableOPUS64 ( const bool eNEnableOPUS64 );

@@ -659,7 +659,7 @@ bool CClient::GetAndResetbJitterBufferOKFlag()
     return bSocketJitBufOKFlag;
 }
 
-void CClient::SetSndCrdPrefFrameSizeFactor ( const int iNewFactor )
+void CClient::SetSndCrdPrefFrameSizeFactor ( const int iNewFactor, const bool bAskInterface )
 {
     // first check new input parameter
     if ( ( iNewFactor == FRAME_SIZE_FACTOR_PREFERRED ) || ( iNewFactor == FRAME_SIZE_FACTOR_DEFAULT ) || ( iNewFactor == FRAME_SIZE_FACTOR_SAFE ) )
@@ -674,6 +674,10 @@ void CClient::SetSndCrdPrefFrameSizeFactor ( const int iNewFactor )
 
         // set new parameter
         iSndCrdPrefFrameSizeFactor = iNewFactor;
+        if ( bAskInterface )
+        {
+            Sound.SetFollowInterfaceBufferSize ( false );
+        }
 
         // init with new block size index parameter
         Init();
@@ -1219,9 +1223,10 @@ void CClient::Init()
     bFraSiFactDefSupported  = true;
     bFraSiFactSafeSupported = true;
 #else
-    bFraSiFactPrefSupported = ( Sound.Init ( iFraSizePreffered ) == iFraSizePreffered );
-    bFraSiFactDefSupported  = ( Sound.Init ( iFraSizeDefault ) == iFraSizeDefault );
-    bFraSiFactSafeSupported = ( Sound.Init ( iFraSizeSafe ) == iFraSizeSafe );
+    // (asked without changing the interface where the sound layer can: ASIO computes it)
+    bFraSiFactPrefSupported = Sound.IsBufferSizeSupported ( iFraSizePreffered );
+    bFraSiFactDefSupported  = Sound.IsBufferSizeSupported ( iFraSizeDefault );
+    bFraSiFactSafeSupported = Sound.IsBufferSizeSupported ( iFraSizeSafe );
 #endif
 
     // translate block size index in actual block size
@@ -1234,9 +1239,21 @@ void CClient::Init()
     //      iMonoBlockSizeSam = iPrefMonoFrameSize;
     //    else
     //      iMonoBlockSizeSam = Sound.Init ( iPrefMonoFrameSize );
+
+    // the setting shows the size the interface really runs with (it may be the interface's own)
+    if ( iMonoBlockSizeSam == iFraSizePreffered || iMonoBlockSizeSam == iFraSizeDefault || iMonoBlockSizeSam == iFraSizeSafe )
+    {
+        iSndCrdPrefFrameSizeFactor = iMonoBlockSizeSam / SYSTEM_FRAME_SIZE_SAMPLES;
+    }
     // Problem is legitimate setting changes (buffer size for example).
     // so the condition should be something like "if ( Sound.isInitialized and APP_IS_INIALIZING)"
     iMonoBlockSizeSam = Sound.Init ( iPrefMonoFrameSize );
+
+    // the setting shows the size the interface really runs with (it may be the interface's own)
+    if ( iMonoBlockSizeSam == iFraSizePreffered || iMonoBlockSizeSam == iFraSizeDefault || iMonoBlockSizeSam == iFraSizeSafe )
+    {
+        iSndCrdPrefFrameSizeFactor = iMonoBlockSizeSam / SYSTEM_FRAME_SIZE_SAMPLES;
+    }
 
     // Calculate the current sound card frame size factor. In case
     // the current mono block size is not a multiple of the system

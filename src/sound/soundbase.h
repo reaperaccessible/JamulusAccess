@@ -94,6 +94,14 @@ public:
                  void* pParg );
 
     virtual int  Init ( const int iNewPrefMonoBufferSize ) { return iNewPrefMonoBufferSize; }
+
+    // JamulusAccess, buffer size of the audio interface, as a DAW does: true = take the size the
+    // interface is set to (at start, on a new device, after a change made in its own panel); false =
+    // the user chose a size in Jamulus, ask the interface for it
+    virtual void SetFollowInterfaceBufferSize ( const bool ) {}
+
+    // Can the interface run with this buffer size? (without changing anything on it where possible)
+    virtual bool IsBufferSizeSupported ( const int iMonoBufferSize ) { return Init ( iMonoBufferSize ) == iMonoBufferSize; }
     virtual void Start()
     {
         bRun             = true;

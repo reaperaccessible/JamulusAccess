@@ -82,6 +82,9 @@ public:
     virtual ~CSound();
 
     virtual int  Init ( const int iNewPrefMonoBufferSize );
+
+    virtual void SetFollowInterfaceBufferSize ( const bool bFollow ) { bFollowInterfaceBufferSize = bFollow; }
+    virtual bool IsBufferSizeSupported ( const int iMonoBufferSize ) { return GetActualBufferSize ( iMonoBufferSize, true ) == iMonoBufferSize; }
     virtual void Start();
     virtual void Stop();
 
@@ -112,13 +115,14 @@ public:
 protected:
     virtual QString LoadAndInitializeDriver ( QString strDriverName, bool bOpenDriverSetup );
     virtual void    UnloadCurrentDriver();
-    int             GetActualBufferSize ( const int iDesiredBufferSizeMono );
+    int             GetActualBufferSize ( const int iDesiredBufferSizeMono, const bool bProbe = false );
     QString         CheckDeviceCapabilities();
     bool            CheckSampleTypeSupported ( const ASIOSampleType SamType );
     bool            CheckSampleTypeSupportedForCHMixing ( const ASIOSampleType SamType );
     void            ResetChannelMapping();
 
-    int iASIOBufferSizeMono;
+    int  iASIOBufferSizeMono;
+    bool bFollowInterfaceBufferSize = true; // see CSoundBase::SetFollowInterfaceBufferSize
     int iASIOBufferSizeStereo;
 
     long         lNumInChan;

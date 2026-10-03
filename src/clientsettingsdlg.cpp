@@ -1332,17 +1332,17 @@ void CClientSettingsDlg::OnSndCrdBufferDelayButtonGroupClicked ( QAbstractButton
 {
     if ( button == rbtBufferDelayPreferred )
     {
-        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_PREFERRED );
+        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_PREFERRED, true ); // asked to the interface, as a DAW does
     }
 
     if ( button == rbtBufferDelayDefault )
     {
-        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_DEFAULT );
+        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_DEFAULT, true ); // asked to the interface, as a DAW does
     }
 
     if ( button == rbtBufferDelaySafe )
     {
-        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_SAFE );
+        pClient->SetSndCrdPrefFrameSizeFactor ( FRAME_SIZE_FACTOR_SAFE, true ); // asked to the interface, as a DAW does
     }
 
     UpdateDisplay();
