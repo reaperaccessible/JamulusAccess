@@ -168,7 +168,25 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
         }
         // a server
         cells << value ( item->text ( LVC_NAME ), tr ( "No name" ) );
-        cells << lvwServers->headerItem()->text ( LVC_PING ) + " " + value ( item->text ( LVC_PING ), tr ( "no answer" ) );
+        // the colour of the ping on screen, said: green good, yellow fair, red too high
+        QString strPingQuality;
+        if ( !item->text ( LVC_PING ).simplified().isEmpty() )
+        {
+            const QColor colour = item->foreground ( LVC_PING ).color();
+            if ( colour == QColor ( Qt::darkGreen ) )
+            {
+                strPingQuality = " " + tr ( "good" );
+            }
+            else if ( colour == QColor ( Qt::darkYellow ) )
+            {
+                strPingQuality = " " + tr ( "fair" );
+            }
+            else if ( colour == QColor ( Qt::red ) )
+            {
+                strPingQuality = " " + tr ( "too high" );
+            }
+        }
+        cells << lvwServers->headerItem()->text ( LVC_PING ) + " " + value ( item->text ( LVC_PING ), tr ( "no answer" ) ) + strPingQuality;
         cells << lvwServers->headerItem()->text ( LVC_CLIENTS ) + " " + value ( item->text ( LVC_CLIENTS ), tr ( "unknown" ) );
         cells << lvwServers->headerItem()->text ( LVC_LOCATION ) + " " + value ( item->text ( LVC_LOCATION ), tr ( "unknown" ) );
         cells << lvwServers->headerItem()->text ( LVC_VERSION ) + " " + value ( item->text ( LVC_VERSION ), tr ( "unknown" ) );

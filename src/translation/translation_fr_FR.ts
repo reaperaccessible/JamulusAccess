@@ -3084,49 +3084,64 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation>Niveau</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="171"/>
+        <location filename="../connectdlg.cpp" line="178"/>
+        <source>good</source>
+        <translation>bon</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="182"/>
+        <source>fair</source>
+        <translation>moyen</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="186"/>
+        <source>too high</source>
+        <translation>trop élevé</translation>
+    </message>
+    <message>
+        <location filename="../connectdlg.cpp" line="189"/>
         <source>no answer</source>
         <translation>pas de réponse</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="172"/>
-        <location filename="../connectdlg.cpp" line="173"/>
-        <location filename="../connectdlg.cpp" line="174"/>
+        <location filename="../connectdlg.cpp" line="190"/>
+        <location filename="../connectdlg.cpp" line="191"/>
+        <location filename="../connectdlg.cpp" line="192"/>
         <source>unknown</source>
         <translation>inconnu</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="175"/>
+        <location filename="../connectdlg.cpp" line="193"/>
         <source>Permanent server</source>
         <translation>Serveur permanent</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="175"/>
+        <location filename="../connectdlg.cpp" line="193"/>
         <source>Not a permanent server</source>
         <translation>Serveur non permanent</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="176"/>
+        <location filename="../connectdlg.cpp" line="194"/>
         <source>Address %1</source>
         <translation>Adresse %1</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="210"/>
+        <location filename="../connectdlg.cpp" line="228"/>
         <source>Delete server address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="632"/>
+        <location filename="../connectdlg.cpp" line="650"/>
         <source>Beginner</source>
         <translation>Débutant</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="635"/>
+        <location filename="../connectdlg.cpp" line="653"/>
         <source>Intermediate</source>
         <translation>Intermédiaire</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="638"/>
+        <location filename="../connectdlg.cpp" line="656"/>
         <source>Expert</source>
         <translation>Expert</translation>
     </message>
@@ -3135,22 +3150,22 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Vue de la liste de serveurs</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="197"/>
+        <location filename="../connectdlg.cpp" line="215"/>
         <source>Server Address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="198"/>
+        <location filename="../connectdlg.cpp" line="216"/>
         <source>If you know the server address, you can connect to it using the Server name/Address field. An optional port number can be added after the server address using a colon as a separator, e.g. %1. The field will also show a list of the most recently used server addresses.</source>
         <translation>Si vous connaissez l&apos;adresse du serveur, vous pouvez vous y connecter à l&apos;aide du champ nom/adresse du serveur. Un numéro de port facultatif peut être ajouté après l&apos;adresse du serveur en utilisant les deux points comme séparateur, par exemple %1. Le champ affichera également une liste des adresses de serveurs les plus récemment utilisées.</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="207"/>
+        <location filename="../connectdlg.cpp" line="225"/>
         <source>Server address</source>
         <translation>Adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="208"/>
+        <location filename="../connectdlg.cpp" line="226"/>
         <source>Holds the current server address. It also stores old addresses in the combo box list.</source>
         <translation>Contient l&apos;adresse du serveur actuel. Il stocke également les anciennes adresses dans la liste déroulante.</translation>
     </message>
@@ -3159,12 +3174,12 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Bouton de suppression de l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="211"/>
+        <location filename="../connectdlg.cpp" line="229"/>
         <source>Delete Server Address</source>
         <translation>Supprimer l&apos;adresse du serveur</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="212"/>
+        <location filename="../connectdlg.cpp" line="230"/>
         <source>Click the button to clear the currently selected server address and delete it from the list of stored servers.</source>
         <translation>Cliquez sur le bouton pour effacer l&apos;adresse du serveur actuellement sélectionné et la supprimer de la liste des serveurs enregistrés.</translation>
     </message>
@@ -3196,7 +3211,7 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation type="vanished">Case-à-cocher pour afficher tous les musiciens</translation>
     </message>
     <message>
-        <location filename="../connectdlg.cpp" line="275"/>
+        <location filename="../connectdlg.cpp" line="293"/>
         <source>Filter text, or # for occupied servers</source>
         <translation>Texte du filtre, ou # pour les serveurs occupés</translation>
     </message>
