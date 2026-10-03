@@ -45,6 +45,9 @@
 \******************************************************************************/
 
 #include "util.h"
+#ifndef HEADLESS
+#    include "access/accessibility.h"
+#endif
 
 namespace
 {
@@ -736,6 +739,8 @@ CLicenceDlg::CLicenceDlg ( QWidget* parent ) : CBaseDlg ( parent )
 }
 
 // Help menu -------------------------------------------------------------------
+void CHelpMenu::OnHelpWhatsThis() { Access::showControlHelp ( QApplication::focusWidget() ); }
+
 CHelpMenu::CHelpMenu ( const bool bIsClient, QWidget* parent ) : QMenu ( tr ( "&Help" ), parent )
 {
     QAction* pAction;

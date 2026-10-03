@@ -116,6 +116,11 @@ QVariant cellReadingText ( const QTreeWidgetItem* item );
 void trackItemFocus ( QAbstractItemView* view );
 void notifyCurrentItemTextChanged ( QAbstractItemView* view );
 
+// Shift+F1: the "What's This" explanation of `control` (or of the nearest parent that has one) in a
+// small read-only box, readable with the arrows and on braille; Escape closes it. Jamulus shows it on
+// a mouse click only. Installed application-wide by installApplicationFixes().
+void showControlHelp ( QWidget* control );
+
 // Help list of the family (Ctrl+Shift+H): a dialog with a list of "Shortcut: action" rows
 void showShortcutHelp ( QWidget* parent, const QString& title, const QStringList& rows );
 } // namespace Access

@@ -486,6 +486,14 @@ public:
 
         case QEvent::KeyPress:
         {
+            // Shift+F1 in a window without the Help menu (settings, connection setup...)
+            if ( static_cast<QKeyEvent*> ( event )->key() == Qt::Key_F1 &&
+                 ( static_cast<QKeyEvent*> ( event )->modifiers() & ~Qt::KeypadModifier ) == Qt::ShiftModifier && watched->isWidgetType() &&
+                 static_cast<QWidget*> ( watched )->hasFocus() )
+            {
+                Access::showControlHelp ( static_cast<QWidget*> ( watched ) );
+                return true;
+            }
             // Enter presses the focused button, as everywhere in Windows (Jamulus turned it off on some
             // buttons, "Connect" among them, so that Enter elsewhere would not press them)
             auto*       button = qobject_cast<QPushButton*> ( watched );
@@ -1259,6 +1267,61 @@ void Access::goTo ( QWidget* target )
     {
         announce ( view, QCoreApplication::translate ( "Access", "Empty" ) );
     }
+}
+
+void Access::showControlHelp ( QWidget* control )
+{
+    if ( !control )
+    {
+        return;
+    }
+
+    // the control's own explanation, or the one of the control it belongs to (the field of a combo box)
+    QString strHelp;
+    for ( QWidget* w = control; w && strHelp.isEmpty(); w = w->isWindow() ? nullptr : w->parentWidget() )
+    {
+        strHelp = w->whatsThis();
+    }
+    // Jamulus sometimes puts it on the label of the control only, or in its tooltip only
+    if ( strHelp.isEmpty() )
+    {
+        for ( QLabel* label : control->window()->findChildren<QLabel*>() )
+        {
+            if ( label->buddy() == control && !label->whatsThis().isEmpty() )
+            {
+                strHelp = label->whatsThis();
+                break;
+            }
+        }
+    }
+    if ( strHelp.isEmpty() )
+    {
+        strHelp = control->toolTip();
+    }
+    if ( strHelp.isEmpty() )
+    {
+        announce ( control, QCoreApplication::translate ( "Access", "No help for this control" ) );
+        return;
+    }
+
+    QString strText = Qt::mightBeRichText ( strHelp ) ? QTextDocumentFragment::fromHtml ( strHelp ).toPlainText() : strHelp;
+    strText.replace ( QChar::LineSeparator, '\n' ).replace ( QChar::ParagraphSeparator, '\n' );
+
+    QDialog dialog ( control->window() );
+    dialog.setWindowTitle ( QCoreApplication::translate ( "Access", "Help" ) );
+    auto* layout = new QVBoxLayout ( &dialog );
+    auto* text   = new QPlainTextEdit ( &dialog );
+    text->setReadOnly ( true );
+    text->setPlainText ( strText.trimmed() );
+    text->setAccessibleName ( QCoreApplication::translate ( "Access", "Help" ) ); // short and fixed (braille)
+    text->moveCursor ( QTextCursor::Start );
+    auto* buttons = new QDialogButtonBox ( QDialogButtonBox::Close, &dialog );
+    QObject::connect ( buttons, &QDialogButtonBox::rejected, &dialog, &QDialog::reject );
+    layout->addWidget ( text );
+    layout->addWidget ( buttons );
+    dialog.resize ( 520, 300 );
+    text->setFocus();
+    dialog.exec();
 }
 
 void Access::showShortcutHelp ( QWidget* parent, const QString& title, const QStringList& rows )

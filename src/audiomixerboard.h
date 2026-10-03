@@ -123,6 +123,12 @@ public:
     bool                IsRemoteMuted() { return bIsRemoteMuted; }
     double              GetChannelLevel() { return dChannelLevel; }
     const CChannelInfo& GetChannelInfo() { return cReceivedChanInfo; }
+    QString             GetHelpText() // Jamulus's explanations of the strip, for Shift+F1 in the list
+    {
+        return QStringList { plblLabel->whatsThis(), plbrChannelLevel->whatsThis(), pFader->whatsThis(), pPan->whatsThis(),
+                             pcbMute->whatsThis(),   pcbSolo->whatsThis(),          pcbGroup->whatsThis() }
+            .join ( "<br><br>" );
+    }
 
 protected:
     void UpdateGroupIDDependencies();

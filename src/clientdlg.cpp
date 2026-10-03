@@ -1225,6 +1225,7 @@ void CClientDlg::ShowShortcuts()
                        tr ( "Ctrl+Shift+G: connection status" ),
                        tr ( "1: ping, 2: overall delay (the keys at the top left of the keyboard, not in a text field)" ),
                        tr ( "Ctrl+Shift+H: keyboard shortcuts" ),
+                       tr ( "Shift+F1: explanation of the control that has the focus, in every window" ),
                        tr ( "Ctrl+C: connection setup" ),
                        tr ( "Alt+M: mute myself" ),
                        tr ( "Ctrl+P: my profile" ),

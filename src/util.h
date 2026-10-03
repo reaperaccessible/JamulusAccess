@@ -472,7 +472,7 @@ protected:
     CAboutDlg AboutDlg;
 
 public slots:
-    void OnHelpWhatsThis() { QWhatsThis::enterWhatsThisMode(); }
+    void OnHelpWhatsThis(); // the explanation of the focused control, readable (not a mouse click)
     void OnHelpPrivacyPolicy() { QDesktopServices::openUrl ( QUrl ( PRIVACY_POLICY_URL ) ); }
     void OnHelpAbout() { AboutDlg.exec(); }
     void OnHelpAboutQt() { QMessageBox::aboutQt ( nullptr, QString ( tr ( "About Qt" ) ) ); }

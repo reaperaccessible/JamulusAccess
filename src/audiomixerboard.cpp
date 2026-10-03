@@ -1055,6 +1055,7 @@ CAudioMixerBoard::CAudioMixerBoard ( QWidget* parent ) :
     // the mixer for screen readers: one row per musician, left of the faders
     pAccessList = new CMixerAccessList ( vecpChanFader, this );
     pAccessList->setFixedWidth ( 260 );
+    pAccessList->setWhatsThis ( whatsThis() + "<br><br>" + vecpChanFader[0]->GetHelpText() );
     pAccessList->hide(); // shown with the first musician
 
     // insert horizontal spacer (at position MAX_NUM_CHANNELS+1 which is index MAX_NUM_CHANNELS)
