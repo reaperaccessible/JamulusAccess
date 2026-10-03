@@ -102,9 +102,9 @@ void ignoreValue ( QWidget* widget );
 void keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const QModelIndex& row )> rowText );
 
 // Reading a tree row cell by cell. `cells` gives the informations of a row, each as "Header value"
-// ("Ping Time 25 ms"). Left/Right go from one to the next ("First," / "Last," at the ends), Home is the
-// whole row again, End the last information; Up/Down keep the information chosen, so the next row says
-// the same column. The row items must answer Qt::AccessibleTextRole with cellReadingText(): the text is
+// ("Ping Time 25 ms"). Left/Right go from one to the next ("First," / "Last," at the ends; Left before the
+// first information is the whole row again); Up/Down keep the information chosen, so the next row says
+// the same column; Home/End stay the first and last rows, as in every list. The row items must answer Qt::AccessibleTextRole with cellReadingText(): the text is
 // computed when the screen reader asks, so values changing every second are never spoken by themselves.
 void     installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells );
 QVariant cellReadingText ( const QTreeWidgetItem* item );

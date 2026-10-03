@@ -20,13 +20,13 @@
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1042"/>
+        <location filename="../access/accessibility.cpp" line="1036"/>
         <source>First</source>
         <translation>Premier</translation>
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1050"/>
+        <location filename="../access/accessibility.cpp" line="1044"/>
         <source>Last</source>
         <translation>Dernier</translation>
     </message>
@@ -36,12 +36,12 @@
         <translation>Alt+Flèche haut ou bas pour changer la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1231"/>
+        <location filename="../access/accessibility.cpp" line="1225"/>
         <source>Empty</source>
         <translation>Vide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1239"/>
+        <location filename="../access/accessibility.cpp" line="1233"/>
         <source>%1 items, Escape to close</source>
         <translation>%1 éléments, Échap pour fermer</translation>
     </message>
@@ -996,8 +996,12 @@
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1242"/>
+        <source>In the server list (Ctrl+C): Left and Right read the informations one by one (Left back to the start: the whole row), Up and Down keep the same one, Home and End go to the first and last server, Enter connects</source>
+        <translation>Dans la liste des serveurs (Ctrl+C) : Flèche gauche et droite lisent les informations une à une (Flèche gauche jusqu&apos;au début : la ligne entière), Flèche haut et bas gardent la même, Début et Fin vont au premier et au dernier serveur, Entrée se connecte</translation>
+    </message>
+    <message>
         <source>In the server list (Ctrl+C): Left and Right read the informations one by one, Up and Down keep the same one, Home the whole row, End the last one, Enter connects</source>
-        <translation>Dans la liste des serveurs (Ctrl+C) : Flèche gauche et droite lisent les informations une à une, Flèche haut et bas gardent la même, Début la ligne entière, Fin la dernière, Entrée se connecte</translation>
+        <translation type="vanished">Dans la liste des serveurs (Ctrl+C) : Flèche gauche et droite lisent les informations une à une, Flèche haut et bas gardent la même, Début la ligne entière, Fin la dernière, Entrée se connecte</translation>
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="1243"/>

@@ -1011,7 +1011,7 @@ public:
         const int  code = key->key();
         auto       it   = cellReadings().find ( tree );
         if ( it == cellReadings().end() || ( key->modifiers() & ~Qt::KeypadModifier ) != Qt::NoModifier ||
-             !( code == Qt::Key_Left || code == Qt::Key_Right || code == Qt::Key_Home || code == Qt::Key_End ) )
+             !( code == Qt::Key_Left || code == Qt::Key_Right ) )
         {
             return QObject::eventFilter ( watched, event );
         }
@@ -1029,12 +1029,6 @@ public:
 
         switch ( code )
         {
-        case Qt::Key_Home:
-            column = -1;
-            break;
-        case Qt::Key_End:
-            column = count - 1;
-            break;
         case Qt::Key_Left:
             if ( column < 0 )
             {

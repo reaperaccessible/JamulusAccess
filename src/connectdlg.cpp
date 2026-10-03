@@ -151,7 +151,7 @@ CConnectDlg::CConnectDlg ( CClient* pNCliP, CClientSettings* pNSetP, const bool 
 
     // What the screen reader says for a row: every information, from the whole row to one at a time.
     // Left/Right go from one information to the next, Up/Down keep it from row to row (the same
-    // column), Home is the whole row again; First/Last at the ends. Every row of a kind has the same
+    // column), Left back to the start is the whole row again; First/Last at the ends. Every row of a kind has the same
     // informations in the same order, so a column means the same thing on every row.
     Access::installCellReading ( lvwServers, [this] ( const QTreeWidgetItem* item ) {
         const auto value = [] ( const QString& text, const QString& missing ) { return text.simplified().isEmpty() ? missing : text.simplified(); };
