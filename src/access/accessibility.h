@@ -109,6 +109,13 @@ void keepTreeRowTexts ( QTreeWidget* tree, std::function<QString ( const QModelI
 void     installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells );
 QVariant cellReadingText ( const QTreeWidgetItem* item );
 
+// The current row of `view` has a new text: make the screen reader say it, speech and braille (Qt does
+// not tell it). Qt drops its accessible objects when the rows are sorted again (pings, a musician who
+// joins): the screen reader then still holds the old object and would ignore a name change of the new
+// one, so the row is given the focus again instead. The view must be registered with trackItemFocus().
+void trackItemFocus ( QAbstractItemView* view );
+void notifyCurrentItemTextChanged ( QAbstractItemView* view );
+
 // Help list of the family (Ctrl+Shift+H): a dialog with a list of "Shortcut: action" rows
 void showShortcutHelp ( QWidget* parent, const QString& title, const QStringList& rows );
 } // namespace Access

@@ -63,6 +63,7 @@ CMixerAccessList::CMixerAccessList ( CVector<CChannelFader*>& faders, QWidget* p
     setEditTriggers ( QAbstractItemView::NoEditTriggers );
     setSortingEnabled ( false );
     setUniformItemSizes ( true );
+    Access::trackItemFocus ( this );
 
     for ( size_t i = 0; i < vecpChanFader.Size(); i++ )
     {
@@ -213,12 +214,11 @@ void CMixerAccessList::Refresh ( int iChannel )
         // a value of the current row changed (by us, a MIDI controller or a group): say the value.
         // When nothing it shows changed (another setting, the profile sent again), keep the row as it
         // is, "Maximum, " included, and say nothing.
-        const EMode mode = eMode == M_FULL ? M_FULL : M_VALUE;
-        if ( mode == eMode && RowText ( fader, mode ) == strBase )
+        if ( RowText ( fader, eMode ) == strBase )
         {
             return;
         }
-        SpeakCurrent ( mode, QString(), false );
+        SpeakCurrent ( eMode == M_FULL ? M_FULL : M_VALUE, QString(), false );
     }
     else
     {
@@ -417,21 +417,7 @@ void CMixerAccessList::SpeakCurrent ( EMode mode, const QString& prefix, bool bS
 
     // Qt does not tell screen readers that the text of a row changed: say it for the focused row,
     // so speech and braille both follow
-    if ( hasFocus() && QAccessible::isActive() )
-    {
-        if ( QAccessibleInterface* iface = QAccessible::queryAccessibleInterface ( this ) )
-        {
-            if ( QAccessibleTableInterface* table = iface->tableInterface() )
-            {
-                if ( QAccessibleInterface* cell = table->cellAt ( row ( it ), 0 ) )
-                {
-                    QAccessibleEvent event ( this, QAccessible::NameChanged );
-                    event.setChild ( iface->indexOfChild ( cell ) );
-                    QAccessible::updateAccessibility ( &event );
-                }
-            }
-        }
-    }
+    Access::notifyCurrentItemTextChanged ( this );
 }
 
 void CMixerAccessList::focusOutEvent ( QFocusEvent* event )

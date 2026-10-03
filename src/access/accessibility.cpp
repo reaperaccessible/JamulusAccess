@@ -993,28 +993,7 @@ QHash<const QTreeWidget*, CellReading>& cellReadings()
     return registry;
 }
 
-// the current row took another text: say it (Qt does not), for speech and braille alike
-void notifyCurrentRowName ( QTreeWidget* tree )
-{
-    const QModelIndex current = tree->currentIndex();
-    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface ( tree );
-    if ( !current.isValid() || !iface || !iface->tableInterface() || !QAccessible::isActive() )
-    {
-        return;
-    }
-    // the accessible table counts the rows shown on screen: a musician under a server is not at its model row
-    int visualRow = 0;
-    for ( QModelIndex above = tree->indexAbove ( current ); above.isValid(); above = tree->indexAbove ( above ) )
-    {
-        ++visualRow;
-    }
-    if ( QAccessibleInterface* cell = iface->tableInterface()->cellAt ( visualRow, 0 ) )
-    {
-        QAccessibleEvent event ( tree, QAccessible::NameChanged );
-        event.setChild ( iface->indexOfChild ( cell ) );
-        QAccessible::updateAccessibility ( &event );
-    }
-}
+void notifyCurrentRowName ( QTreeWidget* tree ) { Access::notifyCurrentItemTextChanged ( tree ); }
 
 class CellReadingFilter final : public QObject
 {
@@ -1081,8 +1060,92 @@ public:
 };
 } // namespace
 
+namespace
+{
+// the accessible object of the current row that the screen reader last received with the focus
+QHash<const QAbstractItemView*, QAccessible::Id>& focusedItemIds()
+{
+    static QHash<const QAbstractItemView*, QAccessible::Id> registry;
+    return registry;
+}
+
+QAccessibleInterface* currentItemInterface ( QAbstractItemView* view )
+{
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface ( view );
+    QAccessibleInterface* item  = iface ? iface->focusChild() : nullptr;
+    return ( item && item != iface && item->isValid() ) ? item : nullptr;
+}
+
+void rememberFocusedItem ( QAbstractItemView* view )
+{
+    if ( !QAccessible::isActive() || !view->hasFocus() )
+    {
+        return;
+    }
+    if ( QAccessibleInterface* item = currentItemInterface ( view ) )
+    {
+        focusedItemIds()[view] = QAccessible::uniqueId ( item );
+    }
+}
+
+class ItemFocusFilter final : public QObject
+{
+public:
+    using QObject::QObject;
+
+    bool eventFilter ( QObject* watched, QEvent* event ) override
+    {
+        if ( event->type() == QEvent::FocusIn )
+        {
+            // after Qt has told the screen reader about the row
+            auto* view = static_cast<QAbstractItemView*> ( watched );
+            QTimer::singleShot ( 0, view, [view] { rememberFocusedItem ( view ); } );
+        }
+        return QObject::eventFilter ( watched, event );
+    }
+};
+} // namespace
+
+void Access::trackItemFocus ( QAbstractItemView* view )
+{
+    view->installEventFilter ( new ItemFocusFilter ( view ) );
+    QObject::connect ( view, &QObject::destroyed, qApp, [view] { focusedItemIds().remove ( view ); } );
+    // the view's own slot told the screen reader first (it was connected first)
+    QObject::connect ( view->selectionModel(), &QItemSelectionModel::currentChanged, view, [view] { rememberFocusedItem ( view ); } );
+}
+
+void Access::notifyCurrentItemTextChanged ( QAbstractItemView* view )
+{
+    if ( !QAccessible::isActive() || !view->hasFocus() )
+    {
+        return;
+    }
+    QAccessibleInterface* iface = QAccessible::queryAccessibleInterface ( view );
+    QAccessibleInterface* item  = currentItemInterface ( view );
+    if ( !iface || !item )
+    {
+        return;
+    }
+
+    const QAccessible::Id id = QAccessible::uniqueId ( item );
+    if ( focusedItemIds().value ( view ) == id )
+    {
+        QAccessibleEvent event ( view, QAccessible::NameChanged );
+        event.setChild ( iface->indexOfChild ( item ) );
+        QAccessible::updateAccessibility ( &event );
+        return;
+    }
+
+    // Qt made a new object for the row since the screen reader got the focus: give it the focus
+    QAccessibleEvent event ( view, QAccessible::Focus );
+    event.setChild ( iface->indexOfChild ( item ) );
+    QAccessible::updateAccessibility ( &event );
+    focusedItemIds()[view] = id;
+}
+
 void Access::installCellReading ( QTreeWidget* tree, std::function<QStringList ( const QTreeWidgetItem* item )> cells )
 {
+    trackItemFocus ( tree );
     cellReadings().insert ( tree, { std::move ( cells ), -1 } );
     QObject::connect ( tree, &QObject::destroyed, qApp, [tree] { cellReadings().remove ( tree ); } );
     tree->installEventFilter ( new CellReadingFilter ( tree ) );
