@@ -487,6 +487,47 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
         return false;
     } );
 
+    // 1 and 2 (the keys at the top left, whatever they type on the keyboard layout): the ping and the
+    // overall delay, at once. Not in a text field, where they type their character.
+    Access::installDigitKeys ( this, Qt::NoModifier, [this] ( int iDigit ) {
+        if ( iDigit != 1 && iDigit != 2 )
+        {
+            return false;
+        }
+        if ( !pClient->IsRunning() )
+        {
+            Access::announce ( this, tr ( "Not connected" ) );
+        }
+        else if ( iLastPingMs < 0 )
+        {
+            Access::announce ( this, tr ( "Not measured yet" ) );
+        }
+        else if ( iDigit == 1 )
+        {
+            Access::announce ( this, tr ( "Ping %1 ms" ).arg ( iLastPingMs ) );
+        }
+        else
+        {
+            QString strQuality;
+            switch ( ledDelay->GetLight() )
+            {
+            case CMultiColorLED::RL_GREEN:
+                strQuality = " " + tr ( "good" );
+                break;
+            case CMultiColorLED::RL_YELLOW:
+                strQuality = " " + tr ( "fair" );
+                break;
+            case CMultiColorLED::RL_RED:
+                strQuality = " " + tr ( "too high" );
+                break;
+            default:
+                break;
+            }
+            Access::announce ( this, tr ( "Delay %1 ms" ).arg ( iLastDelayMs ) + strQuality );
+        }
+        return true;
+    } );
+
     // Ctrl+Shift+G: the connection status, Ctrl+Shift+H: the keyboard shortcuts
     QObject::connect ( new QShortcut ( QKeySequence ( Qt::CTRL | Qt::SHIFT | Qt::Key_G ), this ), &QShortcut::activated, this, [this] {
         Access::announce ( this, StatusText() );
@@ -1182,6 +1223,7 @@ void CClientDlg::ShowShortcuts()
                        tr ( "Ctrl+2: messages" ),
                        tr ( "Escape in the messages: back to the session" ),
                        tr ( "Ctrl+Shift+G: connection status" ),
+                       tr ( "1: ping, 2: overall delay (the keys at the top left of the keyboard, not in a text field)" ),
                        tr ( "Ctrl+Shift+H: keyboard shortcuts" ),
                        tr ( "Ctrl+C: connection setup" ),
                        tr ( "Alt+M: mute myself" ),

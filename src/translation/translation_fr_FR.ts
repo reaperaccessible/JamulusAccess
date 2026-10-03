@@ -20,13 +20,13 @@
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1063"/>
+        <location filename="../access/accessibility.cpp" line="1042"/>
         <source>First</source>
         <translation>Premier</translation>
     </message>
     <message>
         <location filename="../access/accessibility.cpp" line="866"/>
-        <location filename="../access/accessibility.cpp" line="1071"/>
+        <location filename="../access/accessibility.cpp" line="1050"/>
         <source>Last</source>
         <translation>Dernier</translation>
     </message>
@@ -36,12 +36,12 @@
         <translation>Alt+Flèche haut ou bas pour changer la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1168"/>
+        <location filename="../access/accessibility.cpp" line="1231"/>
         <source>Empty</source>
         <translation>Vide</translation>
     </message>
     <message>
-        <location filename="../access/accessibility.cpp" line="1176"/>
+        <location filename="../access/accessibility.cpp" line="1239"/>
         <source>%1 items, Escape to close</source>
         <translation>%1 éléments, Échap pour fermer</translation>
     </message>
@@ -764,7 +764,7 @@
     </message>
     <message>
         <location filename="../clientdlg.cpp" line="268"/>
-        <location filename="../clientdlg.cpp" line="1434"/>
+        <location filename="../clientdlg.cpp" line="1476"/>
         <source>C&amp;onnect</source>
         <translation>Se c&amp;onnecter</translation>
     </message>
@@ -804,222 +804,238 @@
         <translation>Eff&amp;acer tous les paramètres solo et muet enregistrés</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="802"/>
+        <location filename="../clientdlg.cpp" line="843"/>
         <source>%1 Directory</source>
         <translation>Répertoire de %1</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1094"/>
+        <location filename="../clientdlg.cpp" line="1135"/>
         <source>Messages</source>
         <translation>Messages</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1094"/>
+        <location filename="../clientdlg.cpp" line="1135"/>
         <source>Session</source>
         <translation>Session</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1121"/>
+        <location filename="../clientdlg.cpp" line="499"/>
+        <location filename="../clientdlg.cpp" line="1162"/>
         <source>Not connected</source>
         <translation>Non connecté</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1126"/>
+        <location filename="../clientdlg.cpp" line="1167"/>
         <source>1 musician</source>
         <translation>1 musicien</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1126"/>
+        <location filename="../clientdlg.cpp" line="1167"/>
         <source>%1 musicians</source>
         <translation>%1 musiciens</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1134"/>
+        <location filename="../clientdlg.cpp" line="515"/>
+        <location filename="../clientdlg.cpp" line="1175"/>
         <source>good</source>
         <translation>bon</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1137"/>
+        <location filename="../clientdlg.cpp" line="518"/>
+        <location filename="../clientdlg.cpp" line="1178"/>
         <source>fair</source>
         <translation>moyen</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1140"/>
+        <location filename="../clientdlg.cpp" line="521"/>
+        <location filename="../clientdlg.cpp" line="1181"/>
         <source>too high</source>
         <translation>trop élevé</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1145"/>
+        <location filename="../clientdlg.cpp" line="507"/>
+        <location filename="../clientdlg.cpp" line="1186"/>
         <source>Ping %1 ms</source>
         <translation>Ping %1 ms</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1146"/>
+        <location filename="../clientdlg.cpp" line="503"/>
+        <source>Not measured yet</source>
+        <translation>Pas encore mesuré</translation>
+    </message>
+    <message>
+        <location filename="../clientdlg.cpp" line="526"/>
+        <location filename="../clientdlg.cpp" line="1187"/>
         <source>Delay %1 ms</source>
         <translation>Délai %1 ms</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1151"/>
+        <location filename="../clientdlg.cpp" line="1192"/>
         <source>Audio dropouts</source>
         <translation>Coupures audio</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1155"/>
+        <location filename="../clientdlg.cpp" line="1196"/>
         <source>Audio stream OK</source>
         <translation>Flux audio correct</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1162"/>
+        <location filename="../clientdlg.cpp" line="1203"/>
         <source>silent</source>
         <translation>silence</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1166"/>
+        <location filename="../clientdlg.cpp" line="1207"/>
         <source>Input %1, %2</source>
         <translation>Entrée %1, %2</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1170"/>
+        <location filename="../clientdlg.cpp" line="1211"/>
         <source>Muted myself</source>
         <translation>Je suis en silence</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1174"/>
+        <location filename="../clientdlg.cpp" line="1215"/>
         <source>Recording</source>
         <translation>Enregistrement en cours</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1181"/>
+        <location filename="../clientdlg.cpp" line="1222"/>
         <source>Ctrl+1: session (mixer)</source>
         <translation>Ctrl+1 : session (mixeur)</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1182"/>
+        <location filename="../clientdlg.cpp" line="1223"/>
         <source>Ctrl+2: messages</source>
         <translation>Ctrl+2 : messages</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1183"/>
+        <location filename="../clientdlg.cpp" line="1224"/>
         <source>Escape in the messages: back to the session</source>
         <translation>Échap dans les messages : retour à la session</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1184"/>
+        <location filename="../clientdlg.cpp" line="1225"/>
         <source>Ctrl+Shift+G: connection status</source>
         <translation>Ctrl+Maj+G : état de la connexion</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1185"/>
+        <location filename="../clientdlg.cpp" line="1226"/>
+        <source>1: ping, 2: overall delay (the keys at the top left of the keyboard, not in a text field)</source>
+        <translation>1 : ping, 2 : délai total (les touches en haut à gauche du clavier, hors d&apos;un champ de texte)</translation>
+    </message>
+    <message>
+        <location filename="../clientdlg.cpp" line="1227"/>
         <source>Ctrl+Shift+H: keyboard shortcuts</source>
         <translation>Ctrl+Maj+H : raccourcis clavier</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1186"/>
+        <location filename="../clientdlg.cpp" line="1228"/>
         <source>Ctrl+C: connection setup</source>
         <translation>Ctrl+C : configuration de la connexion</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1187"/>
+        <location filename="../clientdlg.cpp" line="1229"/>
         <source>Alt+M: mute myself</source>
         <translation>Alt+M : me silencer</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1188"/>
+        <location filename="../clientdlg.cpp" line="1230"/>
         <source>Ctrl+P: my profile</source>
         <translation>Ctrl+P : mon profil</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1189"/>
+        <location filename="../clientdlg.cpp" line="1231"/>
         <source>Ctrl+S: audio and network settings</source>
         <translation>Ctrl+S : paramètres audio et réseau</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1190"/>
+        <location filename="../clientdlg.cpp" line="1232"/>
         <source>Ctrl+D: advanced settings</source>
         <translation>Ctrl+D : paramètres avancés</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1191"/>
+        <location filename="../clientdlg.cpp" line="1233"/>
         <source>Ctrl+M: MIDI control settings</source>
         <translation>Ctrl+M : paramètres de contrôle MIDI</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1192"/>
+        <location filename="../clientdlg.cpp" line="1234"/>
         <source>Ctrl+L: set all faders to the new client level</source>
         <translation>Ctrl+L : régler tous les chariots au niveau des nouveaux clients</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1193"/>
+        <location filename="../clientdlg.cpp" line="1235"/>
         <source>Ctrl+F: auto-adjust all faders</source>
         <translation>Ctrl+F : ajuster automatiquement tous les chariots</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1194"/>
+        <location filename="../clientdlg.cpp" line="1236"/>
         <source>Ctrl+W: own fader first</source>
         <translation>Ctrl+W : mon chariot en premier</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1195"/>
+        <location filename="../clientdlg.cpp" line="1237"/>
         <source>Ctrl+N, Ctrl+I, Ctrl+G, Ctrl+T, Ctrl+E, Ctrl+O: sort by name, instrument, group, city, channel, no sorting</source>
         <translation>Ctrl+N, Ctrl+I, Ctrl+G, Ctrl+T, Ctrl+E, Ctrl+O : trier par nom, instrument, groupe, ville, canal, sans tri</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1196"/>
+        <location filename="../clientdlg.cpp" line="1238"/>
         <source>Ctrl+Q: quit</source>
         <translation>Ctrl+Q : quitter</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1197"/>
+        <location filename="../clientdlg.cpp" line="1239"/>
         <source>In the mixer:</source>
         <translation>Dans le mixeur :</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1199"/>
+        <location filename="../clientdlg.cpp" line="1241"/>
         <source>In the messages: Up and Down read the messages, Enter opens a link, Ctrl+C copies, Tab goes to the line to write</source>
         <translation>Dans les messages : Flèche haut et bas lisent les messages, Entrée ouvre un lien, Ctrl+C copie, Tab va à la ligne d&apos;écriture</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1200"/>
+        <location filename="../clientdlg.cpp" line="1242"/>
         <source>In the server list (Ctrl+C): Left and Right read the informations one by one, Up and Down keep the same one, Home the whole row, End the last one, Enter connects</source>
         <translation>Dans la liste des serveurs (Ctrl+C) : Flèche gauche et droite lisent les informations une à une, Flèche haut et bas gardent la même, Début la ligne entière, Fin la dernière, Entrée se connecte</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1201"/>
+        <location filename="../clientdlg.cpp" line="1243"/>
         <source>Sliders: Alt+Up and Alt+Down change the value, Alt+Shift for a small step</source>
         <translation>Curseurs : Alt+Flèche haut et bas changent la valeur, Alt+Maj pour un petit pas</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1202"/>
+        <location filename="../clientdlg.cpp" line="1244"/>
         <source>Keyboard shortcuts</source>
         <translation>Raccourcis clavier</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1365"/>
+        <location filename="../clientdlg.cpp" line="1407"/>
         <source>Ok</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1418"/>
+        <location filename="../clientdlg.cpp" line="1460"/>
         <source>Close</source>
         <translation>Fermer</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1425"/>
+        <location filename="../clientdlg.cpp" line="1467"/>
         <source>Disconnected</source>
         <translation>Déconnecté</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1614"/>
+        <location filename="../clientdlg.cpp" line="1656"/>
         <source>This server is recording</source>
         <translation>Ce serveur enregistre</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1614"/>
+        <location filename="../clientdlg.cpp" line="1656"/>
         <source>Recording started</source>
         <translation>Enregistrement démarré</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1618"/>
+        <location filename="../clientdlg.cpp" line="1660"/>
         <source>Recording stopped</source>
         <translation>Enregistrement arrêté</translation>
     </message>
@@ -1184,43 +1200,43 @@
         <translation>Paramètres de contrôle &amp;MIDI...</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="665"/>
+        <location filename="../clientdlg.cpp" line="706"/>
         <source>Disconnect and quit?</source>
         <translation>Se déconnecter et quitter ?</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="842"/>
-        <location filename="../clientdlg.cpp" line="854"/>
+        <location filename="../clientdlg.cpp" line="883"/>
+        <location filename="../clientdlg.cpp" line="895"/>
         <source>Select Channel Setup File</source>
         <translation>Sélectionnez le fichier de configuration des canaux</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="955"/>
+        <location filename="../clientdlg.cpp" line="996"/>
         <source>Connected, 1 musician</source>
         <translation>Connecté, 1 musicien</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="955"/>
+        <location filename="../clientdlg.cpp" line="996"/>
         <source>Connected, %1 musicians</source>
         <translation>Connecté, %1 musiciens</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1009"/>
+        <location filename="../clientdlg.cpp" line="1050"/>
         <source>user</source>
         <translation>utilisateur</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1013"/>
+        <location filename="../clientdlg.cpp" line="1054"/>
         <source>users</source>
         <translation>utilisateurs</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1045"/>
+        <location filename="../clientdlg.cpp" line="1086"/>
         <source>Connect</source>
         <translation>Se connecter</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1057"/>
+        <location filename="../clientdlg.cpp" line="1098"/>
         <source>Settings</source>
         <translation>Paramètres</translation>
     </message>
@@ -1229,12 +1245,12 @@
         <translation type="vanished">Tchate</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1262"/>
+        <location filename="../clientdlg.cpp" line="1304"/>
         <source>Enable feedback detection</source>
         <translation>Activer la détection de larsen</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1265"/>
+        <location filename="../clientdlg.cpp" line="1307"/>
         <source>Audio feedback or loud signal detected.
 
 We muted your channel and activated &apos;Mute Myself&apos;. Please solve the feedback issue first and unmute yourself afterwards.</source>
@@ -1243,12 +1259,12 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
 Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apos;abord résoudre le problème de larsen et rétablir votre son après.</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1350"/>
+        <location filename="../clientdlg.cpp" line="1392"/>
         <source>Your sound card is not working correctly. Please open the settings dialog and check the device selection and the driver settings.</source>
         <translation>Votre carte son ne fonctionne pas correctement. Veuillez ouvrir la fenêtre paramètres et vérifier la sélection du périphérique et les paramètres du pilote.</translation>
     </message>
     <message>
-        <location filename="../clientdlg.cpp" line="1399"/>
+        <location filename="../clientdlg.cpp" line="1441"/>
         <source>&amp;Disconnect</source>
         <translation>&amp;Déconnecter</translation>
     </message>
@@ -3336,57 +3352,57 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation>Mixeur</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="114"/>
+        <location filename="../access/mixerlist.cpp" line="115"/>
         <source>Up and Down: musicians</source>
         <translation>Flèche haut et bas : les musiciens</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="115"/>
+        <location filename="../access/mixerlist.cpp" line="116"/>
         <source>Left and Right: Volume, Pan, Mute, Solo, Group, Level, Profile</source>
         <translation>Flèche gauche et droite : Volume, Panoramique, Muet, Solo, Groupe, Niveau, Profil</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="116"/>
+        <location filename="../access/mixerlist.cpp" line="117"/>
         <source>Alt+Up and Alt+Down: change the value</source>
         <translation>Alt+Flèche haut et Alt+Flèche bas : changer la valeur</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="117"/>
+        <location filename="../access/mixerlist.cpp" line="118"/>
         <source>Alt+Shift+Up and Alt+Shift+Down: small step</source>
         <translation>Alt+Maj+Flèche haut et bas : petit pas</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="118"/>
+        <location filename="../access/mixerlist.cpp" line="119"/>
         <source>Enter or Space: switch Mute or Solo, read the Level again</source>
         <translation>Entrée ou Espace : basculer Muet ou Solo, relire le Niveau</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="119"/>
+        <location filename="../access/mixerlist.cpp" line="120"/>
         <source>M: mute the musician</source>
         <translation>M : rendre le musicien muet</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="120"/>
+        <location filename="../access/mixerlist.cpp" line="121"/>
         <source>S: solo the musician</source>
         <translation>S : mettre le musicien en solo</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="161"/>
+        <location filename="../access/mixerlist.cpp" line="162"/>
         <source>%1 left</source>
         <translation>%1 est parti</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="176"/>
+        <location filename="../access/mixerlist.cpp" line="177"/>
         <source>%1 joined</source>
         <translation>%1 est arrivé</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="207"/>
+        <location filename="../access/mixerlist.cpp" line="208"/>
         <source>%1 muted you</source>
         <translation>%1 vous a rendu muet</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="207"/>
+        <location filename="../access/mixerlist.cpp" line="208"/>
         <source>%1 unmuted you</source>
         <translation>%1 vous entend de nouveau</translation>
     </message>
@@ -3498,37 +3514,37 @@ Nous avons coupé votre canal et activé &quot;Me silencer&quot;. Veuillez d&apo
         <translation>Aucun profil</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="495"/>
+        <location filename="../access/mixerlist.cpp" line="481"/>
         <source>First, </source>
         <translation>Premier, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="495"/>
+        <location filename="../access/mixerlist.cpp" line="481"/>
         <source>Last, </source>
         <translation>Dernier, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="555"/>
+        <location filename="../access/mixerlist.cpp" line="541"/>
         <source>Maximum, </source>
         <translation>Maximum, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="555"/>
+        <location filename="../access/mixerlist.cpp" line="541"/>
         <source>Minimum, </source>
         <translation>Minimum, </translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="639"/>
+        <location filename="../access/mixerlist.cpp" line="625"/>
         <source>Alt Up and Down adjust</source>
         <translation>Alt Flèche haut et bas pour régler</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="660"/>
+        <location filename="../access/mixerlist.cpp" line="646"/>
         <source>on</source>
         <translation>activé</translation>
     </message>
     <message>
-        <location filename="../access/mixerlist.cpp" line="660"/>
+        <location filename="../access/mixerlist.cpp" line="646"/>
         <source>off</source>
         <translation>désactivé</translation>
     </message>
