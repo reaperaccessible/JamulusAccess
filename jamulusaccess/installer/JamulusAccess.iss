@@ -53,11 +53,14 @@ english.LaunchApp=Start JamulusAccess
 french.ServerShortcut=Serveur JamulusAccess
 french.ManualShortcut=Manuel de JamulusAccess
 french.LaunchApp=Démarrer JamulusAccess
+; the standard CreateDesktopIcon message has an "&" that screen readers read in the task list
+english.DesktopIcon=Create a desktop icon
+french.DesktopIcon=Créer une icône sur le Bureau
 english.ManualFile=manual_en.html
 french.ManualFile=manual_fr.html
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:DesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
 ; the deployed program: JamulusAccess.exe, Qt, Qt's translations, docs\ (manual and changelog)
