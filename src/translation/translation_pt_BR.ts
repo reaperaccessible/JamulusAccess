@@ -1578,18 +1578,18 @@ Silenciamos seu canal e ativamos &apos;Silenciar-me&apos;. Resolva o problema de
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="434"/>
-        <source>Select which MIDI output port to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
-        <translation>Selecione a porta de saída MIDI à qual deseja conectar. Jamulus conectará automaticamente sua porta de entrada MIDI ao dispositivo selecionado quando ativado. Você também pode usar o gerenciador de conexões de sua preferência para alterar as conexões manualmente.</translation>
+        <source>Select which MIDI output port to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
+        <translation>Selecione a porta de saída MIDI à qual deseja conectar. JamulusAccess conectará automaticamente sua porta de entrada MIDI ao dispositivo selecionado quando ativado. Você também pode usar o gerenciador de conexões de sua preferência para alterar as conexões manualmente.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="438"/>
-        <source>Select which MIDI source to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
-        <translation>Selecione a fonte MIDI à qual deseja se conectar. Jamulus conectará automaticamente sua porta de entrada MIDI ao dispositivo selecionado quando ativado. Você também pode usar a Configuração de Áudio MIDI para alterar as conexões manualmente.</translation>
+        <source>Select which MIDI source to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
+        <translation>Selecione a fonte MIDI à qual deseja se conectar. JamulusAccess conectará automaticamente sua porta de entrada MIDI ao dispositivo selecionado quando ativado. Você também pode usar a Configuração de Áudio MIDI para alterar as conexões manualmente.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="442"/>
-        <source>Select which MIDI input device(s) Jamulus should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
-        <translation>Selecione quais dispositivos de entrada MIDI o Jamulus deve receber. Selecione &quot;Todos os dispositivos&quot; para receber MIDI de todos os dispositivos conectados ou escolha um dispositivo específico.</translation>
+        <source>Select which MIDI input device(s) JamulusAccess should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
+        <translation>Selecione quais dispositivos de entrada MIDI o JamulusAccess deve receber. Selecione &quot;Todos os dispositivos&quot; para receber MIDI de todos os dispositivos conectados ou escolha um dispositivo específico.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="445"/>
@@ -1603,8 +1603,8 @@ Silenciamos seu canal e ativamos &apos;Silenciar-me&apos;. Resolva o problema de
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="448"/>
-        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>Há um parâmetro global de canal MIDI (0-16) e dois parâmetros que você pode definir para cada item controlado: o primeiro CC MIDI e a quantidade de CCs consecutivos (contagem). Primeiro, defina o canal que você deseja que o Jamulus receba (0 para todos os canais). Em seguida, para cada item que você deseja controlar (fader de volume, pan, solo, mudo), defina o primeiro CC MIDI (número do CC inicial) e a quantidade de CCs consecutivos (contagem). Há uma exceção que não requer a definição de CCs consecutivos: o parâmetro &quot;Silenciar-me&quot; - ele requer apenas um único número de CC, pois se aplica somente ao seu próprio fluxo de áudio.</translation>
+        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want JamulusAccess to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
+        <translation>Há um parâmetro global de canal MIDI (0-16) e dois parâmetros que você pode definir para cada item controlado: o primeiro CC MIDI e a quantidade de CCs consecutivos (contagem). Primeiro, defina o canal que você deseja que o JamulusAccess receba (0 para todos os canais). Em seguida, para cada item que você deseja controlar (fader de volume, pan, solo, mudo), defina o primeiro CC MIDI (número do CC inicial) e a quantidade de CCs consecutivos (contagem). Há uma exceção que não requer a definição de CCs consecutivos: o parâmetro &quot;Silenciar-me&quot; - ele requer apenas um único número de CC, pois se aplica somente ao seu próprio fluxo de áudio.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="457"/>
@@ -2725,8 +2725,8 @@ Silenciamos seu canal e ativamos &apos;Silenciar-me&apos;. Resolva o problema de
     </message>
     <message>
         <location filename="../util.cpp" line="681"/>
-        <source>&amp;About Jamulus...</source>
-        <translation>&amp;Sobre o Jamulus...</translation>
+        <source>&amp;About JamulusAccess...</source>
+        <translation>&amp;Sobre o JamulusAccess...</translation>
     </message>
     <message>
         <location filename="../util.cpp" line="683"/>

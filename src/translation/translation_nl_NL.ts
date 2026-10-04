@@ -1574,18 +1574,18 @@ We hebben uw kanaal gedempt en &apos;Demp mijzelf&apos; geactiveerd. Los eerst h
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="434"/>
-        <source>Select which MIDI output port to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
-        <translation>Selecteer de MIDI-uitgangspoort waarmee u verbinding wilt maken. Jamulus verbindt automatisch de MIDI-ingangspoort met het geselecteerde apparaat wanneer deze functie is ingeschakeld. U kunt ook uw favoriete verbindingsbeheerder gebruiken om de verbindingen handmatig te wijzigen.</translation>
+        <source>Select which MIDI output port to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
+        <translation>Selecteer de MIDI-uitgangspoort waarmee u verbinding wilt maken. JamulusAccess verbindt automatisch de MIDI-ingangspoort met het geselecteerde apparaat wanneer deze functie is ingeschakeld. U kunt ook uw favoriete verbindingsbeheerder gebruiken om de verbindingen handmatig te wijzigen.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="438"/>
-        <source>Select which MIDI source to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
-        <translation>Selecteer de MIDI-bron waarmee u verbinding wilt maken. Jamulus verbindt automatisch de MIDI-ingangspoort met het geselecteerde apparaat wanneer dit is ingeschakeld. U kunt ook Audio MIDI instellingen gebruiken om de verbindingen handmatig te wijzigen.</translation>
+        <source>Select which MIDI source to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
+        <translation>Selecteer de MIDI-bron waarmee u verbinding wilt maken. JamulusAccess verbindt automatisch de MIDI-ingangspoort met het geselecteerde apparaat wanneer dit is ingeschakeld. U kunt ook Audio MIDI instellingen gebruiken om de verbindingen handmatig te wijzigen.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="442"/>
-        <source>Select which MIDI input device(s) Jamulus should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
-        <translation>Selecteer naar welke MIDI-ingangsapparaten Jamulus moet luisteren. Selecteer &apos;Alle apparaten&apos; om MIDI van alle aangesloten apparaten te ontvangen, of kies een specifiek apparaat.</translation>
+        <source>Select which MIDI input device(s) JamulusAccess should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
+        <translation>Selecteer naar welke MIDI-ingangsapparaten JamulusAccess moet luisteren. Selecteer &apos;Alle apparaten&apos; om MIDI van alle aangesloten apparaten te ontvangen, of kies een specifiek apparaat.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="445"/>
@@ -1599,8 +1599,8 @@ We hebben uw kanaal gedempt en &apos;Demp mijzelf&apos; geactiveerd. Los eerst h
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="448"/>
-        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>Er is één globale MIDI-kanaalparameter (0-16) en twee parameters die u voor elk te bedienen item kunt instellen: de eerste MIDI CC en het aantal opeenvolgende CC-nummers. Stel eerst het kanaal in waarop Jamulus moet luisteren (0 voor alle kanalen). Stel vervolgens voor elk item dat u wilt bedienen (volumefader, balans, solo, demp) de eerste MIDI CC (het CC-nummer waarmee u wilt beginnen) en het aantal opeenvolgende CC-nummers in. Er is één uitzondering waarbij het instellen van opeenvolgende CC-nummers niet nodig is: de parameter &quot;Demp mijzelf&quot;. Deze vereist slechts één CC-nummer, omdat deze alleen van toepassing is op uw eigen audiostream.</translation>
+        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want JamulusAccess to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
+        <translation>Er is één globale MIDI-kanaalparameter (0-16) en twee parameters die u voor elk te bedienen item kunt instellen: de eerste MIDI CC en het aantal opeenvolgende CC-nummers. Stel eerst het kanaal in waarop JamulusAccess moet luisteren (0 voor alle kanalen). Stel vervolgens voor elk item dat u wilt bedienen (volumefader, balans, solo, demp) de eerste MIDI CC (het CC-nummer waarmee u wilt beginnen) en het aantal opeenvolgende CC-nummers in. Er is één uitzondering waarbij het instellen van opeenvolgende CC-nummers niet nodig is: de parameter &quot;Demp mijzelf&quot;. Deze vereist slechts één CC-nummer, omdat deze alleen van toepassing is op uw eigen audiostream.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="457"/>
@@ -2721,8 +2721,8 @@ We hebben uw kanaal gedempt en &apos;Demp mijzelf&apos; geactiveerd. Los eerst h
     </message>
     <message>
         <location filename="../util.cpp" line="681"/>
-        <source>&amp;About Jamulus...</source>
-        <translation>&amp;Over Jamulus...</translation>
+        <source>&amp;About JamulusAccess...</source>
+        <translation>&amp;Over JamulusAccess...</translation>
     </message>
     <message>
         <location filename="../util.cpp" line="683"/>

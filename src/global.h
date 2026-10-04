@@ -88,17 +88,17 @@ LED bar:      lbr
 // version and application name (use version from qt prject file)
 #undef VERSION
 #define VERSION  GetDisplayVersion ( APP_VERSION )
-#define APP_NAME "Jamulus"
+#define APP_NAME "JamulusAccess" // the accessible version (the name everywhere the user sees it)
 
 // Windows registry key name of auto run entry for the server
-#define AUTORUN_SERVER_REG_NAME "Jamulus server"
+#define AUTORUN_SERVER_REG_NAME "JamulusAccess server"
 
 // default names of the ini-file for client and server
-#define DEFAULT_INI_FILE_NAME        "Jamulus.ini"
-#define DEFAULT_INI_FILE_NAME_SERVER "Jamulusserver.ini"
+#define DEFAULT_INI_FILE_NAME        "JamulusAccess.ini"
+#define DEFAULT_INI_FILE_NAME_SERVER "JamulusAccessserver.ini"
 
 // file name for logging file
-#define DEFAULT_LOG_FILE_NAME "Jamulussrvlog.txt"
+#define DEFAULT_LOG_FILE_NAME "JamulusAccesssrvlog.txt"
 
 // System block size, this is the block size on which the audio coder works.
 // All other block sizes must be a multiple of this size.

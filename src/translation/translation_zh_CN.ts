@@ -1502,18 +1502,18 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="434"/>
-        <source>Select which MIDI output port to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
-        <translation>选择要连接的 MIDI 输出端口。启用后，Jamulus 会自动将其 MIDI 输入端口连接到所选设备。您还可以使用选择的连接管理器手动更改连接。</translation>
+        <source>Select which MIDI output port to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
+        <translation>选择要连接的 MIDI 输出端口。启用后，JamulusAccess 会自动将其 MIDI 输入端口连接到所选设备。您还可以使用选择的连接管理器手动更改连接。</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="438"/>
-        <source>Select which MIDI source to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
-        <translation>选择要连接的 MIDI 源。启用后，Jamulus 将自动将其 MIDI 输入端口连接到所选设备。您还可以使用音频 MIDI 设置来手动更改连接。</translation>
+        <source>Select which MIDI source to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
+        <translation>选择要连接的 MIDI 源。启用后，JamulusAccess 将自动将其 MIDI 输入端口连接到所选设备。您还可以使用音频 MIDI 设置来手动更改连接。</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="442"/>
-        <source>Select which MIDI input device(s) Jamulus should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
-        <translation>选择 Jamulus 应监听的 MIDI 输入设备。选择“所有设备”以从所有连接的设备接收 MIDI，或选择一个特定的设备。</translation>
+        <source>Select which MIDI input device(s) JamulusAccess should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
+        <translation>选择 JamulusAccess 应监听的 MIDI 输入设备。选择“所有设备”以从所有连接的设备接收 MIDI，或选择一个特定的设备。</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="445"/>
@@ -1527,8 +1527,8 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="448"/>
-        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>有一个全局 MIDI 通道参数 (0-16) 和两个可为每个控制项目设置的参数：第一个 MIDI CC 和连续 CC 编号（计数）。首先设置您希望 Jamulus 收听的通道（0 表示所有通道）。然后，对于要控制的每个项目（音量推子、声相、独奏、静音），设置第一个 MIDI CC（从其开始的 CC 编号）和连续 CC 编号的数量（计数）。有一个例外，不需要建立连续的 CC 编号，即“静音自己”参数 - 它只需要一个 CC 编号，因为它仅适用于自己的音频流。</translation>
+        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want JamulusAccess to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
+        <translation>有一个全局 MIDI 通道参数 (0-16) 和两个可为每个控制项目设置的参数：第一个 MIDI CC 和连续 CC 编号（计数）。首先设置您希望 JamulusAccess 收听的通道（0 表示所有通道）。然后，对于要控制的每个项目（音量推子、声相、独奏、静音），设置第一个 MIDI CC（从其开始的 CC 编号）和连续 CC 编号的数量（计数）。有一个例外，不需要建立连续的 CC 编号，即“静音自己”参数 - 它只需要一个 CC 编号，因为它仅适用于自己的音频流。</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="457"/>
@@ -2723,7 +2723,7 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../util.cpp" line="681"/>
-        <source>&amp;About Jamulus...</source>
+        <source>&amp;About JamulusAccess...</source>
         <translation>关于 Jamulus(&amp;A)...</translation>
     </message>
     <message>

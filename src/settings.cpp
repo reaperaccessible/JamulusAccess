@@ -113,6 +113,19 @@ void CSettings::SetFileName ( const QString& sNFiName, const QString& sDefaultFi
 
         // append the actual file name
         strFileName = sConfigDir + "/" + sDefaultFileName;
+
+        // JamulusAccess keeps its own settings; the first time, it starts from those of Jamulus if there
+        // are some (copied, never moved: Jamulus keeps working as before)
+        if ( !QFile::exists ( strFileName ) )
+        {
+            const QString sJamulusDir =
+                QFileInfo ( QSettings ( QSettings::IniFormat, QSettings::UserScope, "Jamulus", "Jamulus" ).fileName() ).absolutePath();
+            const QString sJamulusFile = sJamulusDir + "/" + QString ( sDefaultFileName ).replace ( APP_NAME, "Jamulus" );
+            if ( QFile::exists ( sJamulusFile ) )
+            {
+                QFile::copy ( sJamulusFile, strFileName );
+            }
+        }
     }
 }
 

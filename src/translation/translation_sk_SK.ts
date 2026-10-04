@@ -1364,18 +1364,18 @@ Stíšili sme váš kanál a aktivovali nastavenia &apos;Stíšiť ma&apos;. Pro
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="434"/>
-        <source>Select which MIDI output port to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
-        <translation>Vyberte, ku ktorému výstupnému portu MIDI sa chcete pripojiť. Jamulus automaticky pripojí svoj vstupný port MIDI k vybranému zariadeniu, keď ho zapnete. Môžete tiež použiť správcu pripojení podľa vášho výberu na ručnú zmenu pripojení.</translation>
+        <source>Select which MIDI output port to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
+        <translation>Vyberte, ku ktorému výstupnému portu MIDI sa chcete pripojiť. JamulusAccess automaticky pripojí svoj vstupný port MIDI k vybranému zariadeniu, keď ho zapnete. Môžete tiež použiť správcu pripojení podľa vášho výberu na ručnú zmenu pripojení.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="438"/>
-        <source>Select which MIDI source to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
-        <translation>Vyberte, ku ktorému zdroju MIDI sa chcete pripojiť. Jamulus automaticky pripojí svoj vstupný port MIDI k vybranému zariadeniu, keď ho zapnete. Môžete tiež použiť Audio MIDI Setup na ručnú zmenu pripojení.</translation>
+        <source>Select which MIDI source to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
+        <translation>Vyberte, ku ktorému zdroju MIDI sa chcete pripojiť. JamulusAccess automaticky pripojí svoj vstupný port MIDI k vybranému zariadeniu, keď ho zapnete. Môžete tiež použiť Audio MIDI Setup na ručnú zmenu pripojení.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="442"/>
-        <source>Select which MIDI input device(s) Jamulus should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
-        <translation>Vyberte, ktoré vstupné MIDI zariadenie(a) má Jamulus počúvať. Vyberte „Všetky zariadenia“ pre príjem MIDI zo všetkých pripojených zariadení alebo zvoľte konkrétne zariadenie.</translation>
+        <source>Select which MIDI input device(s) JamulusAccess should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
+        <translation>Vyberte, ktoré vstupné MIDI zariadenie(a) má JamulusAccess počúvať. Vyberte „Všetky zariadenia“ pre príjem MIDI zo všetkých pripojených zariadení alebo zvoľte konkrétne zariadenie.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="445"/>
@@ -1389,8 +1389,8 @@ Stíšili sme váš kanál a aktivovali nastavenia &apos;Stíšiť ma&apos;. Pro
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="448"/>
-        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>Existuje jeden globálny parameter kanálu MIDI (0-16) a dva parametre, ktoré môžete nastaviť pre každú ovládanú položku: Prvý MIDI CC a potom po sebe nasledujúce čísla CC (počet). Najprv nastavte kanál, ktorý má Jamulus počúvať (0 pre všetky kanály). Potom pre každú položku, ktorú chcete ovládať (posuvník hlasitosti, panorámovanie, sólo, stíšenie), nastavte prvý MIDI CC (číslo CC od ktorého má začať) a počet po sebe nasledujúcich čísel CC (počet). Výnimkou je parameter „Stíšiť ma“ - vyžaduje len jedno číslo CC, keďže sa aplikuje len na vlastný zvukový tok.</translation>
+        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want JamulusAccess to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
+        <translation>Existuje jeden globálny parameter kanálu MIDI (0-16) a dva parametre, ktoré môžete nastaviť pre každú ovládanú položku: Prvý MIDI CC a potom po sebe nasledujúce čísla CC (počet). Najprv nastavte kanál, ktorý má JamulusAccess počúvať (0 pre všetky kanály). Potom pre každú položku, ktorú chcete ovládať (posuvník hlasitosti, panorámovanie, sólo, stíšenie), nastavte prvý MIDI CC (číslo CC od ktorého má začať) a počet po sebe nasledujúcich čísel CC (počet). Výnimkou je parameter „Stíšiť ma“ - vyžaduje len jedno číslo CC, keďže sa aplikuje len na vlastný zvukový tok.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="457"/>
@@ -2721,8 +2721,8 @@ Stíšili sme váš kanál a aktivovali nastavenia &apos;Stíšiť ma&apos;. Pro
     </message>
     <message>
         <location filename="../util.cpp" line="681"/>
-        <source>&amp;About Jamulus...</source>
-        <translation>&amp;O programe Jamulus...</translation>
+        <source>&amp;About JamulusAccess...</source>
+        <translation>&amp;O programe JamulusAccess...</translation>
     </message>
     <message>
         <location filename="../util.cpp" line="683"/>

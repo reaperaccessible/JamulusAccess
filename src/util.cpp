@@ -469,6 +469,11 @@ CAboutDlg::CAboutDlg ( QWidget* parent ) : CBaseDlg ( parent )
 
     // general description of software
     txvAbout->setText ( "<p>" +
+                        tr ( "%1 is the version of Jamulus made accessible to screen readers (NVDA, JAWS) "
+                             "and braille displays, by ReaperAccessible. It is based on Jamulus, by the Jamulus "
+                             "Development Team, and distributed under the same licence." )
+                            .arg ( APP_NAME ) +
+                        "</p><p>" +
                         tr ( "This app enables musicians to perform real-time jam sessions "
                              "over the internet." ) +
                         "<br>" +
@@ -781,7 +786,7 @@ CHelpMenu::CHelpMenu ( const bool bIsClient, QWidget* parent ) : QMenu ( tr ( "&
 
     addAction ( tr ( "P&rivacy policy..." ), this, SLOT ( OnHelpPrivacyPolicy() ) );
 
-    pAction = addAction ( tr ( "&About Jamulus..." ), this, SLOT ( OnHelpAbout() ) );
+    pAction = addAction ( tr ( "&About JamulusAccess..." ), this, SLOT ( OnHelpAbout() ) );
     pAction->setMenuRole ( QAction::AboutRole ); // required for Mac
     pAction = addAction ( tr ( "About &Qt..." ), this, SLOT ( OnHelpAboutQt() ) );
 

@@ -2292,7 +2292,7 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
         <translation type="vanished">Schreibe den Namen oder Alias hier rein so dass die anderen Musikern mit denen du spielst wissen wer du bist. Zusätzlich kannst du dein Instrument auswählen und eine Flagge des Landes auswählen in dem du dich befindest. Deine Stadt und deine Spielstärke des Instruments kannst du ebenso angeben.</translation>
     </message>
     <message>
-        <source>What you set here will appear at your fader on the mixer board when you are connected to a Jamulus server. This tag will also be shown at each client which is connected to the same server as you.</source>
+        <source>What you set here will appear at your fader on the mixer board when you are connected to a JamulusAccess server. This tag will also be shown at each client which is connected to the same server as you.</source>
         <translation type="vanished">Was man hier sieht wird auch am Fader im Mixer angezeigt, wenn du mit einem Server verbunden bist. Dieses Schild wird auch bei allen anderen Musikern, die mit dem gleichen Server verbunden sind, angezeigt.</translation>
     </message>
     <message>
@@ -3159,7 +3159,7 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../util.cpp" line="832"/>
-        <source>&amp;About Jamulus...</source>
+        <source>&amp;About JamulusAccess...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3378,11 +3378,11 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
         <translation type="vanished">Schreibe den Namen oder Alias hier rein so dass die anderen Musikern mit denen du spielst wissen wer du bist. Zusätzlich kannst du dein Instrument auswählen und eine Flagge des Landes auswählen in dem du dich befindest. Deine Stadt und deine Spielstärke des Instruments kannst du ebenso angeben.</translation>
     </message>
     <message>
-        <source>What you set here will appear at your fader on the mixer board when you are connected to a Jamulus server. This tag will also be shown at each client which is connected to the same server as you. If the name is left empty, the IP address is shown instead.</source>
+        <source>What you set here will appear at your fader on the mixer board when you are connected to a JamulusAccess server. This tag will also be shown at each client which is connected to the same server as you. If the name is left empty, the IP address is shown instead.</source>
         <translation type="vanished">Was man hier sieht wird auch am Fader im Mixer angezeigt, wenn du mit einem Server verbunden bist. Dieses Schild wird auch bei allen anderen Musikern, die mit dem gleichen Server verbunden sind, angezeigt.</translation>
     </message>
     <message>
-        <source>What you set here will appear at your fader on the mixer board when you are connected to a Jamulus server. This tag will also be shown at each client which is connected to the same server as you.</source>
+        <source>What you set here will appear at your fader on the mixer board when you are connected to a JamulusAccess server. This tag will also be shown at each client which is connected to the same server as you.</source>
         <translation type="vanished">Was man hier sieht wird auch am Fader im Mixer angezeigt, wenn du mit einem Server verbunden bist. Dieses Schild wird auch bei allen anderen Musikern, die mit dem gleichen Server verbunden sind, angezeigt.</translation>
     </message>
     <message>
@@ -3881,7 +3881,7 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Click the button to open the dialog that allows the main recording directory to be selected. The chosen value must exist and be writeable (allow creation of sub-directories by the user Jamulus is running as). </source>
+        <source>Click the button to open the dialog that allows the main recording directory to be selected. The chosen value must exist and be writeable (allow creation of sub-directories by the user JamulusAccess is running as). </source>
         <translation type="vanished">Drücke den Knopf um einen Dialog anzuzeigen in dem man das Hauptverzeichnis für die Aufnahmen festlegen kann. Das Verzeichnis muss existieren und schreibbar sein (es muss für das Benutzerkonto, das die Applikation ausführt, möglich sein Unterverzeichnisse anzulegen). </translation>
     </message>
     <message>
@@ -3890,8 +3890,8 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The current value of the main recording directory. The chosen value must exist and be writeable (allow creation of sub-directories by the user Jamulus is running as). Click the button to open the dialog that allows the main recording directory to be selected.</source>
-        <translation type="vanished">Dies ist das aktuelle Aufnahmeverzeichnis. Das Verzeichnis muss existieren und der Benutzer Jamulus muss Schreibrechte haben und Verzeichnisse erstellen können. Wenn man den Knopf drückt, dann erscheint ein Dialog zum Auswählen des Verzeichnisses.</translation>
+        <source>The current value of the main recording directory. The chosen value must exist and be writeable (allow creation of sub-directories by the user JamulusAccess is running as). Click the button to open the dialog that allows the main recording directory to be selected.</source>
+        <translation type="vanished">Dies ist das aktuelle Aufnahmeverzeichnis. Das Verzeichnis muss existieren und der Benutzer JamulusAccess muss Schreibrechte haben und Verzeichnisse erstellen können. Wenn man den Knopf drückt, dann erscheint ein Dialog zum Auswählen des Verzeichnisses.</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="190"/>
@@ -4028,7 +4028,7 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Click the button to open the dialog that allows the main recording directory to be selected.  The chosen value must exist and be writeable (allow creation of sub-directories by the user Jamulus is running as).</source>
+        <source>Click the button to open the dialog that allows the main recording directory to be selected.  The chosen value must exist and be writeable (allow creation of sub-directories by the user JamulusAccess is running as).</source>
         <translation type="vanished">Klicke auf den Knopf, um einen Dialog anzuzeigen, in dem man das Hauptverzeichnis für die Aufnahmen festlegen kann. Das Verzeichnis muss existieren und schreibbar sein (es muss für das Benutzerkonto, das die Applikation ausführt, möglich sein, Unterverzeichnisse anzulegen).</translation>
     </message>
     <message>

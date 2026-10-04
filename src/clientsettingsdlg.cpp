@@ -438,14 +438,14 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
 
 #if defined( WITH_JACK )
     lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI output port to connect to. "
-                                       "Jamulus will automatically connect its MIDI input port to the selected device when enabled."
+                                       "JamulusAccess will automatically connect its MIDI input port to the selected device when enabled."
                                        "You can also use your connection manager of choice to manually change connections." ) );
 #elif defined( __APPLE__ )
     lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI source to connect to. "
-                                       "Jamulus will automatically connect its MIDI input port to the selected device when enabled."
+                                       "JamulusAccess will automatically connect its MIDI input port to the selected device when enabled."
                                        "You can also use Audio MIDI Setup to manually change connections." ) );
 #else
-    lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI input device(s) Jamulus should listen to. "
+    lblMidiDevice->setWhatsThis ( tr ( "Select which MIDI input device(s) JamulusAccess should listen to. "
                                        "Select 'All Devices' to receive MIDI from all connected devices, or choose a specific device." ) );
 #endif
     cbxMidiDevice->setAccessibleName ( tr ( "MIDI device" ) );
@@ -453,7 +453,7 @@ CClientSettingsDlg::CClientSettingsDlg ( CClient* pNCliP, CClientSettings* pNSet
     QString strMidiSettings = "<b>" + tr ( "MIDI controller settings" ) + ":</b> " +
                               tr ( "There is one global MIDI channel parameter (0-16) and two parameters you can set "
                                    "for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the "
-                                   "channel you want Jamulus to listen on (0 for all channels). Then, for each item "
+                                   "channel you want JamulusAccess to listen on (0 for all channels). Then, for each item "
                                    "you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number "
                                    "to start from) and number of consecutive CC numbers (count). There is one "
                                    "exception that does not require establishing consecutive CC numbers which is "

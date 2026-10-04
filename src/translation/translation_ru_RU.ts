@@ -1334,18 +1334,18 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="434"/>
-        <source>Select which MIDI output port to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
-        <translation>Выберите, к какому MIDI-выходу подключиться. Jamulus автоматически подключит свой MIDI-вход к выбранному устройству, когда эта опция включена. Вы также можете использовать любой другой менеджер подключений для ручного изменения соединений.</translation>
+        <source>Select which MIDI output port to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use your connection manager of choice to manually change connections.</source>
+        <translation>Выберите, к какому MIDI-выходу подключиться. JamulusAccess автоматически подключит свой MIDI-вход к выбранному устройству, когда эта опция включена. Вы также можете использовать любой другой менеджер подключений для ручного изменения соединений.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="438"/>
-        <source>Select which MIDI source to connect to. Jamulus will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
-        <translation>Выберите, к какому MIDI-источнику подключиться. Jamulus автоматически подключит свой MIDI-вход к выбранному устройству, когда эта опция включена. Вы также можете использовать утилиту Audio MIDI Setup для ручного изменения соединений.</translation>
+        <source>Select which MIDI source to connect to. JamulusAccess will automatically connect its MIDI input port to the selected device when enabled.You can also use Audio MIDI Setup to manually change connections.</source>
+        <translation>Выберите, к какому MIDI-источнику подключиться. JamulusAccess автоматически подключит свой MIDI-вход к выбранному устройству, когда эта опция включена. Вы также можете использовать утилиту Audio MIDI Setup для ручного изменения соединений.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="442"/>
-        <source>Select which MIDI input device(s) Jamulus should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
-        <translation>Выберите MIDI-входное устройство (устройства), которое Jamulus должен прослушивать. Выберите «Все устройства» для получения MIDI со всех подключённых устройств или выберите конкретное устройство.</translation>
+        <source>Select which MIDI input device(s) JamulusAccess should listen to. Select &apos;All Devices&apos; to receive MIDI from all connected devices, or choose a specific device.</source>
+        <translation>Выберите MIDI-входное устройство (устройства), которое JamulusAccess должен прослушивать. Выберите «Все устройства» для получения MIDI со всех подключённых устройств или выберите конкретное устройство.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="445"/>
@@ -1359,8 +1359,8 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="448"/>
-        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want Jamulus to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
-        <translation>Существует один глобальный параметр MIDI-канала (0-16) и два параметра, которые можно установить для каждого управляемого элемента: первый MIDI CC и количество последовательных номеров CC (count). Сначала установите канал, который Jamulus должен прослушивать (0 для всех каналов). Затем для каждого элемента, который вы хотите контролировать (фейдер громкости, панорама, соло, отключение звука), установите первый MIDI CC (номер CC, с которого начинать) и количество последовательных номеров CC (count). Есть одно исключение, которое не требует настройки последовательных номеров CC — это параметр «Приглушить себя»; он требует только одного номера CC, так как применяется только к собственному аудиопотоку.</translation>
+        <source>There is one global MIDI channel parameter (0-16) and two parameters you can set for each item controlled: First MIDI CC and consecutive CC numbers (count). First set the channel you want JamulusAccess to listen on (0 for all channels). Then, for each item you want to control (volume fader, pan, solo, mute), set the first MIDI CC (CC number to start from) and number of consecutive CC numbers (count). There is one exception that does not require establishing consecutive CC numbers which is the “Mute Myself” parameter - it only requires a single CC number as it is only applied to one’s own audio stream.</source>
+        <translation>Существует один глобальный параметр MIDI-канала (0-16) и два параметра, которые можно установить для каждого управляемого элемента: первый MIDI CC и количество последовательных номеров CC (count). Сначала установите канал, который JamulusAccess должен прослушивать (0 для всех каналов). Затем для каждого элемента, который вы хотите контролировать (фейдер громкости, панорама, соло, отключение звука), установите первый MIDI CC (номер CC, с которого начинать) и количество последовательных номеров CC (count). Есть одно исключение, которое не требует настройки последовательных номеров CC — это параметр «Приглушить себя»; он требует только одного номера CC, так как применяется только к собственному аудиопотоку.</translation>
     </message>
     <message>
         <location filename="../clientsettingsdlg.cpp" line="457"/>
@@ -2721,8 +2721,8 @@ We muted your channel and activated &apos;Mute Myself&apos;. Please solve the fe
     </message>
     <message>
         <location filename="../util.cpp" line="681"/>
-        <source>&amp;About Jamulus...</source>
-        <translation>&amp;О Jamulus…</translation>
+        <source>&amp;About JamulusAccess...</source>
+        <translation>&amp;О JamulusAccess…</translation>
     </message>
     <message>
         <location filename="../util.cpp" line="683"/>
