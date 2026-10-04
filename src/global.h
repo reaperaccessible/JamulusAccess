@@ -90,13 +90,7 @@ LED bar:      lbr
 #define VERSION  GetDisplayVersion ( APP_VERSION )
 #define APP_NAME "JamulusAccess" // the accessible version (the name everywhere the user sees it)
 
-// JamulusAccess's own version (1.00, 1.01...): the updater compares it with the latest GitHub release.
-// APP_VERSION stays the Jamulus version: it is what the servers and the other musicians see.
-// To publish a new version: these three lines, installer/JamulusAccess.iss, docs/changelog_*.html.
-#define JAMULUSACCESS_VERSION       "1.00"
-#define JAMULUSACCESS_VERSION_MAJOR 1
-#define JAMULUSACCESS_VERSION_MINOR 0
-#define JAMULUSACCESS_GITHUB_REPO   "reaperaccessible/JamulusAccess"
+#include "access/version.h" // JAMULUSACCESS_VERSION: our own version (1.00, 1.01...)
 
 // Windows registry key name of auto run entry for the server
 #define AUTORUN_SERVER_REG_NAME "JamulusAccess server"

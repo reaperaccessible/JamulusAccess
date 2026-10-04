@@ -443,6 +443,7 @@ contains(CONFIG, "accesstest") {
     HEADERS_GUI += src/audiomixerboard.h \
         src/access/mixerlist.h \
         src/access/updater.h \
+        src/access/version.h \
         src/chatdlg.h \
         src/clientsettingsdlg.h \
         src/connectdlg.h \

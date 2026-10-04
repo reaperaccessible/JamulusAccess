@@ -8,7 +8,7 @@
 # (the tools run through cmd: Windows PowerShell 5.1 would take their messages for errors)
 # Everything it makes goes NEXT TO the repository, never in it:
 #   ..\build (compilation), ..\build_log (logs), ..\Output\JamulusAccessInstaller.exe (+ _<version>.exe)
-# The version is read from src\global.h (JAMULUSACCESS_VERSION).
+# The version is read from src\access\version.h (JAMULUSACCESS_VERSION).
 param(
     [switch]$NoInstaller,
     [string]$QtDir = 'C:\Qt\6.10.2\msvc2022_64'
@@ -32,12 +32,12 @@ foreach ($need in @($Vcvars, (Join-Path $QtDir 'bin\qmake.exe'), (Join-Path $Rep
 New-Item -ItemType Directory -Force $BuildDir, $LogDir, $OutDir | Out-Null
 
 # version: the string and the two numbers must agree (the updater compares the numbers)
-$global = Get-Content (Join-Path $Repo 'src\global.h') -Raw
+$global = Get-Content (Join-Path $Repo 'src\access\version.h') -Raw
 $Version = [regex]::Match($global, '#define JAMULUSACCESS_VERSION\s+"([0-9]+\.[0-9]{2})"').Groups[1].Value
 $Major   = [regex]::Match($global, '#define JAMULUSACCESS_VERSION_MAJOR\s+([0-9]+)').Groups[1].Value
 $Minor   = [regex]::Match($global, '#define JAMULUSACCESS_VERSION_MINOR\s+([0-9]+)').Groups[1].Value
 if (-not $Version -or ("{0}.{1:D2}" -f [int]$Major, [int]$Minor) -ne $Version) {
-    throw "src\global.h: JAMULUSACCESS_VERSION ($Version) does not match MAJOR.MINOR ($Major.$Minor)"
+    throw "src\access\version.h: JAMULUSACCESS_VERSION ($Version) does not match MAJOR.MINOR ($Major.$Minor)"
 }
 "JamulusAccess $Version"
 
@@ -47,6 +47,8 @@ cmd /c "`"$Vcvars`" >nul 2>&1 && set" | ForEach-Object {
 }
 $env:PATH = (Join-Path $QtDir 'bin') + ';' + $env:PATH
 
+# nmake does not see that the resource depends on version.h: compile it again each time
+Remove-Item (Join-Path $BuildDir 'release\win-mainicon.res') -ErrorAction SilentlyContinue
 Push-Location $BuildDir
 try {
     cmd /c "qmake `"$(Join-Path $Repo 'JamulusAccess.pro')`" CONFIG+=release QMAKE_CXXFLAGS+=/MP > `"$(Join-Path $LogDir 'qmake.log')`" 2>&1"

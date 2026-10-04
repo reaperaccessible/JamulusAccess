@@ -57,10 +57,10 @@ Mise à jour : `JAMULUSACCESS_UPDATE_API=http://127.0.0.1:<port>/latest.json` re
 
 ## Versions et publication
 
-- Versions **1.00, 1.01, 1.02…** (jamais 0.xx). Le numéro est dans `src/global.h` :
+- Versions **1.00, 1.01, 1.02…** (jamais 0.xx). Le numéro est dans `src/access/version.h` :
   `JAMULUSACCESS_VERSION`, `_MAJOR`, `_MINOR` (les trois ensemble ; `build.ps1` vérifie).
   `APP_VERSION` (le `VERSION` du .pro) reste celui de Jamulus : c'est ce que voient les serveurs.
-- Pour publier : nouveau numéro dans `global.h`, une section en tête de
+- Pour publier : nouveau numéro dans `src/access/version.h` (il sert aussi à l'installateur et à la fiche du fichier .exe), une section en tête de
   `jamulusaccess/docs/changelog_fr.html` et `changelog_en.html`, le manuel si besoin,
   `build.ps1`, Lee teste l'installateur, puis :
   `gh release create vX.YY ..\Output\JamulusAccessInstaller.exe ..\Output\JamulusAccessInstaller_X.YY.exe --title "JamulusAccess X.YY" --notes-file notes.md`
