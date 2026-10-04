@@ -1519,7 +1519,7 @@ void CClientDlg::ShowShortcuts()
                        tr ( "Ctrl+Q: quit" ) };
     rows << tr ( "In the mixer:" );
     rows << CMixerAccessList::ShortcutRows();
-    rows << tr ( "In the messages: Up and Down read the messages, Enter opens a link, Ctrl+C copies, Tab goes to the line to write" );
+    rows << tr ( "In the messages: Ctrl+2 goes to the line to write, Shift+Tab to the messages: Up and Down read them, Enter opens a link, Ctrl+C copies" );
     rows << tr ( "In the server list (Ctrl+C): Left and Right read the informations one by one (Left back to the start: the whole row), Up and Down keep the same one, Home and End go to the first and last server, Enter connects" );
     rows << tr ( "Sliders: Alt+Up and Alt+Down change the value, Alt+Shift for a small step" );
     Access::showShortcutHelp ( this, tr ( "Keyboard shortcuts" ), rows );

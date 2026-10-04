@@ -86,7 +86,7 @@
 <h2 id="installation">Installation and first start</h2>
 <p>The installer puts JamulusAccess in Program Files and creates a JamulusAccess folder in the Start menu with three shortcuts: <strong>JamulusAccess</strong>, <strong>JamulusAccess Server</strong> and <strong>JamulusAccess Manual</strong>. A desktop icon is offered, unchecked.</p>
 <p>JamulusAccess keeps its own settings, in the <code>JamulusAccess</code> folder of your application data (AppData). On the first start, if Jamulus is already installed, it <strong>takes a copy</strong> of its settings: your profile, your servers and your sound card are carried over. Jamulus is not changed and keeps working as before. Both programs can stay installed together.</p>
-<p>The program follows the Windows language. To change it: <kbd>Ctrl+P</kbd> (my profile), <strong>Language</strong> list, then restart JamulusAccess.</p>
+<p>The program follows the Windows language, or the Jamulus one if its settings were carried over. To change it: <kbd>Ctrl+P</kbd> (my profile), <strong>Language</strong> list, then restart JamulusAccess.</p>
 <p>Before playing, set up your profile with <kbd>Ctrl+P</kbd>: your name (the one the other musicians see), your instrument, your city, your country and your skill level.</p>
 
 <h2 id="soundcard">The sound card</h2>
@@ -103,18 +103,19 @@
 <h2 id="window">The main window</h2>
 <p>JamulusAccess fits in a single window, with two views:</p>
 <ul>
-  <li><kbd>Ctrl+1</kbd>: the <strong>session</strong>, that is the mixer and the settings of your sound (Connect button, Mute Myself, reverb, input balance…);</li>
-  <li><kbd>Ctrl+2</kbd>: the chat <strong>messages</strong>. <kbd>Escape</kbd> goes back to the session.</li>
+  <li><kbd>Ctrl+1</kbd>: the <strong>session</strong>, that is the mixer and the settings of your sound (Connect button, Mute Myself, reverb…);</li>
+  <li><kbd>Ctrl+2</kbd>: the chat <strong>messages</strong>, on the line to write. <kbd>Escape</kbd> goes back to the session.</li>
 </ul>
-<p>In the session, <kbd>Tab</kbd> moves from one control to the next. <kbd>Alt+M</kbd> mutes or unmutes your own sound for the others (Mute Myself). Sliders (reverb, input balance) are set with <kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>, <kbd>Alt+Shift</kbd> for a small step.</p>
+<p>In the session, <kbd>Tab</kbd> moves from one control to the next. <kbd>Alt+M</kbd> mutes or unmutes your own sound for the others (Mute Myself). Sliders (reverb, and in the settings the input balance) are set with <kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>, <kbd>Alt+Shift</kbd> for a small step.</p>
 <p>Announced without you doing anything: connecting and disconnecting, a musician joining or leaving, a musician who muted you, the start and end of a recording on the server, and each new message.</p>
 <p>To quit: <kbd>Ctrl+Q</kbd> or <kbd>Alt+F4</kbd>. If you are connected, JamulusAccess first asks "Disconnect and quit?", with No as the default, so you never leave a session by mistake.</p>
 
 <h2 id="connect">Connecting to a server</h2>
 <p><kbd>Ctrl+C</kbd> opens the connection window. The focus goes to the first server of the list as soon as it is filled.</p>
 <ul>
-  <li><strong>Directory</strong>: the drop-down list chooses the directory, that is the music genre (Any Genre, Rock, Jazz, Classical…) or a custom directory.</li>
-  <li><strong>Server list</strong>: each row is a server. <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> move between servers, <kbd>Home</kbd> and <kbd>End</kbd> go to the first and the last.</li>
+  <li><strong>Directory</strong>: the drop-down list chooses the directory, that is the music genre (Any Genre 1, 2 and 3, Rock, Jazz, Classical…) or a custom directory.</li>
+  <li><strong>Filter</strong>: type part of a name to keep only the servers that contain it; "#" keeps only the servers where musicians are already playing.</li>
+  <li><strong>Servers</strong>: each row is a server. <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> move between servers, <kbd>Home</kbd> and <kbd>End</kbd> go to the first and the last.</li>
   <li><kbd>Right Arrow</kbd> and <kbd>Left Arrow</kbd> read the server's information one by one: name, ping (with its rating: good, fair or too high), number of musicians, location, version, permanent server or not, address. Going back to the very start with <kbd>Left Arrow</kbd> reads the whole row again. Then <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> keep the same item: handy to compare the ping of all servers.</li>
   <li>The musicians already there are under their server; with <strong>Show All Musicians</strong> checked, they are listed and read the same way: name, instrument, city, country, skill level.</li>
   <li><kbd>Enter</kbd> on a server connects to it. The <strong>Connect</strong> button also works with <kbd>Enter</kbd>.</li>
@@ -127,30 +128,30 @@
 <p>The mixer is a list: one row per connected musician, you included. It sets what <strong>you</strong> hear: turning someone down in your mixer changes nothing for the others.</p>
 <ul>
   <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the musicians.</li>
-  <li><kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd>: the musician's parameters, in this order: Volume, Pan, Mute, Solo, Group, Level, Profile. When you move to another musician, you stay on the same parameter.</li>
+  <li><kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd>: the musician's parameters, in this order: Volume, Pan, Mute, Solo, Group, Level, Profile (Pan only in stereo, with a server that supports it). When you move to another musician, you stay on the same parameter.</li>
   <li><kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>: change the value. <kbd>Alt+Shift+Up Arrow</kbd> and <kbd>Alt+Shift+Down Arrow</kbd>: small step.</li>
   <li><kbd>Enter</kbd> or <kbd>Space</kbd>: switch Mute or Solo, or read the Level again.</li>
   <li><kbd>M</kbd>: mute the musician. <kbd>S</kbd>: listen to them alone (solo).</li>
-  <li><strong>Level</strong>: the musician's current sound level, updated while you are on it.</li>
-  <li><strong>Profile</strong>: their instrument, city, country and skill level.</li>
+  <li><strong>Level</strong>: the musician's current sound level; <kbd>Enter</kbd> reads it again.</li>
+  <li><strong>Profile</strong>: their instrument, skill level, city and country.</li>
   <li>A musician who muted you in their own mixer is reported.</li>
 </ul>
 <p>Sorting the musicians: <kbd>Ctrl+N</kbd> by name, <kbd>Ctrl+I</kbd> by instrument, <kbd>Ctrl+G</kbd> by group, <kbd>Ctrl+T</kbd> by city, <kbd>Ctrl+E</kbd> by channel, <kbd>Ctrl+O</kbd> no sorting. The View menu also offers <strong>Own Fader First</strong>.</p>
-<p>In the Edit menu: <kbd>Ctrl+L</kbd> sets all faders to the new client level, <kbd>Ctrl+F</kbd> auto-adjusts all faders. The File menu saves and loads the mixer setup.</p>
+<p>In the Edit menu: <kbd>Ctrl+L</kbd> sets all faders to the new client level, <kbd>Ctrl+F</kbd> auto-adjusts all faders; it also clears the stored solo and mute settings and the chat history. The File menu saves and loads the mixer setup.</p>
 
 <h2 id="messages">Messages</h2>
-<p><kbd>Ctrl+2</kbd> opens the chat messages. Each new message is announced, even while you are in the mixer; the view does not open by itself, so you are never taken out of what you are setting.</p>
+<p><kbd>Ctrl+2</kbd> opens the chat messages with the focus on the line to write: type your message, then <kbd>Enter</kbd> to send it to everyone. <kbd>Shift+Tab</kbd> goes to the list of messages. Each new message is announced, even while you are in the mixer; the view does not open by itself, so you are never taken out of what you are setting.</p>
 <ul>
   <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> read the messages. Each row gives the name, the text and the time; the announcement of a new message does not say the time.</li>
-  <li><kbd>Enter</kbd> on a message with a link opens it in your browser. <kbd>Ctrl+C</kbd> copies the message.</li>
-  <li><kbd>Tab</kbd> goes to the line to write: type your message, then <kbd>Enter</kbd> to send it to everyone.</li>
+  <li><kbd>Enter</kbd> on a message with a link offers to open it in your browser (Yes or No). <kbd>Ctrl+C</kbd> copies the message.</li>
+  <li><kbd>Tab</kbd> goes back to the line to write.</li>
   <li>The server's welcome message comes first, after "Welcome message:".</li>
   <li><kbd>Escape</kbd> or <kbd>Ctrl+1</kbd>: back to the session.</li>
 </ul>
 
 <h2 id="status">Status, ping and delay</h2>
 <ul>
-  <li><kbd>Ctrl+Shift+G</kbd> announces the connection status: the server, the number of musicians, the ping, the delay, audio dropouts, your input level and the upload rate.</li>
+  <li><kbd>Ctrl+Shift+G</kbd> announces the connection status: the server, the number of musicians, the ping, the delay, audio dropouts, your input level, the upload rate, and whether you are muted or the server is recording.</li>
   <li><kbd>1</kbd> (the key at the top left of the keyboard, not in a text field): the <strong>ping</strong>, the round-trip time to the server.</li>
   <li><kbd>2</kbd>: the overall <strong>delay</strong>, the lag you really hear, with its rating: good, fair or too high.</li>
 </ul>
@@ -159,10 +160,10 @@
 <h2 id="peak">The Peak Watcher</h2>
 <p>The Peak Watcher tells you when your input sound gets too loud, so you can set your microphone or instrument without seeing a meter.</p>
 <ul>
-  <li><kbd>Ctrl+W</kbd> opens the <strong>Peak Watcher</strong> box: type the threshold in decibels (0 or below, for example -6), then OK. The threshold is saved and the watcher turns on.</li>
+  <li><kbd>Ctrl+W</kbd> opens the <strong>Peak Watcher</strong> box: type the threshold in decibels (0 or below, for example -6), then OK. The threshold is saved and the watcher turns on. It speaks only during a session.</li>
   <li><kbd>Ctrl+Shift+W</kbd> turns the watcher on or off.</li>
   <li>While it is on, each peak of your input above the threshold is said, for example "-3.2". At most four values a second, the loudest of the moment; each value cuts the previous one, so you always hear the latest.</li>
-  <li>What is measured: your sound as it leaves for the server, after the input boost.</li>
+  <li>What is measured: your input after the input boost, before the reverb.</li>
   <li>The watcher is always off when JamulusAccess starts.</li>
 </ul>
 
@@ -183,7 +184,7 @@
 <p>This list is also in the program: <kbd>Ctrl+Shift+H</kbd>.</p>
 <h3>Everywhere</h3>
 <ul>
-  <li><kbd>Ctrl+1</kbd>: session (mixer); <kbd>Ctrl+2</kbd>: messages; <kbd>Escape</kbd> in the messages: back to the session</li>
+  <li><kbd>Ctrl+1</kbd>: session (mixer); <kbd>Ctrl+2</kbd>: messages (line to write); <kbd>Escape</kbd> in the messages: back to the session</li>
   <li><kbd>Ctrl+Shift+G</kbd>: connection status</li>
   <li><kbd>1</kbd>: ping; <kbd>2</kbd>: overall delay (not in a text field)</li>
   <li><kbd>Ctrl+Shift+H</kbd>: keyboard shortcuts</li>
@@ -211,7 +212,7 @@
 </ul>
 <h3>In the messages</h3>
 <ul>
-  <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the messages; <kbd>Enter</kbd>: open a link; <kbd>Ctrl+C</kbd>: copy; <kbd>Tab</kbd>: the line to write</li>
+  <li><kbd>Shift+Tab</kbd> from the line to write: the list; <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the messages; <kbd>Enter</kbd>: open a link; <kbd>Ctrl+C</kbd>: copy; <kbd>Tab</kbd>: the line to write</li>
 </ul>
 <h3>Sliders and drop-down lists</h3>
 <ul>

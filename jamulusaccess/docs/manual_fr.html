@@ -86,7 +86,7 @@
 <h2 id="installation">Installation et premier démarrage</h2>
 <p>L'installateur met JamulusAccess dans Program Files et crée dans le menu Démarrer un dossier JamulusAccess avec trois raccourcis : <strong>JamulusAccess</strong>, <strong>Serveur JamulusAccess</strong> et <strong>Manuel de JamulusAccess</strong>. Une icône sur le Bureau est proposée, non cochée.</p>
 <p>JamulusAccess garde ses propres réglages, dans le dossier <code>JamulusAccess</code> de vos données d'application (AppData). Au premier démarrage, si Jamulus est déjà installé, il <strong>prend une copie</strong> de ses réglages : votre profil, vos serveurs et votre carte son sont repris. Jamulus n'est pas modifié et continue de fonctionner comme avant. Les deux programmes peuvent rester installés ensemble.</p>
-<p>Le programme suit la langue de Windows. Pour la changer : <kbd>Ctrl+P</kbd> (mon profil), liste <strong>Langue</strong>, puis redémarrez JamulusAccess.</p>
+<p>Le programme suit la langue de Windows, ou celle de Jamulus si ses réglages ont été repris. Pour la changer : <kbd>Ctrl+P</kbd> (mon profil), liste <strong>Langue</strong>, puis redémarrez JamulusAccess.</p>
 <p>Avant de jouer, réglez votre profil avec <kbd>Ctrl+P</kbd> : votre nom (celui que les autres musiciens voient), votre instrument, votre ville, votre pays et votre niveau.</p>
 
 <h2 id="carte">La carte son</h2>
@@ -103,18 +103,19 @@
 <h2 id="fenetre">La fenêtre principale</h2>
 <p>JamulusAccess tient dans une seule fenêtre, avec deux vues :</p>
 <ul>
-  <li><kbd>Ctrl+1</kbd> : la <strong>session</strong>, c'est-à-dire le mixeur et les réglages de votre son (bouton Se connecter, Me silencer, réverbération, balance d'entrée…) ;</li>
-  <li><kbd>Ctrl+2</kbd> : les <strong>messages</strong> du tchate. <kbd>Échap</kbd> ramène à la session.</li>
+  <li><kbd>Ctrl+1</kbd> : la <strong>session</strong>, c'est-à-dire le mixeur et les réglages de votre son (bouton Se connecter, Me silencer, réverbération…) ;</li>
+  <li><kbd>Ctrl+2</kbd> : les <strong>messages</strong> du tchate, sur la ligne d'écriture. <kbd>Échap</kbd> ramène à la session.</li>
 </ul>
-<p>Dans la session, <kbd>Tab</kbd> passe d'un contrôle à l'autre. <kbd>Alt+M</kbd> coupe ou rétablit votre propre son pour les autres (Me silencer). Les curseurs (réverbération, balance d'entrée) se règlent avec <kbd>Alt+Flèche haut</kbd> et <kbd>Alt+Flèche bas</kbd>, <kbd>Alt+Maj</kbd> pour un petit pas.</p>
+<p>Dans la session, <kbd>Tab</kbd> passe d'un contrôle à l'autre. <kbd>Alt+M</kbd> coupe ou rétablit votre propre son pour les autres (Me silencer). Les curseurs (réverbération, et dans les paramètres la balance d'entrée) se règlent avec <kbd>Alt+Flèche haut</kbd> et <kbd>Alt+Flèche bas</kbd>, <kbd>Alt+Maj</kbd> pour un petit pas.</p>
 <p>Ce qui est annoncé sans que vous ayez rien à faire : la connexion et la déconnexion, un musicien qui arrive ou qui part, un musicien qui vous a mis en sourdine, le début et la fin d'un enregistrement sur le serveur, et chaque nouveau message.</p>
 <p>Pour quitter : <kbd>Ctrl+Q</kbd> ou <kbd>Alt+F4</kbd>. Si vous êtes connecté, JamulusAccess demande d'abord « Se déconnecter et quitter ? », avec Non par défaut, pour ne pas vous sortir d'une session par erreur.</p>
 
 <h2 id="connexion">Se connecter à un serveur</h2>
 <p><kbd>Ctrl+C</kbd> ouvre la fenêtre de connexion. Le focus est placé sur le premier serveur de la liste dès qu'elle est remplie.</p>
 <ul>
-  <li><strong>Annuaire</strong> : la liste déroulante choisit l'annuaire, c'est-à-dire le genre de musique (Tous les genres, Rock, Jazz, Classique…) ou un annuaire personnalisé.</li>
-  <li><strong>Liste des serveurs</strong> : chaque ligne est un serveur. <kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> passent d'un serveur à l'autre, <kbd>Début</kbd> et <kbd>Fin</kbd> vont au premier et au dernier.</li>
+  <li><strong>Annuaire</strong> : la liste déroulante choisit l'annuaire, c'est-à-dire le genre de musique (Tout genre 1, 2 et 3, Rock, Jazz, Classique…) ou un annuaire personnalisé.</li>
+  <li><strong>Filtre</strong> : tapez une partie d'un nom pour ne garder que les serveurs qui le contiennent ; « # » ne garde que les serveurs où des musiciens jouent déjà.</li>
+  <li><strong>Serveurs</strong> : chaque ligne est un serveur. <kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> passent d'un serveur à l'autre, <kbd>Début</kbd> et <kbd>Fin</kbd> vont au premier et au dernier.</li>
   <li><kbd>Flèche droite</kbd> et <kbd>Flèche gauche</kbd> lisent les informations du serveur une à une : nom, ping (avec son jugement : bon, moyen ou trop élevé), nombre de musiciens, lieu, version, serveur permanent ou non, adresse. En revenant tout au début avec <kbd>Flèche gauche</kbd>, la ligne entière est relue. Ensuite, <kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> gardent la même information : pratique pour comparer le ping de tous les serveurs.</li>
   <li>Les musiciens déjà présents sont sous leur serveur ; avec <strong>Afficher tous les musiciens</strong> coché, ils sont listés et se lisent de la même façon : nom, instrument, ville, pays, niveau.</li>
   <li><kbd>Entrée</kbd> sur un serveur s'y connecte. Le bouton <strong>Se connecter</strong> fonctionne aussi avec <kbd>Entrée</kbd>.</li>
@@ -127,30 +128,30 @@
 <p>Le mixeur est une liste : une ligne par musicien connecté, vous compris. Il règle ce que <strong>vous</strong> entendez : baisser quelqu'un dans votre mixeur ne change rien pour les autres.</p>
 <ul>
   <li><kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> : les musiciens.</li>
-  <li><kbd>Flèche gauche</kbd> et <kbd>Flèche droite</kbd> : les paramètres du musicien, dans cet ordre : Volume, Panoramique, Muet, Solo, Groupe, Niveau, Profil. En changeant de musicien, vous restez sur le même paramètre.</li>
+  <li><kbd>Flèche gauche</kbd> et <kbd>Flèche droite</kbd> : les paramètres du musicien, dans cet ordre : Volume, Panoramique, Muet, Solo, Groupe, Niveau, Profil (Panoramique seulement en stéréo, avec un serveur qui le permet). En changeant de musicien, vous restez sur le même paramètre.</li>
   <li><kbd>Alt+Flèche haut</kbd> et <kbd>Alt+Flèche bas</kbd> : changer la valeur. <kbd>Alt+Maj+Flèche haut</kbd> et <kbd>Alt+Maj+Flèche bas</kbd> : petit pas.</li>
   <li><kbd>Entrée</kbd> ou <kbd>Espace</kbd> : basculer Muet ou Solo, ou relire le Niveau.</li>
   <li><kbd>M</kbd> : couper le musicien (muet). <kbd>S</kbd> : l'écouter seul (solo).</li>
-  <li><strong>Niveau</strong> : le niveau sonore actuel du musicien, mis à jour pendant que vous êtes dessus.</li>
-  <li><strong>Profil</strong> : son instrument, sa ville, son pays et son niveau.</li>
+  <li><strong>Niveau</strong> : le niveau sonore actuel du musicien ; <kbd>Entrée</kbd> le relit.</li>
+  <li><strong>Profil</strong> : son instrument, son niveau, sa ville et son pays.</li>
   <li>Un musicien qui vous a mis en sourdine dans son propre mixeur est signalé.</li>
 </ul>
 <p>Le tri des musiciens : <kbd>Ctrl+N</kbd> par nom, <kbd>Ctrl+I</kbd> par instrument, <kbd>Ctrl+G</kbd> par groupe, <kbd>Ctrl+T</kbd> par ville, <kbd>Ctrl+E</kbd> par canal, <kbd>Ctrl+O</kbd> sans tri. Le menu Affichage propose aussi <strong>Ma tranche en premier</strong>.</p>
-<p>Dans le menu Édition : <kbd>Ctrl+L</kbd> règle toutes les tranches au niveau des nouveaux clients, <kbd>Ctrl+F</kbd> ajuste automatiquement toutes les tranches. Le menu Fichier enregistre et recharge les réglages du mixeur.</p>
+<p>Dans le menu Modifier : <kbd>Ctrl+L</kbd> règle toutes les tranches sur le niveau d'un nouveau client, <kbd>Ctrl+F</kbd> ajuste automatiquement toutes les tranches ; on y efface aussi les réglages de muet et de solo mémorisés, et l'historique du tchate. Le menu Fichier enregistre et recharge les réglages du mixeur.</p>
 
 <h2 id="messages">Les messages</h2>
-<p><kbd>Ctrl+2</kbd> ouvre les messages du tchate. Chaque nouveau message est annoncé, même quand vous êtes dans le mixeur ; la vue ne s'ouvre pas toute seule, pour ne pas vous sortir de votre réglage.</p>
+<p><kbd>Ctrl+2</kbd> ouvre les messages du tchate et place le focus sur la ligne d'écriture : tapez votre message, puis <kbd>Entrée</kbd> pour l'envoyer à tous. <kbd>Maj+Tab</kbd> va à la liste des messages. Chaque nouveau message est annoncé, même quand vous êtes dans le mixeur ; la vue ne s'ouvre pas toute seule, pour ne pas vous sortir de votre réglage.</p>
 <ul>
   <li><kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> lisent les messages. Chaque ligne donne le nom, le texte et l'heure ; l'annonce d'un nouveau message ne dit pas l'heure.</li>
-  <li><kbd>Entrée</kbd> sur un message qui contient un lien l'ouvre dans votre navigateur. <kbd>Ctrl+C</kbd> copie le message.</li>
-  <li><kbd>Tab</kbd> va à la ligne d'écriture : tapez votre message, puis <kbd>Entrée</kbd> pour l'envoyer à tous.</li>
+  <li><kbd>Entrée</kbd> sur un message qui contient un lien propose de l'ouvrir dans votre navigateur (Oui ou Non). <kbd>Ctrl+C</kbd> copie le message.</li>
+  <li><kbd>Tab</kbd> revient à la ligne d'écriture.</li>
   <li>Le message de bienvenue du serveur apparaît en premier, précédé de « Message de bienvenue : ».</li>
   <li><kbd>Échap</kbd> ou <kbd>Ctrl+1</kbd> : retour à la session.</li>
 </ul>
 
 <h2 id="etat">État, ping et délai</h2>
 <ul>
-  <li><kbd>Ctrl+Maj+G</kbd> annonce l'état de la connexion : le serveur, le nombre de musiciens, le ping, le délai, les coupures audio, votre niveau d'entrée et le débit envoyé.</li>
+  <li><kbd>Ctrl+Maj+G</kbd> annonce l'état de la connexion : le serveur, le nombre de musiciens, le ping, le délai, les coupures audio, votre niveau d'entrée, le débit envoyé, et si vous êtes silencé ou si le serveur enregistre.</li>
   <li><kbd>1</kbd> (la touche en haut à gauche du clavier, pas dans un champ de texte) : le <strong>ping</strong>, le temps de l'aller-retour jusqu'au serveur.</li>
   <li><kbd>2</kbd> : le <strong>délai</strong> total, ce que vous entendez vraiment de retard, avec son jugement : bon, moyen ou trop élevé.</li>
 </ul>
@@ -159,10 +160,10 @@
 <h2 id="peak">Le Peak Watcher</h2>
 <p>Le Peak Watcher (observateur de crêtes) vous dit quand votre son d'entrée devient trop fort, pour régler votre micro ou votre instrument sans voir de vumètre.</p>
 <ul>
-  <li><kbd>Ctrl+W</kbd> ouvre la boîte <strong>Peak Watcher</strong> : tapez le seuil en décibels (0 ou moins, par exemple -6), puis OK. Le seuil est enregistré et l'observateur s'active.</li>
+  <li><kbd>Ctrl+W</kbd> ouvre la boîte <strong>Peak Watcher</strong> : tapez le seuil en décibels (0 ou moins, par exemple -6), puis OK. Le seuil est enregistré et l'observateur s'active. Il ne parle que pendant une session.</li>
   <li><kbd>Ctrl+Maj+W</kbd> active ou désactive l'observateur.</li>
   <li>Quand il est actif, chaque crête de votre entrée qui dépasse le seuil est dite, par exemple « -3,2 ». Au plus quatre valeurs par seconde, la plus forte du moment ; chaque valeur coupe la précédente, pour que vous entendiez toujours la dernière.</li>
-  <li>Ce qui est mesuré : votre son tel qu'il part vers le serveur, après l'amplification d'entrée.</li>
+  <li>Ce qui est mesuré : votre entrée après l'amplification de l'entrée, avant la réverbération.</li>
   <li>L'observateur est toujours désactivé au démarrage de JamulusAccess.</li>
 </ul>
 
@@ -171,7 +172,7 @@
   <li><kbd>Ctrl+S</kbd> : paramètres audio et réseau : périphérique audio, canaux d'entrée et de sortie, Retard de temporisation, tampon de gigue, canaux audio (mono, stéréo), qualité audio.</li>
   <li><kbd>Ctrl+D</kbd> : paramètres avancés : annuaires personnalisés, niveau des nouveaux clients, amplification de l'entrée et autres.</li>
   <li><kbd>Ctrl+M</kbd> : paramètres de contrôle MIDI, pour piloter le mixeur avec une surface de contrôle.</li>
-  <li><kbd>Ctrl+P</kbd> : mon profil : nom, instrument, ville, pays, niveau, et aussi la langue du programme et les alertes sonores.</li>
+  <li><kbd>Ctrl+P</kbd> : mon profil : nom, instrument, ville, pays, niveau, et aussi la langue du programme et les alertes audio.</li>
 </ul>
 <p>Dans ces fenêtres, <kbd>Ctrl+Tab</kbd> change d'onglet, <kbd>Tab</kbd> passe d'un réglage à l'autre et <kbd>Maj+F1</kbd> explique le réglage qui a le focus. <kbd>Échap</kbd> ferme la fenêtre. Sur une case à cocher, <kbd>Entrée</kbd> coche ou décoche, comme <kbd>Espace</kbd>.</p>
 
@@ -183,7 +184,7 @@
 <p>Cette liste est aussi dans le programme : <kbd>Ctrl+Maj+H</kbd>.</p>
 <h3>Partout</h3>
 <ul>
-  <li><kbd>Ctrl+1</kbd> : session (mixeur) ; <kbd>Ctrl+2</kbd> : messages ; <kbd>Échap</kbd> dans les messages : retour à la session</li>
+  <li><kbd>Ctrl+1</kbd> : session (mixeur) ; <kbd>Ctrl+2</kbd> : messages (ligne d'écriture) ; <kbd>Échap</kbd> dans les messages : retour à la session</li>
   <li><kbd>Ctrl+Maj+G</kbd> : état de la connexion</li>
   <li><kbd>1</kbd> : ping ; <kbd>2</kbd> : délai total (pas dans un champ de texte)</li>
   <li><kbd>Ctrl+Maj+H</kbd> : raccourcis clavier</li>
@@ -192,7 +193,7 @@
   <li><kbd>Ctrl+C</kbd> : connexion à un serveur</li>
   <li><kbd>Alt+M</kbd> : me silencer</li>
   <li><kbd>Ctrl+P</kbd> : mon profil ; <kbd>Ctrl+S</kbd> : paramètres audio et réseau ; <kbd>Ctrl+D</kbd> : paramètres avancés ; <kbd>Ctrl+M</kbd> : contrôle MIDI</li>
-  <li><kbd>Ctrl+L</kbd> : toutes les tranches au niveau des nouveaux clients ; <kbd>Ctrl+F</kbd> : ajuster automatiquement toutes les tranches</li>
+  <li><kbd>Ctrl+L</kbd> : toutes les tranches sur le niveau d'un nouveau client ; <kbd>Ctrl+F</kbd> : ajuster automatiquement toutes les tranches</li>
   <li><kbd>Ctrl+W</kbd> : seuil du Peak Watcher ; <kbd>Ctrl+Maj+W</kbd> : Peak Watcher activé ou désactivé</li>
   <li><kbd>Ctrl+N</kbd>, <kbd>Ctrl+I</kbd>, <kbd>Ctrl+G</kbd>, <kbd>Ctrl+T</kbd>, <kbd>Ctrl+E</kbd>, <kbd>Ctrl+O</kbd> : trier par nom, instrument, groupe, ville, canal, sans tri</li>
   <li><kbd>Ctrl+Q</kbd> : quitter</li>
@@ -211,7 +212,7 @@
 </ul>
 <h3>Dans les messages</h3>
 <ul>
-  <li><kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> : les messages ; <kbd>Entrée</kbd> : ouvrir un lien ; <kbd>Ctrl+C</kbd> : copier ; <kbd>Tab</kbd> : la ligne d'écriture</li>
+  <li><kbd>Maj+Tab</kbd> depuis la ligne d'écriture : la liste ; <kbd>Flèche haut</kbd> et <kbd>Flèche bas</kbd> : les messages ; <kbd>Entrée</kbd> : ouvrir un lien ; <kbd>Ctrl+C</kbd> : copier ; <kbd>Tab</kbd> : la ligne d'écriture</li>
 </ul>
 <h3>Curseurs et listes déroulantes</h3>
 <ul>

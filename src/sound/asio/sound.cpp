@@ -174,8 +174,11 @@ QString CSound::CheckDeviceCapabilities()
             .arg ( SYSTEM_SAMPLE_RATE_HZ );
     }
 
-    // check if sample rate can be set
-    const ASIOError SetSaRateReturn = ASIOSetSampleRate ( SYSTEM_SAMPLE_RATE_HZ );
+    // check if sample rate can be set (not set again when the interface is at it already: some drivers
+    // reinitialise the interface for every program on it, the screen reader's voice included)
+    ASIOSampleRate  dCheckedRate    = 0;
+    const bool      bRateOk         = ( ASIOGetSampleRate ( &dCheckedRate ) == ASE_OK ) && ( dCheckedRate == SYSTEM_SAMPLE_RATE_HZ );
+    const ASIOError SetSaRateReturn = bRateOk ? ASE_OK : ASIOSetSampleRate ( SYSTEM_SAMPLE_RATE_HZ );
 
     if ( ( SetSaRateReturn == ASE_NoClock ) || ( SetSaRateReturn == ASE_InvalidMode ) || ( SetSaRateReturn == ASE_NotPresent ) )
     {
