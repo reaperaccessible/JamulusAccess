@@ -1,55 +1,57 @@
-[![Homepage picture](https://github.com/jamulussoftware/jamuluswebsite/blob/release/assets/img/jamulusbannersmall.png)](https://jamulus.io)
+# JamulusAccess
 
-[![Auto-Build](https://github.com/jamulussoftware/jamulus/actions/workflows/autobuild.yml/badge.svg)](https://github.com/jamulussoftware/jamulus/actions/workflows/autobuild.yml)
+**English** · [Français](#français)
 
-# Jamulus - Internet Jam Session Software
+JamulusAccess is [Jamulus](https://jamulus.io), the free software for playing music live over the Internet, made fully accessible to blind and visually impaired musicians: NVDA, JAWS, Narrator and braille displays, keyboard only.
 
-<a href="https://jamulus.io/"><img align="left" width="102" height="102" src="https://jamulus.io/assets/img/jamulus-icon-2020.svg"/></a>
+- The mixer is a list: one row per musician, Left and Right for Volume, Pan, Mute, Solo, Group, Level and Profile, Alt+Up and Alt+Down to change the value.
+- The server list is read item by item, with the ping rated good, fair or too high.
+- Chat messages are a list (Ctrl+2); musicians joining and leaving, the connection and the recording are announced.
+- Ctrl+Shift+G connection status, keys 1 and 2 ping and delay, Ctrl+Shift+H all shortcuts, Shift+F1 explanation of the focused control.
+- Peak Watcher (Ctrl+W, Ctrl+Shift+W): the peaks of your input above a threshold are spoken.
+- The sound card is respected as in a DAW: no buffer or sample rate change unless you ask for it.
+- Automatic updates from this repository's releases; manual on F1, changelog on Ctrl+F1.
 
-Jamulus enables musicians to perform in real-time together over the internet.
-A Jamulus server collects the incoming audio data from each Jamulus client, mixes that data and then sends that mix back to each client. Jamulus can support large numbers of clients with minimal latency and modest bandwidth requirements.
+JamulusAccess stays compatible with Jamulus: it plays on every Jamulus server, with musicians who use Jamulus.
 
-Jamulus is [**free and open source software**](https://www.gnu.org/philosophy/free-sw.en.html) (FOSS) licensed under the [GPL](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
-and runs under **Windows** ([ASIO](https://www.steinberg.net) or [JACK](https://jackaudio.org)),
-**MacOS** ([Core Audio](https://developer.apple.com/documentation/coreaudio)) and
-**Linux** ([JACK](https://jackaudio.org)).
-It is based on the [Qt framework](https://www.qt.io) and uses the [OPUS](https://www.opus-codec.org/) audio codec.
+**Download (Windows):** [JamulusAccessInstaller.exe](https://github.com/reaperaccessible/JamulusAccess/releases/latest/download/JamulusAccessInstaller.exe)
 
-## Installation
+Please report JamulusAccess problems [here](https://github.com/reaperaccessible/JamulusAccess/issues), not to the Jamulus project.
 
-[Please see the Getting Started page](https://jamulus.io/wiki/Getting-Started) containing instructions for installing and using Jamulus for your platform.
+### Building (Windows)
 
-## Help
+Visual Studio 2022 Build Tools (C++), Qt 6 msvc2022_64, the Steinberg ASIO SDK copied to `libs/ASIOSDK2` (never commit it), Inno Setup 6. Then:
 
-Official documentation for Jamulus is on the [Jamulus homepage](https://jamulus.io)
+```
+powershell -ExecutionPolicy Bypass -File jamulusaccess\build.ps1
+```
 
-See also the [discussion forums](https://github.com/jamulussoftware/jamulus/discussions). If you have issues, feel free to ask for help there.
+The build, the logs and the installer go next to the repository (`..\build`, `..\build_log`, `..\Output`). Other platforms: see [COMPILING.md](COMPILING.md). Contributors: read [CLAUDE.md](CLAUDE.md) first.
 
-Bugs and feature requests can be [reported here](https://github.com/jamulussoftware/jamulus/issues)
+### Credits and licence
 
-## Compilation
+JamulusAccess is based on Jamulus by Volker Fischer and the Jamulus Development Team, who deserve all the credit for the software (original README: [README_Jamulus.md](README_Jamulus.md)). The accessibility work is by [ReaperAccessible](https://reaperaccessible.fr). Free software under the GNU Affero General Public License, version 3 or later ([COPYING](COPYING)).
 
-[Please see these instructions](COMPILING.md)
+---
 
-## Contributing
+## Français
 
-See the [contributing instructions](CONTRIBUTING.md)
+JamulusAccess, c'est [Jamulus](https://jamulus.io), le logiciel libre pour jouer de la musique en direct sur Internet, rendu entièrement accessible aux musiciens aveugles et malvoyants : NVDA, JAWS, Narrateur et afficheurs braille, au clavier seulement.
 
-## Acknowledgements
+- Le mixeur est une liste : une ligne par musicien, Flèche gauche et droite pour Volume, Panoramique, Muet, Solo, Groupe, Niveau et Profil, Alt+Flèche haut et bas pour changer la valeur.
+- La liste des serveurs se lit information par information, avec le ping jugé bon, moyen ou trop élevé.
+- Les messages du tchate sont une liste (Ctrl+2) ; l'arrivée et le départ des musiciens, la connexion et l'enregistrement sont annoncés.
+- Ctrl+Maj+G l'état de la connexion, touches 1 et 2 le ping et le délai, Ctrl+Maj+H tous les raccourcis, Maj+F1 l'explication du contrôle qui a le focus.
+- Peak Watcher (Ctrl+W, Ctrl+Maj+W) : les crêtes de votre entrée au-dessus d'un seuil sont dites.
+- La carte son est respectée comme dans un DAW : aucun changement de tampon ou de fréquence sans votre demande.
+- Mises à jour automatiques depuis ce dépôt ; manuel sur F1, journal des modifications sur Ctrl+F1.
 
-Jamulus contains code from different sources (see also [COPYING](COPYING)). The developers wish
-to thank the maintainers of these projects for making their efforts available to us under their respective licences:
+JamulusAccess reste compatible avec Jamulus : il joue sur tous les serveurs Jamulus, avec des musiciens qui utilisent Jamulus.
 
-*   Qt cross-platform application framework: [qt.io](https://www.qt.io)
-*   Opus Interactive Audio Codec: [opus-codec.org](https://www.opus-codec.org/)
-*   Audio reverberation code: by Perry R. Cook and Gary P. Scavone, 1995 - 2004
-  (taken from "The Synthesis ToolKit in C++ (STK)"):
-  [ccrma.stanford.edu/software/stk/](https://ccrma.stanford.edu/software/stk/)
-*   Some pixmaps are from the Open Clip Art Library (OCAL): [openclipart.com](https://openclipart.org/)
-*   Country flag icons from Mark James: (originally famfamfam.com but see) [www.iconarchive.com](https://www.iconarchive.com/artist/famfamfam.html)
-*   [JACK Audio Connection Kit](https://jackaudio.org/) by [the JACK authors](https://github.com/jackaudio/jack2/blob/develop/AUTHORS.rst?plain=1)
-*   ASIO is a trademark and software of Steinberg Media Technologies GmbH
+**Télécharger (Windows) :** [JamulusAccessInstaller.exe](https://github.com/reaperaccessible/JamulusAccess/releases/latest/download/JamulusAccessInstaller.exe)
 
+Merci de signaler les problèmes de JamulusAccess [ici](https://github.com/reaperaccessible/JamulusAccess/issues), et non au projet Jamulus.
 
-We would also like to acknowledge the contributors listed in the
-[Github Contributors list](https://github.com/jamulussoftware/jamulus/graphs/contributors).
+### Mentions et licence
+
+JamulusAccess est basé sur Jamulus, de Volker Fischer et de l'équipe de développement de Jamulus, à qui revient tout le mérite du logiciel. Le travail d'accessibilité est de [ReaperAccessible](https://reaperaccessible.fr). Logiciel libre sous licence publique générale GNU Affero, version 3 ou ultérieure ([COPYING](COPYING)).

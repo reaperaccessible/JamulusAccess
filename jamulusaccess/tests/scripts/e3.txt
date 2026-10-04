@@ -1,0 +1,20 @@
+wait 5000
+key Tab 4
+focus
+key Return
+wait 300
+focus
+key Ctrl+1
+wait 300
+key Ctrl+2
+key Ctrl+1
+key Ctrl+2
+type &é
+key 1
+focus
+key Ctrl+1
+key Tab 3
+focus
+key Return
+wait 500
+quit

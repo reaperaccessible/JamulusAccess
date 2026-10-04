@@ -1,0 +1,11 @@
+wait 1500
+key Ctrl+C
+wait 8000
+key Right 2
+key Down
+key Down
+key Right
+key Down
+key Up 3
+key Escape
+quit

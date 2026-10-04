@@ -1,0 +1,16 @@
+wait 1500
+key Ctrl+S
+wait 500
+key Tab
+key Shift+F1
+wait 400
+focus
+key Escape
+wait 300
+key Ctrl+Tab
+key Tab 3
+key Shift+F1
+wait 400
+focus
+key Escape
+quit

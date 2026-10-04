@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JamulusAccess - Journal des modifications</title>
+<style>body{font-family:Segoe UI,Arial,sans-serif;max-width:52em;margin:1em auto;padding:0 1em;line-height:1.5}h1{font-size:1.6em}h2{font-size:1.2em;margin-top:1.5em;border-top:1px solid #ccc;padding-top:.5em}p{margin:.4em 0}</style>
+</head>
+<body>
+<h1>JamulusAccess - Journal des modifications</h1>
+<p><a href="changelog_en.html" lang="en" hreflang="en">English version</a></p>
+<h2>Version 1.00</h2>
+<p>Première version de JamulusAccess, basée sur Jamulus (version en préparation 4.0) : jouer de la musique en ligne avec d'autres musiciens, entièrement avec un lecteur d'écran (NVDA, JAWS, Narrateur) et au clavier seul. Gratuit. Compatible avec tous les serveurs Jamulus et avec les musiciens qui utilisent Jamulus.</p>
+<p>Nouveau : le <strong>mixeur en liste</strong>. Une ligne par musicien ; les flèches gauche et droite passent d'un paramètre à l'autre (Volume, Panoramique, Muet, Solo, Groupe, Niveau, Profil), Alt+Flèche haut et bas changent la valeur, Alt+Maj pour un petit pas, M et S coupent ou isolent le musicien. L'arrivée et le départ des musiciens sont annoncés, ainsi qu'un musicien qui vous a mis en sourdine.</p>
+<p>Nouveau : la <strong>liste des serveurs</strong> (Ctrl+C) se lit information par information avec les flèches gauche et droite : nom, ping jugé bon, moyen ou trop élevé, musiciens, lieu, version, serveur permanent, adresse. Les flèches haut et bas gardent la même information, Début et Fin vont au premier et au dernier serveur, Entrée se connecte. Le focus est placé sur le premier serveur à l'ouverture.</p>
+<p>Nouveau : deux <strong>vues</strong> dans une seule fenêtre : Ctrl+1 la session, Ctrl+2 les messages du tchate. Les messages sont une liste qu'on relit avec les flèches, avec l'heure ; Entrée ouvre un lien, Ctrl+C copie. Chaque nouveau message est annoncé.</p>
+<p>Nouveau : Ctrl+Maj+G annonce l'<strong>état de la connexion</strong> (serveur, musiciens, ping, délai, coupures, niveau d'entrée, débit) ; les touches 1 et 2 disent le ping et le délai total avec leur jugement.</p>
+<p>Nouveau : le <strong>Peak Watcher</strong>. Ctrl+W règle le seuil, Ctrl+Maj+W l'active ou le désactive ; les crêtes de votre entrée au-dessus du seuil sont dites, la plus récente coupant la précédente.</p>
+<p>Nouveau : <strong>Maj+F1</strong> explique le contrôle qui a le focus, dans toutes les fenêtres, en texte simple lisible en braille. Ctrl+Maj+H affiche tous les raccourcis.</p>
+<p>Nouveau : la carte son est respectée comme dans un DAW. JamulusAccess prend la taille de tampon réglée dans la carte, ne change la fréquence que si nécessaire, et ne demande une autre taille à la carte que quand vous la choisissez. Le Jamulus d'origine reconfigurait la carte au démarrage, ce qui hachait la voix du lecteur d'écran sur la même carte. Le périphérique audio ne change plus en parcourant la liste : Alt+Flèche bas l'ouvre, Entrée choisit.</p>
+<p>Nouveau : la boîte des <strong>conditions du serveur</strong> affiche elle-même le texte des conditions.</p>
+<p>Nouveau : chaque fenêtre, liste, bouton et réglage porte un nom clair ; les annonces sont brèves et la valeur lue reste sur l'afficheur braille. Entrée active les boutons et coche les cases. Quitter pendant une session demande une confirmation.</p>
+<p>Nouveau : la fenêtre du <strong>serveur</strong> est accessible (liste des musiciens connectés, état de l'annuaire et de l'enregistrement).</p>
+<p>Nouveau : JamulusAccess garde ses propres réglages et reprend une copie de ceux de Jamulus au premier démarrage, sans modifier Jamulus.</p>
+<p>Nouveau : <strong>mises à jour automatiques</strong>. Au démarrage, JamulusAccess vérifie s'il existe une nouvelle version, présente les nouveautés et propose de l'installer ; il la télécharge, la vérifie, l'installe et se relance tout seul. Aussi dans le menu Aide, Vérifier les mises à jour.</p>
+<p>Nouveau : manuel en français et en anglais sur F1, journal des modifications sur Ctrl+F1. Traduction française complète.</p>
+</body>
+</html>

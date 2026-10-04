@@ -1,0 +1,11 @@
+wait 6000
+focus
+key Tab
+focus
+key Enter
+wait 2500
+focus
+key Enter
+wait 500
+focus
+quit

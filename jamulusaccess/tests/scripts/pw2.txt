@@ -1,0 +1,10 @@
+wait 5000
+key Ctrl+W
+wait 300
+key Backspace 4
+type -25
+key Return
+wait 1000
+key Ctrl+Shift+W
+wait 300
+quit

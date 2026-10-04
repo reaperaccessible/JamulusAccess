@@ -8,8 +8,8 @@ lessThan(QT_MAJOR_VERSION, 5) | equals(QT_MAJOR_VERSION, 5) : lessThan(QT_MINOR_
 
 # use target name which does not use a capital letter at the beginning
 contains(CONFIG, "noupcasename") {
-    message(The target name is jamulus instead of Jamulus.)
-    TARGET = jamulus
+    message(The target name is jamulusaccess instead of JamulusAccess.)
+    TARGET = jamulusaccess
 }
 
 # allow detailed version info for intermediate builds (#475)
@@ -442,6 +442,7 @@ contains(CONFIG, "accesstest") {
 !contains(CONFIG, "serveronly") {
     HEADERS_GUI += src/audiomixerboard.h \
         src/access/mixerlist.h \
+        src/access/updater.h \
         src/chatdlg.h \
         src/clientsettingsdlg.h \
         src/connectdlg.h \
@@ -554,6 +555,7 @@ contains(CONFIG, "accesstest") {
 !contains(CONFIG, "serveronly") {
     SOURCES_GUI += src/audiomixerboard.cpp \
         src/access/mixerlist.cpp \
+        src/access/updater.cpp \
         src/chatdlg.cpp \
         src/clientsettingsdlg.cpp \
         src/connectdlg.cpp \

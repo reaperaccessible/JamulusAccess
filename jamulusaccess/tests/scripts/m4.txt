@@ -1,0 +1,5 @@
+wait 4000
+tab
+wait 10000
+tab
+quit

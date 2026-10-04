@@ -1,0 +1,13 @@
+wait 9000
+key Shift+Tab 6
+key End
+key Down
+key Home
+key Up
+key Ctrl+2
+key Shift+Tab
+key End
+key Down
+key Home
+key Up
+quit

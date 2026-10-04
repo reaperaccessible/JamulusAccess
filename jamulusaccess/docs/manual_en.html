@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JamulusAccess Manual</title>
+<style>
+  :root { --bg: #ffffff; --fg: #1a1a1a; --muted: #555; --accent: #0b5394; --accent-bg: #e8f0fe; --border: #cccccc; --code-bg: #f4f4f4; }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #1a1a1a; --fg: #f0f0f0; --muted: #b0b0b0; --accent: #6fb1ff; --accent-bg: #1f2d40; --border: #444; --code-bg: #2a2a2a; }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Segoe UI", system-ui, sans-serif; font-size: 17px; line-height: 1.6; color: var(--fg); background: var(--bg); margin: 0; padding: 0; }
+  .skip { position: absolute; left: -9999px; top: 0; background: var(--accent); color: #fff; padding: 0.5rem 1rem; z-index: 100; }
+  .skip:focus { left: 1rem; top: 1rem; }
+  header { background: var(--accent-bg); border-bottom: 2px solid var(--accent); padding: 1.5rem 2rem; }
+  header h1 { margin: 0 0 0.5rem 0; }
+  header p { margin: 0.25rem 0; color: var(--muted); }
+  .lang-switch a { display: inline-block; margin-left: 1rem; padding: 0.25rem 0.75rem; background: var(--accent); color: #fff; text-decoration: none; border-radius: 4px; }
+  .layout { display: grid; grid-template-columns: 280px 1fr; gap: 2rem; max-width: 1400px; margin: 0 auto; padding: 2rem; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; padding: 1rem; } nav.toc { position: static !important; max-height: none !important; } }
+  nav.toc { position: sticky; top: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; background: var(--accent-bg); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; }
+  nav.toc h2 { margin-top: 0; font-size: 1.1rem; }
+  nav.toc ol { padding-left: 1.5rem; margin: 0; }
+  nav.toc li { margin: 0.3rem 0; }
+  nav.toc a { color: var(--accent); text-decoration: none; }
+  nav.toc a:hover, nav.toc a:focus { text-decoration: underline; }
+  main { min-width: 0; }
+  main h2 { margin-top: 2.5rem; padding-bottom: 0.4rem; border-bottom: 2px solid var(--accent); scroll-margin-top: 1rem; }
+  main h3 { margin-top: 2rem; color: var(--accent); }
+  main p, main li { max-width: 70ch; }
+  kbd { display: inline-block; font-family: "Cascadia Code", Consolas, monospace; font-size: 0.9em; background: var(--code-bg); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 3px; padding: 0.1em 0.4em; margin: 0 0.1em; white-space: nowrap; }
+  .note { border-left: 4px solid var(--accent); background: var(--accent-bg); padding: 0.7rem 1rem; margin: 1rem 0; border-radius: 0 4px 4px 0; }
+  .note strong { color: var(--accent); }
+  footer { margin-top: 3rem; padding: 1.5rem 2rem; border-top: 1px solid var(--border); color: var(--muted); text-align: center; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main-content">Skip to main content</a>
+<header>
+  <h1>JamulusAccess Manual</h1>
+  <p>Play music online with other musicians, with your screen reader. Based on Jamulus.</p>
+  <p class="lang-switch">
+    <span lang="fr">Langue :</span>
+    <a href="manual_fr.html" lang="fr" hreflang="fr">Version française</a>
+  </p>
+</header>
+<div class="layout">
+<nav class="toc" aria-labelledby="toc-title">
+  <h2 id="toc-title">Contents</h2>
+  <ol>
+    <li><a href="#intro">Overview</a></li>
+    <li><a href="#installation">Installation and first start</a></li>
+    <li><a href="#soundcard">The sound card</a></li>
+    <li><a href="#window">The main window</a></li>
+    <li><a href="#connect">Connecting to a server</a></li>
+    <li><a href="#mixer">The mixer</a></li>
+    <li><a href="#messages">Messages</a></li>
+    <li><a href="#status">Status, ping and delay</a></li>
+    <li><a href="#peak">The Peak Watcher</a></li>
+    <li><a href="#settings">Settings</a></li>
+    <li><a href="#server">Hosting a server</a></li>
+    <li><a href="#shortcuts">All keyboard shortcuts</a></li>
+    <li><a href="#updates">Updates and help</a></li>
+    <li><a href="#credits">Credits and licence</a></li>
+  </ol>
+</nav>
+<main id="main-content">
+
+<h2 id="intro">Overview</h2>
+<p>JamulusAccess lets you play music live over the Internet with other musicians, as in a rehearsal room, on your own with your screen reader (NVDA, JAWS, Narrator), using the keyboard only. It is Jamulus, the reference free software for online music, with every screen reworked for screen readers:</p>
+<ul>
+  <li>the mixer becomes a list: one row per musician, with their volume, pan, mute, solo, group, level and profile;</li>
+  <li>the server list is read item by item, with the ping rated good, fair or too high;</li>
+  <li>the chat messages are a list you can read again with the arrow keys;</li>
+  <li>musicians joining and leaving, the connection and the recording are announced;</li>
+  <li>every control has its explanation on <kbd>Shift+F1</kbd>;</li>
+  <li>the Peak Watcher announces the peaks of your input, so you can set your level without seeing it;</li>
+  <li>the value you read stays on your braille display.</li>
+</ul>
+<p>At any time, <kbd>Ctrl+Shift+H</kbd> shows the list of all shortcuts, <kbd>F1</kbd> opens this manual and <kbd>Ctrl+F1</kbd> the changelog.</p>
+<div class="note"><strong>Jamulus in a nutshell:</strong> each musician sends the sound of their instrument or voice to a server. The server mixes all the musicians and sends each one their own mix, set in their mixer. To be playable, the sound must make the round trip very quickly: the overall delay should stay below about 50 milliseconds. A server close to you, a wired connection rather than Wi-Fi and an ASIO sound card help a lot.</div>
+
+<h2 id="installation">Installation and first start</h2>
+<p>The installer puts JamulusAccess in Program Files and creates a JamulusAccess folder in the Start menu with three shortcuts: <strong>JamulusAccess</strong>, <strong>JamulusAccess Server</strong> and <strong>JamulusAccess Manual</strong>. A desktop icon is offered, unchecked.</p>
+<p>JamulusAccess keeps its own settings, in the <code>JamulusAccess</code> folder of your application data (AppData). On the first start, if Jamulus is already installed, it <strong>takes a copy</strong> of its settings: your profile, your servers and your sound card are carried over. Jamulus is not changed and keeps working as before. Both programs can stay installed together.</p>
+<p>The program follows the Windows language. To change it: <kbd>Ctrl+P</kbd> (my profile), <strong>Language</strong> list, then restart JamulusAccess.</p>
+<p>Before playing, set up your profile with <kbd>Ctrl+P</kbd>: your name (the one the other musicians see), your instrument, your city, your country and your skill level.</p>
+
+<h2 id="soundcard">The sound card</h2>
+<p>On Windows, Jamulus works with an ASIO driver: your sound card's own if it has one, otherwise a universal driver such as ASIO4ALL. Choose it in <kbd>Ctrl+S</kbd>, <strong>Audio Device</strong> list.</p>
+<p>This list does not switch cards while you move through it with the arrow keys: switching resets the card and cuts the sound, including your screen reader's if it uses the same card. Press <kbd>Alt+Down Arrow</kbd> to open the list, choose with the arrow keys, then <kbd>Enter</kbd>: only then does the card change.</p>
+<p>JamulusAccess respects your card's settings, like music software (a DAW):</p>
+<ul>
+  <li>at start, it takes the buffer size <strong>set in the card</strong>, without changing it;</li>
+  <li>it changes the sample rate only if it differs from the one Jamulus needs (48,000 Hz);</li>
+  <li>when you choose another value in <strong>Buffer Delay</strong> (<kbd>Ctrl+S</kbd>), JamulusAccess asks the card for it; the value shown is always the one the card really uses.</li>
+</ul>
+<div class="note"><strong>Why:</strong> the original Jamulus imposed its own buffer size and tried several at start. The whole card was reconfigured, and the voice of a screen reader on the same card became choppy. In JamulusAccess, your card is reconfigured only when you ask for it.</div>
+
+<h2 id="window">The main window</h2>
+<p>JamulusAccess fits in a single window, with two views:</p>
+<ul>
+  <li><kbd>Ctrl+1</kbd>: the <strong>session</strong>, that is the mixer and the settings of your sound (Connect button, Mute Myself, reverb, input balance…);</li>
+  <li><kbd>Ctrl+2</kbd>: the chat <strong>messages</strong>. <kbd>Escape</kbd> goes back to the session.</li>
+</ul>
+<p>In the session, <kbd>Tab</kbd> moves from one control to the next. <kbd>Alt+M</kbd> mutes or unmutes your own sound for the others (Mute Myself). Sliders (reverb, input balance) are set with <kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>, <kbd>Alt+Shift</kbd> for a small step.</p>
+<p>Announced without you doing anything: connecting and disconnecting, a musician joining or leaving, a musician who muted you, the start and end of a recording on the server, and each new message.</p>
+<p>To quit: <kbd>Ctrl+Q</kbd> or <kbd>Alt+F4</kbd>. If you are connected, JamulusAccess first asks "Disconnect and quit?", with No as the default, so you never leave a session by mistake.</p>
+
+<h2 id="connect">Connecting to a server</h2>
+<p><kbd>Ctrl+C</kbd> opens the connection window. The focus goes to the first server of the list as soon as it is filled.</p>
+<ul>
+  <li><strong>Directory</strong>: the drop-down list chooses the directory, that is the music genre (Any Genre, Rock, Jazz, Classical…) or a custom directory.</li>
+  <li><strong>Server list</strong>: each row is a server. <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> move between servers, <kbd>Home</kbd> and <kbd>End</kbd> go to the first and the last.</li>
+  <li><kbd>Right Arrow</kbd> and <kbd>Left Arrow</kbd> read the server's information one by one: name, ping (with its rating: good, fair or too high), number of musicians, location, version, permanent server or not, address. Going back to the very start with <kbd>Left Arrow</kbd> reads the whole row again. Then <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> keep the same item: handy to compare the ping of all servers.</li>
+  <li>The musicians already there are under their server; with <strong>Show All Musicians</strong> checked, they are listed and read the same way: name, instrument, city, country, skill level.</li>
+  <li><kbd>Enter</kbd> on a server connects to it. The <strong>Connect</strong> button also works with <kbd>Enter</kbd>.</li>
+  <li><strong>Server Address</strong>: for a private server that is in no directory, type its address (for example <code>myserver.example.com:22124</code>), then Connect.</li>
+</ul>
+<p>Some servers ask you to accept their conditions. The <strong>Server conditions</strong> box then shows the text of the conditions, to read with the arrow keys, then the "I have read the conditions and agree" check box, and the Accept and Decline buttons.</p>
+<p>To disconnect: the <strong>Disconnect</strong> button of the session (<kbd>Ctrl+1</kbd>, then <kbd>Tab</kbd>).</p>
+
+<h2 id="mixer">The mixer</h2>
+<p>The mixer is a list: one row per connected musician, you included. It sets what <strong>you</strong> hear: turning someone down in your mixer changes nothing for the others.</p>
+<ul>
+  <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the musicians.</li>
+  <li><kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd>: the musician's parameters, in this order: Volume, Pan, Mute, Solo, Group, Level, Profile. When you move to another musician, you stay on the same parameter.</li>
+  <li><kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>: change the value. <kbd>Alt+Shift+Up Arrow</kbd> and <kbd>Alt+Shift+Down Arrow</kbd>: small step.</li>
+  <li><kbd>Enter</kbd> or <kbd>Space</kbd>: switch Mute or Solo, or read the Level again.</li>
+  <li><kbd>M</kbd>: mute the musician. <kbd>S</kbd>: listen to them alone (solo).</li>
+  <li><strong>Level</strong>: the musician's current sound level, updated while you are on it.</li>
+  <li><strong>Profile</strong>: their instrument, city, country and skill level.</li>
+  <li>A musician who muted you in their own mixer is reported.</li>
+</ul>
+<p>Sorting the musicians: <kbd>Ctrl+N</kbd> by name, <kbd>Ctrl+I</kbd> by instrument, <kbd>Ctrl+G</kbd> by group, <kbd>Ctrl+T</kbd> by city, <kbd>Ctrl+E</kbd> by channel, <kbd>Ctrl+O</kbd> no sorting. The View menu also offers <strong>Own Fader First</strong>.</p>
+<p>In the Edit menu: <kbd>Ctrl+L</kbd> sets all faders to the new client level, <kbd>Ctrl+F</kbd> auto-adjusts all faders. The File menu saves and loads the mixer setup.</p>
+
+<h2 id="messages">Messages</h2>
+<p><kbd>Ctrl+2</kbd> opens the chat messages. Each new message is announced, even while you are in the mixer; the view does not open by itself, so you are never taken out of what you are setting.</p>
+<ul>
+  <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> read the messages. Each row gives the name, the text and the time; the announcement of a new message does not say the time.</li>
+  <li><kbd>Enter</kbd> on a message with a link opens it in your browser. <kbd>Ctrl+C</kbd> copies the message.</li>
+  <li><kbd>Tab</kbd> goes to the line to write: type your message, then <kbd>Enter</kbd> to send it to everyone.</li>
+  <li>The server's welcome message comes first, after "Welcome message:".</li>
+  <li><kbd>Escape</kbd> or <kbd>Ctrl+1</kbd>: back to the session.</li>
+</ul>
+
+<h2 id="status">Status, ping and delay</h2>
+<ul>
+  <li><kbd>Ctrl+Shift+G</kbd> announces the connection status: the server, the number of musicians, the ping, the delay, audio dropouts, your input level and the upload rate.</li>
+  <li><kbd>1</kbd> (the key at the top left of the keyboard, not in a text field): the <strong>ping</strong>, the round-trip time to the server.</li>
+  <li><kbd>2</kbd>: the overall <strong>delay</strong>, the lag you really hear, with its rating: good, fair or too high.</li>
+</ul>
+<p>The overall delay includes the ping, the Jamulus buffers and your sound card's buffer. If it is too high: choose a closer server, use a wired connection, or lower the Buffer Delay in <kbd>Ctrl+S</kbd>.</p>
+
+<h2 id="peak">The Peak Watcher</h2>
+<p>The Peak Watcher tells you when your input sound gets too loud, so you can set your microphone or instrument without seeing a meter.</p>
+<ul>
+  <li><kbd>Ctrl+W</kbd> opens the <strong>Peak Watcher</strong> box: type the threshold in decibels (0 or below, for example -6), then OK. The threshold is saved and the watcher turns on.</li>
+  <li><kbd>Ctrl+Shift+W</kbd> turns the watcher on or off.</li>
+  <li>While it is on, each peak of your input above the threshold is said, for example "-3.2". At most four values a second, the loudest of the moment; each value cuts the previous one, so you always hear the latest.</li>
+  <li>What is measured: your sound as it leaves for the server, after the input boost.</li>
+  <li>The watcher is always off when JamulusAccess starts.</li>
+</ul>
+
+<h2 id="settings">Settings</h2>
+<ul>
+  <li><kbd>Ctrl+S</kbd>: audio and network settings: audio device, input and output channels, Buffer Delay, jitter buffer, audio channels (mono, stereo), audio quality.</li>
+  <li><kbd>Ctrl+D</kbd>: advanced settings: custom directories, new client level, input boost and more.</li>
+  <li><kbd>Ctrl+M</kbd>: MIDI control settings, to drive the mixer with a control surface.</li>
+  <li><kbd>Ctrl+P</kbd>: my profile: name, instrument, city, country, skill level, and also the program language and the audio alerts.</li>
+</ul>
+<p>In these windows, <kbd>Ctrl+Tab</kbd> changes tab, <kbd>Tab</kbd> moves between settings and <kbd>Shift+F1</kbd> explains the setting that has the focus. <kbd>Escape</kbd> closes the window. On a check box, <kbd>Enter</kbd> checks or unchecks it, like <kbd>Space</kbd>.</p>
+
+<h2 id="server">Hosting a server</h2>
+<p>The <strong>JamulusAccess Server</strong> shortcut in the Start menu starts JamulusAccess in server mode, to host other musicians yourself. The server window is accessible like the rest: the list of connected musicians is read item by item with the Left and Right arrows, the directory registration status and the recording status can be read with the keyboard, and <kbd>Shift+F1</kbd> explains each setting.</p>
+<p>For musicians from other homes to join you, the server's UDP port (22124 by default) must be open in your modem or router.</p>
+
+<h2 id="shortcuts">All keyboard shortcuts</h2>
+<p>This list is also in the program: <kbd>Ctrl+Shift+H</kbd>.</p>
+<h3>Everywhere</h3>
+<ul>
+  <li><kbd>Ctrl+1</kbd>: session (mixer); <kbd>Ctrl+2</kbd>: messages; <kbd>Escape</kbd> in the messages: back to the session</li>
+  <li><kbd>Ctrl+Shift+G</kbd>: connection status</li>
+  <li><kbd>1</kbd>: ping; <kbd>2</kbd>: overall delay (not in a text field)</li>
+  <li><kbd>Ctrl+Shift+H</kbd>: keyboard shortcuts</li>
+  <li><kbd>Shift+F1</kbd>: explanation of the control that has the focus, in every window</li>
+  <li><kbd>F1</kbd>: this manual; <kbd>Ctrl+F1</kbd>: the changelog</li>
+  <li><kbd>Ctrl+C</kbd>: connect to a server</li>
+  <li><kbd>Alt+M</kbd>: mute myself</li>
+  <li><kbd>Ctrl+P</kbd>: my profile; <kbd>Ctrl+S</kbd>: audio and network settings; <kbd>Ctrl+D</kbd>: advanced settings; <kbd>Ctrl+M</kbd>: MIDI control</li>
+  <li><kbd>Ctrl+L</kbd>: all faders to the new client level; <kbd>Ctrl+F</kbd>: auto-adjust all faders</li>
+  <li><kbd>Ctrl+W</kbd>: Peak Watcher threshold; <kbd>Ctrl+Shift+W</kbd>: Peak Watcher on or off</li>
+  <li><kbd>Ctrl+N</kbd>, <kbd>Ctrl+I</kbd>, <kbd>Ctrl+G</kbd>, <kbd>Ctrl+T</kbd>, <kbd>Ctrl+E</kbd>, <kbd>Ctrl+O</kbd>: sort by name, instrument, group, city, channel, no sorting</li>
+  <li><kbd>Ctrl+Q</kbd>: quit</li>
+</ul>
+<h3>In the mixer</h3>
+<ul>
+  <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the musicians; <kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd>: Volume, Pan, Mute, Solo, Group, Level, Profile</li>
+  <li><kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>: change the value; with <kbd>Shift</kbd>: small step</li>
+  <li><kbd>Enter</kbd> or <kbd>Space</kbd>: switch Mute or Solo, read the Level again</li>
+  <li><kbd>M</kbd>: mute; <kbd>S</kbd>: solo</li>
+</ul>
+<h3>In the server list</h3>
+<ul>
+  <li><kbd>Left Arrow</kbd> and <kbd>Right Arrow</kbd>: the items one by one; <kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd> keep the same one</li>
+  <li><kbd>Home</kbd> and <kbd>End</kbd>: first and last server; <kbd>Enter</kbd>: connect</li>
+</ul>
+<h3>In the messages</h3>
+<ul>
+  <li><kbd>Up Arrow</kbd> and <kbd>Down Arrow</kbd>: the messages; <kbd>Enter</kbd>: open a link; <kbd>Ctrl+C</kbd>: copy; <kbd>Tab</kbd>: the line to write</li>
+</ul>
+<h3>Sliders and drop-down lists</h3>
+<ul>
+  <li>Sliders: <kbd>Alt+Up Arrow</kbd> and <kbd>Alt+Down Arrow</kbd>, <kbd>Alt+Shift</kbd> for a small step</li>
+  <li>Audio device: <kbd>Alt+Down Arrow</kbd> opens the list, <kbd>Enter</kbd> chooses</li>
+</ul>
+
+<h2 id="updates">Updates and help</h2>
+<p>At start, JamulusAccess checks whether a new version exists. If there is one, a window presents what's new, to read with the arrow keys, and offers <strong>Update</strong> or <strong>Later</strong>. Update downloads the installer, checks it, installs it and starts JamulusAccess again by itself; Windows only asks for permission to install. Your settings are kept.</p>
+<p>To check at any time: <strong>Help</strong> menu, <strong>Check for Updates</strong>. The latest installer is also always at the same address:<br>
+<a href="https://github.com/reaperaccessible/JamulusAccess/releases/latest/download/JamulusAccessInstaller.exe">https://github.com/reaperaccessible/JamulusAccess/releases/latest/download/JamulusAccessInstaller.exe</a></p>
+<p>The <strong>Help</strong> menu holds this manual (<kbd>F1</kbd>), the changelog (<kbd>Ctrl+F1</kbd>), the update check, the control explanation (<kbd>Shift+F1</kbd>) and the <strong>About JamulusAccess</strong> window.</p>
+<p>To report a problem: <a href="https://github.com/reaperaccessible/JamulusAccess/issues">https://github.com/reaperaccessible/JamulusAccess/issues</a>, or through the <a href="https://reaperaccessible.fr">reaperaccessible.fr</a> website. Please do not report JamulusAccess problems to the Jamulus project.</p>
+
+<h2 id="credits">Credits and licence</h2>
+<p>JamulusAccess is based on <a href="https://jamulus.io">Jamulus</a>, by Volker Fischer and the Jamulus Development Team, who deserve all the credit for the software. JamulusAccess stays compatible with Jamulus: you can play on every Jamulus server, with musicians who use Jamulus. The accessibility work is by <a href="https://reaperaccessible.fr">ReaperAccessible</a>.</p>
+<p>JamulusAccess is free. Like Jamulus, it is free software distributed under the GNU Affero General Public License, version 3 or any later version. Its source code is available at <a href="https://github.com/reaperaccessible/JamulusAccess">github.com/reaperaccessible/JamulusAccess</a>.</p>
+
+</main>
+</div>
+<footer>JamulusAccess, by ReaperAccessible, based on Jamulus.</footer>
+</body>
+</html>

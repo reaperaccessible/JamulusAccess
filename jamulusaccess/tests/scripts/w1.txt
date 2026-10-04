@@ -1,0 +1,31 @@
+wait 5000
+tab
+key Ctrl+Shift+G
+key Ctrl+2
+tab
+wait 4000
+key Shift+Tab
+rows
+key Up
+key Ctrl+C
+key Enter
+wait 500
+focus
+key Escape
+wait 300
+focus
+key Escape
+key Ctrl+1
+key Ctrl+1
+key Ctrl+2
+type salut tout le monde
+key Return
+wait 1500
+key Escape
+wait 6000
+key Ctrl+Shift+H
+key Down
+key Escape
+wait 300
+focus
+quit

@@ -1,0 +1,4 @@
+wait 16000
+key Shift+Tab
+rows
+quit

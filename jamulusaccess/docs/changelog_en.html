@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JamulusAccess - Changelog</title>
+<style>body{font-family:Segoe UI,Arial,sans-serif;max-width:52em;margin:1em auto;padding:0 1em;line-height:1.5}h1{font-size:1.6em}h2{font-size:1.2em;margin-top:1.5em;border-top:1px solid #ccc;padding-top:.5em}p{margin:.4em 0}</style>
+</head>
+<body>
+<h1>JamulusAccess - Changelog</h1>
+<p><a href="changelog_fr.html" lang="fr" hreflang="fr">Version française</a></p>
+<h2>Version 1.00</h2>
+<p>First version of JamulusAccess, based on Jamulus (upcoming version 4.0): play music online with other musicians, entirely with a screen reader (NVDA, JAWS, Narrator) and the keyboard only. Free. Compatible with every Jamulus server and with musicians who use Jamulus.</p>
+<p>New: the <strong>mixer as a list</strong>. One row per musician; the Left and Right arrows move between parameters (Volume, Pan, Mute, Solo, Group, Level, Profile), Alt+Up and Down Arrow change the value, Alt+Shift for a small step, M and S mute or solo the musician. Musicians joining and leaving are announced, as is a musician who muted you.</p>
+<p>New: the <strong>server list</strong> (Ctrl+C) is read item by item with the Left and Right arrows: name, ping rated good, fair or too high, musicians, location, version, permanent server, address. The Up and Down arrows keep the same item, Home and End go to the first and last server, Enter connects. The focus goes to the first server when it opens.</p>
+<p>New: two <strong>views</strong> in a single window: Ctrl+1 the session, Ctrl+2 the chat messages. Messages are a list you read again with the arrows, with the time; Enter opens a link, Ctrl+C copies. Each new message is announced.</p>
+<p>New: Ctrl+Shift+G announces the <strong>connection status</strong> (server, musicians, ping, delay, dropouts, input level, upload rate); the 1 and 2 keys say the ping and the overall delay with their rating.</p>
+<p>New: the <strong>Peak Watcher</strong>. Ctrl+W sets the threshold, Ctrl+Shift+W turns it on or off; the peaks of your input above the threshold are said, the latest cutting the previous one.</p>
+<p>New: <strong>Shift+F1</strong> explains the control that has the focus, in every window, in plain text readable in braille. Ctrl+Shift+H shows all the shortcuts.</p>
+<p>New: the sound card is respected as in a DAW. JamulusAccess takes the buffer size set in the card, changes the sample rate only when needed, and asks the card for another size only when you choose it. The original Jamulus reconfigured the card at start, which made the voice of a screen reader on the same card choppy. The audio device no longer changes while you move through the list: Alt+Down Arrow opens it, Enter chooses.</p>
+<p>New: the <strong>server conditions</strong> box shows the text of the conditions itself.</p>
+<p>New: every window, list, button and setting has a clear name; announcements are short and the value read stays on the braille display. Enter activates buttons and checks boxes. Quitting during a session asks for confirmation.</p>
+<p>New: the <strong>server</strong> window is accessible (list of connected musicians, directory and recording status).</p>
+<p>New: JamulusAccess keeps its own settings and takes a copy of the Jamulus ones on the first start, without changing Jamulus.</p>
+<p>New: <strong>automatic updates</strong>. At start, JamulusAccess checks whether a new version exists, presents what's new and offers to install it; it downloads it, checks it, installs it and starts again by itself. Also in the Help menu, Check for Updates.</p>
+<p>New: manual in English and French on F1, changelog on Ctrl+F1. Complete French translation.</p>
+</body>
+</html>

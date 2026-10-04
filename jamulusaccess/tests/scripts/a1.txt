@@ -1,0 +1,18 @@
+wait 1500
+key Alt+H
+wait 300
+key Up 2
+key Return
+wait 800
+focus
+tab
+key Escape
+wait 300
+key Alt+V
+wait 300
+key Down 3
+key Right
+key Left
+key Escape
+key Escape
+quit

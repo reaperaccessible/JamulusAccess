@@ -1,0 +1,12 @@
+wait 7000
+key Ctrl+Shift+G
+key Ctrl+2
+key Shift+Tab
+rows
+key Ctrl+C
+key Ctrl+1
+key Ctrl+S
+wait 500
+tab
+key Escape
+quit

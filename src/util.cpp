@@ -1691,7 +1691,8 @@ QString GetVersionAndNameStr ( const bool bDisplayInGui )
         strVersionText += " *** ";
     }
 
-    strVersionText += QCoreApplication::tr ( "%1, Version %2", "%1 is app name, %2 is version number" ).arg ( APP_NAME ).arg ( VERSION );
+    strVersionText += QCoreApplication::tr ( "%1, Version %2", "%1 is app name, %2 is version number" ).arg ( APP_NAME ).arg ( JAMULUSACCESS_VERSION ) +
+                      QString ( " (Jamulus %1)" ).arg ( VERSION );
 
     if ( bDisplayInGui )
     {

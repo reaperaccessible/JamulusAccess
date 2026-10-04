@@ -1,0 +1,22 @@
+wait 5000
+key Ctrl+W
+wait 300
+focus
+key Backspace
+type 5
+key Return
+wait 300
+focus
+key Backspace 2
+type -25
+key Return
+wait 400
+key Ctrl+Shift+W
+wait 300
+key Ctrl+Shift+W
+wait 200
+key Ctrl+W
+key Escape
+wait 200
+key Ctrl+Shift+W
+quit

@@ -1,0 +1,33 @@
+wait 5000
+tab
+log go to the mixer
+key Shift+Tab
+focus
+key Up
+key Down
+key Down
+key Down
+key Right
+key Right
+key Alt+Up
+key Alt+Down 2
+key Alt+Shift+Down
+key Right
+key Right
+key Enter
+key Enter
+key Right
+key Alt+Up
+key Right
+key Enter
+key Right
+key Right
+key Up
+key M
+key Left
+key Left
+key Alt+Up 30
+wait 9000
+log after Luc joined and left
+focus
+quit

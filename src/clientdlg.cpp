@@ -48,6 +48,11 @@
 #include "util.h"
 #include "access/accessibility.h"
 #include "access/mixerlist.h"
+#include "access/updater.h"
+#include <QDesktopServices>
+#include <QFileInfo>
+#include <QPlainTextEdit>
+#include <QProgressDialog>
 #include <QDialogButtonBox>
 #include <QElapsedTimer>
 #include <memory>
@@ -451,7 +456,20 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     pMenu->addMenu ( pEditMenu );
     pMenu->addMenu ( pViewMenu );
     pMenu->addMenu ( pSettingsMenu );
-    pMenu->addMenu ( new CHelpMenu ( true, this ) );
+    // Help: the JamulusAccess manual, changelog and updates come first
+    CHelpMenu* pHelpMenu  = new CHelpMenu ( true, this );
+    QAction*   pFirstHelp = pHelpMenu->actions().value ( 0 );
+    QAction*   pManual    = new QAction ( tr ( "&JamulusAccess Manual" ), pHelpMenu );
+    QAction*   pChangelog = new QAction ( tr ( "&What's New in JamulusAccess" ), pHelpMenu );
+    QAction*   pUpdates   = new QAction ( tr ( "Check for &Updates..." ), pHelpMenu );
+    pManual->setShortcut ( QKeySequence ( Qt::Key_F1 ) );
+    pChangelog->setShortcut ( QKeySequence ( Qt::CTRL | Qt::Key_F1 ) );
+    QObject::connect ( pManual, &QAction::triggered, this, [this] { OpenDoc ( "manual" ); } );
+    QObject::connect ( pChangelog, &QAction::triggered, this, [this] { OpenDoc ( "changelog" ); } );
+    QObject::connect ( pUpdates, &QAction::triggered, this, [this] { CheckForUpdates ( true ); } );
+    pHelpMenu->insertActions ( pFirstHelp, { pManual, pChangelog, pUpdates } );
+    pHelpMenu->insertSeparator ( pFirstHelp );
+    pMenu->addMenu ( pHelpMenu );
 
     // Now tell the layout about the menu
     layout()->setMenuBar ( pMenu );
@@ -731,12 +749,169 @@ CClientDlg::CClientDlg ( CClient*         pNCliP,
     {
         pClient->CreateCLServerListReqVerAndOSMes ( UpdateServerHostAddress );
     }
+
+    // JamulusAccess updates, a few seconds after the start (the test bench checks only against its own
+    // stand-in for GitHub)
+#ifdef ACCESS_TEST_SOUND
+    if ( qEnvironmentVariableIsSet ( "JAMULUSACCESS_UPDATE_API" ) )
+#endif
+    {
+        QTimer::singleShot ( 4000, this, [this] { CheckForUpdates ( false ); } );
+    }
+}
+
+QString CClientDlg::DocLanguage() const { return pSettings->strLanguage.startsWith ( "fr" ) ? "fr" : "en"; }
+
+void CClientDlg::OpenDoc ( const QString& strName )
+{
+    // the installation puts the manual and the changelog in "docs" next to the program
+    const QString strPath = QCoreApplication::applicationDirPath() + "/docs/" + strName + "_" + DocLanguage() + ".html";
+    if ( !QFileInfo::exists ( strPath ) || !QDesktopServices::openUrl ( QUrl::fromLocalFile ( strPath ) ) )
+    {
+        QMessageBox::warning ( this, APP_NAME, tr ( "The document could not be opened: %1" ).arg ( QDir::toNativeSeparators ( strPath ) ) );
+    }
+}
+
+void CClientDlg::CheckForUpdates ( bool bAskedByUser )
+{
+    if ( bUpdateCheckRunning )
+    {
+        if ( bAskedByUser )
+        {
+            Access::announce ( this, tr ( "Already checking for updates" ) );
+        }
+        return;
+    }
+    bUpdateCheckRunning = true;
+    if ( bAskedByUser )
+    {
+        Access::announce ( this, tr ( "Checking for updates" ) );
+    }
+
+    CAccessUpdater* pUpdater = new CAccessUpdater ( this );
+    QObject::connect ( pUpdater, &CAccessUpdater::UpdateCheckFinished, this, [this, pUpdater, bAskedByUser] {
+        if ( !pUpdater->NewVersion().isEmpty() )
+        {
+            ShowUpdateDialog ( pUpdater );
+            return;
+        }
+        bUpdateCheckRunning = false;
+        pUpdater->deleteLater();
+        if ( !bAskedByUser )
+        {
+            return; // at start: silent when there is nothing new
+        }
+        if ( pUpdater->CheckFailed() )
+        {
+            QMessageBox::warning ( this, APP_NAME, tr ( "Could not check for updates." ) + "\n" + pUpdater->ErrorString() );
+        }
+        else
+        {
+            QMessageBox::information ( this,
+                                       APP_NAME,
+                                       tr ( "No updates available. You are already using the latest version, %1." ).arg ( JAMULUSACCESS_VERSION ) );
+        }
+    } );
+    pUpdater->CheckForUpdates();
+}
+
+// like the other programs of the family: what's new in the interface language, "Update" or "Later";
+// Update downloads the installer (progress window), checks it, runs it silently and quits: the installer
+// updates the program and starts it again
+void CClientDlg::ShowUpdateDialog ( CAccessUpdater* pUpdater )
+{
+    const auto cleanup = [this, pUpdater] {
+        bUpdateCheckRunning = false;
+        pUpdater->deleteLater();
+    };
+
+    QDialog* pDialog = new QDialog ( this );
+    pDialog->setAttribute ( Qt::WA_DeleteOnClose );
+    pDialog->setWindowTitle ( tr ( "JamulusAccess Update Available" ) );
+    const QString strIntro = tr ( "JamulusAccess %1 is available. You have version %2." ).arg ( pUpdater->NewVersion(), JAMULUSACCESS_VERSION );
+    QLabel*       pLabel   = new QLabel ( strIntro, pDialog );
+    QPlainTextEdit* pNotes = new QPlainTextEdit ( pUpdater->ReleaseNotes ( DocLanguage() ), pDialog );
+    pNotes->setReadOnly ( true );
+    pNotes->setTextInteractionFlags ( Qt::TextSelectableByKeyboard | Qt::TextSelectableByMouse );
+    pNotes->setAccessibleName ( tr ( "What's new" ) );
+    QDialogButtonBox* pButtons = new QDialogButtonBox ( pDialog );
+    QPushButton*      pUpdate  = pButtons->addButton ( tr ( "&Update" ), QDialogButtonBox::AcceptRole );
+    pButtons->addButton ( tr ( "&Later" ), QDialogButtonBox::RejectRole );
+    pUpdate->setDefault ( true );
+    QVBoxLayout* pLayout = new QVBoxLayout ( pDialog );
+    pLayout->addWidget ( pLabel );
+    pLayout->addWidget ( pNotes, 1 );
+    pLayout->addWidget ( pButtons );
+    pDialog->resize ( 600, 400 );
+    pDialog->setAccessibleDescription ( strIntro + " " + tr ( "Up, Down: read what's new. Tab: the Update and Later buttons. Escape: later." ) );
+    QObject::connect ( pButtons, &QDialogButtonBox::accepted, pDialog, &QDialog::accept );
+    QObject::connect ( pButtons, &QDialogButtonBox::rejected, pDialog, &QDialog::reject );
+    QObject::connect ( pDialog, &QDialog::finished, this, [this, pUpdater, cleanup] ( int iResult ) {
+        if ( iResult != QDialog::Accepted )
+        {
+            cleanup();
+            return;
+        }
+#ifndef _WIN32
+        // the installer is for Windows: elsewhere, the release page
+        QDesktopServices::openUrl ( QUrl ( "https://github.com/" JAMULUSACCESS_GITHUB_REPO "/releases/latest" ) );
+        cleanup();
+        return;
+#endif
+
+        QProgressDialog* pProgress = new QProgressDialog ( tr ( "Downloading the update..." ), tr ( "Cancel" ), 0, 100, this );
+        pProgress->setAttribute ( Qt::WA_DeleteOnClose );
+        pProgress->setWindowTitle ( tr ( "JamulusAccess Update" ) );
+        pProgress->setAutoClose ( false );
+        pProgress->setAutoReset ( false );
+        pProgress->setMinimumDuration ( 0 );
+        pProgress->setValue ( 0 );
+        pProgress->setAccessibleDescription ( tr ( "Downloading the update. Escape: cancel." ) );
+        QObject::connect ( pUpdater, &CAccessUpdater::DownloadProgress, pProgress, [pProgress] ( qint64 iReceived, qint64 iTotal ) {
+            if ( iTotal > 0 )
+            {
+                pProgress->setValue ( static_cast<int> ( ( iReceived * 100 ) / iTotal ) );
+            }
+        } );
+        QObject::connect ( pProgress, &QProgressDialog::canceled, this, [pUpdater, pProgress, cleanup] {
+            pUpdater->CancelDownload();
+            pProgress->close();
+            cleanup();
+        } );
+        QObject::connect ( pUpdater, &CAccessUpdater::InstallerFailed, this, [this, pProgress, cleanup] ( QString strReason ) {
+            pProgress->close();
+            QMessageBox::warning ( this,
+                                   tr ( "JamulusAccess Update" ),
+                                   tr ( "The update could not be downloaded." ) + "\n" + strReason + "\n\n" +
+                                       tr ( "You can install the latest version by hand from: %1" )
+                                           .arg ( "https://github.com/" JAMULUSACCESS_GITHUB_REPO "/releases/latest" ) );
+            cleanup();
+        } );
+        QObject::connect ( pUpdater, &CAccessUpdater::InstallerReady, this, [this, pUpdater, pProgress, cleanup] {
+            pProgress->close();
+            if ( !pUpdater->RunInstaller() )
+            {
+                QMessageBox::warning ( this, tr ( "JamulusAccess Update" ), tr ( "The installer could not be started." ) );
+                cleanup();
+                return;
+            }
+            // the installer replaces the program files: leave now (disconnecting first), it starts
+            // JamulusAccess again
+            bUpdateQuit = true;
+            close();
+        } );
+        pProgress->show();
+        pUpdater->DownloadInstaller();
+    } );
+    pDialog->show();
+    pNotes->setFocus ( Qt::OtherFocusReason );
 }
 
 void CClientDlg::closeEvent ( QCloseEvent* Event )
 {
     // quitting in a session would throw us out of it: ask first, No by default
-    if ( pClient->IsRunning() &&
+    // (not for an update: the user has just chosen it)
+    if ( pClient->IsRunning() && !bUpdateQuit &&
          QMessageBox::question ( this, APP_NAME, tr ( "Disconnect and quit?" ), QMessageBox::Yes | QMessageBox::No, QMessageBox::No ) != QMessageBox::Yes )
     {
         Event->ignore();
@@ -1329,6 +1504,7 @@ void CClientDlg::ShowShortcuts()
                        tr ( "1: ping, 2: overall delay (the keys at the top left of the keyboard, not in a text field)" ),
                        tr ( "Ctrl+Shift+H: keyboard shortcuts" ),
                        tr ( "Shift+F1: explanation of the control that has the focus, in every window" ),
+                       tr ( "F1: the JamulusAccess manual, Ctrl+F1: what's new (in the web browser)" ),
                        tr ( "Ctrl+C: connection setup" ),
                        tr ( "Alt+M: mute myself" ),
                        tr ( "Ctrl+P: my profile" ),

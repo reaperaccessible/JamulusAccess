@@ -1,0 +1,12 @@
+wait 1500
+key Ctrl+C
+wait 500
+key Shift+Tab 3
+focus
+key Down
+wait 300
+focus
+wait 8000
+key Tab 3
+rows
+quit

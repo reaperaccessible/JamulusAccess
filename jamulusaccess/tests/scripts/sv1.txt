@@ -1,0 +1,10 @@
+wait 6000
+focus
+tab
+key Tab
+rows
+key Ctrl+Tab
+wait 300
+tab
+key Escape
+quit

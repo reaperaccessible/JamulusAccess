@@ -1,0 +1,15 @@
+wait 1500
+focus
+key Return
+wait 600
+focus
+key Escape
+wait 300
+key Enter
+wait 600
+focus
+key Escape
+key space
+wait 600
+focus
+quit

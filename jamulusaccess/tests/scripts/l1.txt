@@ -1,0 +1,10 @@
+wait 4000
+focus
+tab
+key Tab
+key Return
+key Tab
+key Return
+wait 800
+focus
+quit

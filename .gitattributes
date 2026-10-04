@@ -1,0 +1,13 @@
+# text files are stored with LF in the repository, whatever the contributor's platform
+* text=auto
+# Windows tools want CRLF
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.iss text eol=crlf
+# binaries
+*.exe binary
+*.dll binary
+*.ico binary
+*.png binary
+*.wav binary
+*.qm binary

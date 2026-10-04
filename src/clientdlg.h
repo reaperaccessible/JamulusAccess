@@ -129,6 +129,15 @@ protected:
     void   ShowPeakWatcherDialog();
     void   SetPeakWatcher ( bool bOn, bool bSay );
     QTimer TimerPeakWatcher;
+
+    // updates from the JamulusAccess GitHub releases: checked at start (silent when nothing is new) and
+    // from the Help menu; F1 the manual, Ctrl+F1 the changelog, in the interface language
+    void    CheckForUpdates ( bool bAskedByUser );
+    void    ShowUpdateDialog ( class CAccessUpdater* pUpdater );
+    void    OpenDoc ( const QString& strName );
+    QString DocLanguage() const;
+    bool    bUpdateCheckRunning = false;
+    bool    bUpdateQuit         = false; // closing for the installer: no "Disconnect and quit?"
     void    keyPressEvent ( QKeyEvent* pEvent ) override;
 
     QStackedWidget* pViews;

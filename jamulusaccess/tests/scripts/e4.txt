@@ -1,0 +1,15 @@
+wait 5000
+key Ctrl+2
+type a&b
+key 1
+key 2
+focus
+key Ctrl+1
+key Tab 2
+focus
+key Return
+wait 800
+focus
+key Escape
+wait 300
+quit

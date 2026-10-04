@@ -1,0 +1,6 @@
+wait 5000
+key Shift+Tab 6
+key Shift+F1
+wait 400
+key Escape
+quit

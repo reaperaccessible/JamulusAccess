@@ -1,0 +1,14 @@
+wait 5000
+key Shift+Tab
+rows
+key Down
+key Right
+key Alt+Up
+key Alt+Up
+wait 8000
+log Luc should have joined
+rows
+wait 20000
+log Luc should have left
+rows
+quit

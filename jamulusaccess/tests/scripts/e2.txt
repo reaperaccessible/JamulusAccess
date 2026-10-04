@@ -1,0 +1,15 @@
+wait 1500
+key Return
+wait 5000
+focus
+key Down
+wait 4000
+key Up
+focus
+key Escape
+wait 300
+key Return
+wait 4000
+focus
+key Escape
+quit

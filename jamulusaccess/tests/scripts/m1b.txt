@@ -1,0 +1,10 @@
+wait 5000
+key Shift+Tab 6
+key Down
+key Right
+key Alt+Up
+key Alt+Up
+key Left
+key Alt+Down
+key Alt+Down 25
+quit

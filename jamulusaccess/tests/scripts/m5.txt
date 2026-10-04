@@ -1,0 +1,6 @@
+wait 5000
+key Shift+Tab
+key End
+wait 50000
+rows
+quit
