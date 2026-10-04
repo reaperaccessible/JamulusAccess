@@ -426,6 +426,13 @@ void CConnectDlg::RequestServerList()
         TimerReRequestServList.start ( SERV_LIST_REQ_UPDATE_TIME_MS );
         TimerInitialSort.start ( SERV_LIST_REQ_UPDATE_TIME_MS ); // reuse the time value
     }
+    else
+    {
+        // the directory's name could not be found (network not ready yet, first opening): try again
+        // with the re-request timer instead of leaving the list empty until the window is reopened
+        haDirectoryAddress = CHostAddress();
+        TimerReRequestServList.start ( SERV_LIST_REQ_UPDATE_TIME_MS );
+    }
 }
 
 void CConnectDlg::hideEvent ( QHideEvent* )
@@ -460,6 +467,19 @@ void CConnectDlg::OnTimerReRequestServList()
     // server list
     if ( !bServerListReceived )
     {
+        // the directory's name was not found yet: look for it again
+        if ( haDirectoryAddress.InetAddr.isNull() )
+        {
+            if ( !NetworkUtil::ParseNetworkAddress (
+                     NetworkUtil::GetDirectoryAddress ( pSettings->eDirectoryType, pSettings->vstrDirectoryAddress[pSettings->iCustomDirectoryIndex] ),
+                     haDirectoryAddress,
+                     false ) )
+            {
+                haDirectoryAddress = CHostAddress();
+                return;
+            }
+        }
+
         // note that this is a connection less message which may get lost
         // and therefore it makes sense to re-transmit it
         emit ReqServerListQuery ( haDirectoryAddress );
@@ -498,6 +518,13 @@ void CConnectDlg::SetServerList ( const CHostAddress& InetAddr, const CVector<CS
         // was received (i.e. not the reduced list)
         bServerListReceived = true;
         TimerReRequestServList.stop();
+    }
+
+    // a list that arrives late (slow directory, first opening): it gets the same first seconds of
+    // sorting by ping as a quick one, then the focus goes to the server at the top
+    if ( !TimerInitialSort.isActive() )
+    {
+        TimerInitialSort.start ( SERV_LIST_REQ_UPDATE_TIME_MS );
     }
 
     // first clear list

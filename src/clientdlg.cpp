@@ -1296,8 +1296,9 @@ void CClientDlg::ShowConnectionSetupDialog()
 {
     // show connect dialog
     bConnectDlgWasShown = true;
-    ConnectDlg.show();
+    // the title first: the screen reader says it when the window opens
     ConnectDlg.setWindowTitle ( MakeClientNameTitle ( tr ( "Connect" ), pClient->strClientName ) );
+    ConnectDlg.show();
 
     // make sure dialog is upfront and has focus
     ConnectDlg.raise();
@@ -1308,8 +1309,9 @@ void CClientDlg::ShowGeneralSettings ( int iTab )
 {
     // open general settings dialog
     emit SendTabChange ( iTab );
-    ClientSettingsDlg.show();
+    // the title first: the screen reader says it when the window opens
     ClientSettingsDlg.setWindowTitle ( MakeClientNameTitle ( tr ( "Settings" ), pClient->strClientName ) );
+    ClientSettingsDlg.show();
 
     // make sure dialog is upfront and has focus
     ClientSettingsDlg.raise();
